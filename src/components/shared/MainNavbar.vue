@@ -1,14 +1,44 @@
 <template>
-  <div class="h-[60px] fixed top-0 left-0 right-0 bg-white z-40 border-b border-black border-opacity-20">
-    <div class="container mx-auto flex items-center h-full justify-between select-none">
+  <div
+    class="h-[60px] fixed top-0 left-0 right-0 bg-white z-40 border-b border-black border-opacity-20"
+  >
+    <div
+      class="container mx-auto flex items-center h-full justify-between select-none"
+    >
       <div class="flex ml-[10px]">
-        <img src="../../assets/img/Jira_Logo.png" alt="Logo Jira" class="my-4 mr-10 h-[35px] w-[70px]">
+        <!-- <img src="../../assets/img/Jira_Logo.png" alt="Logo Jira" class="my-4 mr-10 h-[35px] w-[70px]"> -->
+        <div class="my-4 flex items-center">
+          <svg
+            fill="none"
+            height="28"
+            viewBox="0 0 26 32"
+            focusable="false"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill="#357DE8"
+              d="M7.967 21.323H5.748C2.401 21.323 0 19.273 0 16.271h11.933c.618 0 1.018.44 1.018 1.062V29.34c-2.983 0-4.984-2.416-4.984-5.784zm5.894-5.967h-2.22c-3.346 0-5.747-2.013-5.747-5.015h11.932c.618 0 1.055.402 1.055 1.025v12.007c-2.983 0-5.02-2.416-5.02-5.784zm5.93-5.93h-2.22c-3.347 0-5.748-2.05-5.748-5.052h11.933c.618 0 1.019.439 1.019 1.025v12.007c-2.983 0-4.984-2.416-4.984-5.784z"
+            ></path>
+          </svg>
+          <span
+            class="ml-2 text-blue-800 text-xl mr-[80px] font-bold"
+            style="margin-top: 6px"
+            >Todo List</span
+          >
+        </div>
         <ul class="ml-4 flex items-center relative">
-          <li v-for="(button, index) in buttons" :key="index" class="font-apple font-medium px-1 relative">
+          <li
+            v-for="(button, index) in buttons"
+            :key="index"
+            class="font-apple font-medium px-1 relative"
+          >
             <button
               :class="[
                 'text-[#44546F] px-2 py-2 mt-4  rounded transition duration-300',
-                activeModal === index ? 'bg-blue-100 text-blue-700 hover:bg-blue-200' : 'hover:bg-gray-200'
+                activeModal === index
+                  ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                  : 'hover:bg-gray-200',
               ]"
               ref="buttonRefs"
               :data-index="index"
@@ -40,15 +70,14 @@
   </div>
 </template>
 
-
 <script lang="ts">
-import { defineComponent, markRaw } from 'vue';
-import YourWorkModal from '../mainpage/modal/YourWorkModal.vue';
-import ProjectModal from '../mainpage/modal/ProjectModal.vue';
-import FilterModal from '../mainpage/modal/FilterModal.vue';
-import TeamModal from '../mainpage/modal/TeamModal.vue';
+import { defineComponent, markRaw } from "vue";
+import YourWorkModal from "../mainpage/modal/YourWorkModal.vue";
+import ProjectModal from "../mainpage/modal/ProjectModal.vue";
+import FilterModal from "../mainpage/modal/FilterModal.vue";
+import TeamModal from "../mainpage/modal/TeamModal.vue";
 export default defineComponent({
-  name: 'MainNavbar',
+  name: "MainNavbar",
   components: {
     YourWorkModal: markRaw(YourWorkModal),
     ProjectModal: markRaw(ProjectModal),
@@ -57,9 +86,9 @@ export default defineComponent({
   },
   data() {
     return {
-      buttons: ['Your Work', 'Projects', 'Filters', 'Teams'],
+      buttons: ["Your Work", "Projects", "Filters", "Teams"],
       activeModal: null as number | null,
-      modalComponents: [YourWorkModal, ProjectModal, FilterModal, TeamModal] // Add other modal components here
+      modalComponents: [YourWorkModal, ProjectModal, FilterModal, TeamModal], // Add other modal components here
     };
   },
   methods: {
@@ -67,28 +96,30 @@ export default defineComponent({
       this.activeModal = index;
       event.stopPropagation();
       this.$nextTick(() => {
-        document.addEventListener('click', this.handleOutsideClick);
+        document.addEventListener("click", this.handleOutsideClick);
       });
     },
     closeModal() {
       this.activeModal = null;
-      document.removeEventListener('click', this.handleOutsideClick);
+      document.removeEventListener("click", this.handleOutsideClick);
     },
     handleOutsideClick(event: MouseEvent) {
       const target = event.target as HTMLElement;
-      const modals = document.querySelectorAll('.modal');
-      const isClickInsideModal = Array.from(modals).some(modal => modal.contains(target));
+      const modals = document.querySelectorAll(".modal");
+      const isClickInsideModal = Array.from(modals).some((modal) =>
+        modal.contains(target)
+      );
       if (!isClickInsideModal) {
         this.closeModal();
       }
-    }
+    },
   },
   mounted() {
-    document.addEventListener('click', this.handleOutsideClick);
+    document.addEventListener("click", this.handleOutsideClick);
   },
   beforeUnmount() {
-    document.removeEventListener('click', this.handleOutsideClick);
-  }
+    document.removeEventListener("click", this.handleOutsideClick);
+  },
 });
 </script>
 

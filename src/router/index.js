@@ -13,6 +13,7 @@ import ValidForgot from '../components/auth/forgot/ValidForgot.vue';
 import ForgotForm from '../components/auth/forgot/ForgotForm.vue';
 import AllProject from '../components/mainpage/AllProjects.vue';
 import Project from '../components/mainpage/Project.vue';
+import Board from '../components/board/Board.vue'
 
 
 import { useAuthStore } from '../stores/authStores/authStore';
@@ -108,8 +109,12 @@ const routes = [
       {
         path: '',
         component: Project,
+      },
+      {
+        path: 'board',
+        component: Board,
       }
-    
+      
     ],
     // meta: { requiresAuth: true },
   },
