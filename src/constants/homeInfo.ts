@@ -2,7 +2,7 @@ export const tabs_content = [
     {
         label:'Plan',
         description: "Break the big ideas down into manageable chunks across teams with user stories, issues, and tasks.",
-        img: '../assets/img/plan.png',
+        img: '../../assets/img/plan.png',
         credentials: { 
             text:"Work becomes a lot more visible when it’s all in one place. It makes collaboration a whole lot easier.",
             username: 'JEFF LAI',
@@ -13,7 +13,7 @@ export const tabs_content = [
     {
         label:'Track',
         description: "Prioritize and discuss your team’s work in context with complete visibility at every level.",
-        img: '../assets/img/track.png',
+        img: '../../assets/img/track.png',
         credentials: {
             text:"The pace of delivery from idea to reality has exploded.",
             username: 'GREG FRANKLIN',
@@ -23,7 +23,7 @@ export const tabs_content = [
     {
         label:'Realease',
         description: "Ship faster, with confidence knowing the information you have is always up-to-date.",
-        img: '../assets/img/release.png',
+        img: '../../assets/img/release.png',
         credentials: {
             text:"Less friction in the development process means better results and a faster time to market.",
             username: 'LOUIS BENNETT',
@@ -33,7 +33,7 @@ export const tabs_content = [
     {
         label:'Report',
         description: "Improve team performance in context, based on real-time, visual data.",
-        img: '../assets/img/report.png',
+        img: '../../assets/img/report.png',
         credentials: {
             text:"Full visibility in Jira across the whole organization enables you to make better management judgment.",
             username: 'PAUL LEAON',
@@ -43,7 +43,7 @@ export const tabs_content = [
     {
         label:'Automate',
         description: "Save time, keep your team focused, and help work flow with no-code automation.",
-        img: '../assets/img/automate.png',
+        img: '../../assets/img/automate.png',
         credentials: {
             text:"We’re saving 150 hours+ of valuable engineering time per month.",
             username: 'JEFF LAI',
@@ -55,18 +55,18 @@ export const tabs_content = [
 export const templates = [
     {
         name:'Scrum',
-        img: '../assets/img/scrum.svg',
+        img: '../../assets/img/scrum.svg',
     },
     {
         name:'Kaban',
-        img: '../assets/img/kanban.svg',
+        img: '../../assets/img/kanban.svg',
     },
     {
         name:'Bug tracking',
-        img: '../assets/img/bug_tracking.svg',
+        img: '../../assets/img/bug_tracking.svg',
     },
     {
         name:'DevOps',
-        img: '../assets/img/devops.svg',
+        img: '../../assets/img/devops.svg',
     },
 ]

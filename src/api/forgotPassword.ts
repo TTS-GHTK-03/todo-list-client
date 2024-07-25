@@ -40,7 +40,6 @@ export const forgotPassword = async (
 };
 
 // validate OTP
-
 interface ValidateOtpRequest {
   email: string;
   otp: string;
@@ -54,9 +53,7 @@ interface ValidateOtpResponse {
   };
 }
 
-export const validateOtpForgot = async (
-  credentials: ValidateOtpRequest
-): Promise<string> => {
+export const validateOtpForgot = async (credentials: ValidateOtpRequest): Promise<string> => {
   try {
     const response = await apiClient.post<ValidateOtpResponse>(
       "/auth/reset-password/otp/validate",
@@ -91,9 +88,7 @@ interface ResetPasswordResponse {
   data: any;
 }
 
-export const resetPassWord = async (
-  credentials: ResetPasswordRequest
-): Promise<ResetPasswordResponse> => {
+export const resetPassWord = async (credentials: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
   try {
     const response = await apiClient.post<ResetPasswordResponse>(
       "/auth/reset-password",
