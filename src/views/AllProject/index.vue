@@ -46,7 +46,7 @@
     </div>
 
     <div>
-      <a-table :row-selection="rowSelection" :columns="columns" :data-source="data" class="mt-6">
+      <a-table :row-selection="rowSelection" :columns="columns" :data-source="data" class="mt-6 ">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'name'">
             <div class="text-[#0C66E4] flex cursor-pointer hover:underline">
@@ -54,7 +54,8 @@
               <span class="ml-2">{{ text }}</span>
             </div>
           </template>
-          <template v-if="column.dataIndex === 'lead'">
+         
+          <template v-if="column.dataIndex === 'lead'" >
             <div class="relative flex items-center cursor-pointer" @click="toggleHover(record.lead)">
               <div
                 class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2">
@@ -102,9 +103,9 @@
 
 <script lang="ts">
 import { ref } from "vue";
-import type { TableProps, TableColumnType } from "ant-design-vue/es";
+import { type TableProps, type TableColumnType } from "ant-design-vue/es";
 import type { Key } from 'ant-design-vue/es/table/interface';
-
+import { useProjectStore} from "../../stores/projectStores/projectStore";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 interface DataType {
@@ -195,6 +196,11 @@ export default {
     const selectedFilters = ref<string[]>([]);
     const activeLead = ref<string | null>(null);
 
+    const projectStore = useProjectStore();
+
+    // projectStore.projects.forEach((project) => {
+    //   console.log("Project:", project);
+    // });
     const clearSearch = () => {
       searchQuery.value = "";
     };

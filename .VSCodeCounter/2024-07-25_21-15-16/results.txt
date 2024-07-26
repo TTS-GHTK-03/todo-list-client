@@ -1,0 +1,142 @@
+Date : 2024-07-25 21:15:16
+Directory : c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript
+Total : 70 files,  6667 codes, 99 comments, 433 blanks, all 7199 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          4 |      3,175 |          2 |          6 |      3,183 |
+| Vue                |         24 |      2,209 |         33 |        291 |      2,533 |
+| TypeScript         |         14 |        580 |         17 |         71 |        668 |
+| XML                |         11 |        336 |          2 |          6 |        344 |
+| SCSS               |         12 |        213 |         11 |         44 |        268 |
+| JavaScript         |          3 |        130 |         34 |         13 |        177 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| JSON with Comments |          1 |         11 |          0 |          1 |         12 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                  | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                     |         70 |      6,667 |         99 |        433 |      7,199 |
+| . (Files)                                                                                             |          9 |      3,245 |          4 |         12 |      3,261 |
+| src                                                                                                   |         61 |      3,422 |         95 |        421 |      3,938 |
+| src (Files)                                                                                           |          3 |         20 |          3 |          7 |         30 |
+| src\api                                                                                               |          5 |        305 |          8 |         38 |        351 |
+| src\assets                                                                                            |         12 |        341 |          4 |          8 |        353 |
+| src\assets (Files)                                                                                    |          1 |          5 |          2 |          2 |          9 |
+| src\assets\img                                                                                        |         11 |        336 |          2 |          6 |        344 |
+| src\components                                                                                        |         27 |      1,989 |         34 |        282 |      2,305 |
+| src\components\auth                                                                                   |         14 |      1,044 |          6 |        146 |      1,196 |
+| src\components\auth\Login                                                                             |          2 |        141 |          0 |         22 |        163 |
+| src\components\auth\forgotPassword                                                                    |          6 |        459 |          3 |         67 |        529 |
+| src\components\auth\forgotPassword\Forgot                                                             |          2 |        113 |          0 |         18 |        131 |
+| src\components\auth\forgotPassword\ForgotForm                                                         |          2 |        180 |          0 |         27 |        207 |
+| src\components\auth\forgotPassword\ValidForgot                                                        |          2 |        166 |          3 |         22 |        191 |
+| src\components\auth\regis                                                                             |          6 |        444 |          3 |         57 |        504 |
+| src\components\auth\regis\Regisform                                                                   |          2 |        166 |          0 |         23 |        189 |
+| src\components\auth\regis\Register                                                                    |          2 |        116 |          0 |         18 |        134 |
+| src\components\auth\regis\Valid                                                                       |          2 |        162 |          3 |         16 |        181 |
+| src\components\board                                                                                  |          3 |        323 |          7 |         41 |        371 |
+| src\components\mainpage                                                                               |          4 |        195 |          8 |         41 |        244 |
+| src\components\mainpage\modal                                                                         |          4 |        195 |          8 |         41 |        244 |
+| src\components\mainpage\modal\FilterModal                                                             |          1 |         30 |          3 |          9 |         42 |
+| src\components\mainpage\modal\ProjectModal                                                            |          1 |         51 |          2 |          7 |         60 |
+| src\components\mainpage\modal\TeamModal                                                               |          1 |         33 |          3 |         10 |         46 |
+| src\components\mainpage\modal\YourWorkModal                                                           |          1 |         81 |          0 |         15 |         96 |
+| src\components\shared                                                                                 |          6 |        427 |         13 |         54 |        494 |
+| src\components\shared\ItemTask                                                                        |          3 |        143 |          1 |         13 |        157 |
+| src\components\shared\MainNavbar                                                                      |          1 |         92 |          2 |         15 |        109 |
+| src\components\shared\Navbar                                                                          |          1 |         43 |          2 |          7 |         52 |
+| src\components\shared\Sidebar                                                                         |          1 |        149 |          8 |         19 |        176 |
+| src\constants                                                                                         |          2 |         96 |          1 |          4 |        101 |
+| src\router                                                                                            |          1 |        101 |         33 |         11 |        145 |
+| src\stores                                                                                            |          4 |        145 |          4 |         21 |        170 |
+| src\stores (Files)                                                                                    |          1 |          3 |          0 |          3 |          6 |
+| src\stores\authStores                                                                                 |          3 |        142 |          4 |         18 |        164 |
+| src\views                                                                                             |          7 |        425 |          8 |         50 |        483 |
+| src\views\AllProject                                                                                  |          2 |        229 |          5 |         22 |        256 |
+| src\views\Author                                                                                      |          1 |         11 |          0 |          1 |         12 |
+| src\views\Home                                                                                        |          2 |        148 |          3 |         20 |        171 |
+| src\views\Mainpage                                                                                    |          1 |         10 |          0 |          2 |         12 |
+| src\views\Project                                                                                     |          1 |         27 |          0 |          5 |         32 |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                              | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\index.html                                                | HTML               |         13 |          0 |          1 |         14 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\package-lock.json                                         | JSON               |      3,108 |          0 |          1 |      3,109 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\package.json                                              | JSON               |         31 |          0 |          1 |         32 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\postcss.config.js                                         | JavaScript         |          6 |          0 |          1 |          7 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\App.vue                                               | Vue                |          3 |          0 |          1 |          4 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\api\auth.ts                                           | TypeScript         |         36 |          0 |          4 |         40 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\api\forgotPassword.ts                                 | TypeScript         |         99 |          3 |         10 |        112 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\api\getAllproject.ts                                  | TypeScript         |         30 |          1 |          4 |         35 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\api\index.ts                                          | TypeScript         |         37 |          1 |          9 |         47 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\api\register.ts                                       | TypeScript         |        103 |          3 |         11 |        117 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\atlassian.svg                              | XML                |         38 |          1 |          2 |         41 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\bg_auth.svg                                | XML                |          1 |          0 |          0 |          1 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\bug_tracking.svg                           | XML                |         40 |          0 |          1 |         41 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\devops.svg                                 | XML                |        211 |          0 |          1 |        212 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\document.svg                               | XML                |          6 |          0 |          1 |          7 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\filter.svg                                 | XML                |          1 |          0 |          0 |          1 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\icon-workflow.svg                          | XML                |          6 |          0 |          1 |          7 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\jira_logo.svg                              | XML                |          2 |          0 |          0 |          2 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\kanban.svg                                 | XML                |          1 |          0 |          0 |          1 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\project_logo.svg                           | XML                |         29 |          1 |          0 |         30 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\img\scrum.svg                                  | XML                |          1 |          0 |          0 |          1 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\assets\main.scss                                      | SCSS               |          5 |          2 |          2 |          9 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\Login\index.scss                      | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\Login\index.vue                       | Vue                |        122 |          0 |         18 |        140 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\forgotPassword\ForgotForm\index.scss  | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\forgotPassword\ForgotForm\index.vue   | Vue                |        161 |          0 |         23 |        184 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\forgotPassword\Forgot\index.scss      | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\forgotPassword\Forgot\index.vue       | Vue                |         94 |          0 |         14 |        108 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\forgotPassword\ValidForgot\index.scss | SCSS               |         41 |          3 |          7 |         51 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\forgotPassword\ValidForgot\index.vue  | Vue                |        125 |          0 |         15 |        140 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\regis\Regisform\index.scss            | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\regis\Regisform\index.vue             | Vue                |        147 |          0 |         19 |        166 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\regis\Register\index.scss             | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\regis\Register\index.vue              | Vue                |         97 |          0 |         14 |        111 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\regis\Valid\index.scss                | SCSS               |         41 |          3 |          7 |         51 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\auth\regis\Valid\index.vue                 | Vue                |        121 |          0 |          9 |        130 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\board\OldBoard.vue                         | Vue                |        175 |          4 |         15 |        194 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\board\index.scss                           | SCSS               |          0 |          0 |          1 |          1 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\board\index.vue                            | Vue                |        148 |          3 |         25 |        176 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\mainpage\modal\FilterModal\index.vue       | Vue                |         30 |          3 |          9 |         42 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\mainpage\modal\ProjectModal\index.vue      | Vue                |         51 |          2 |          7 |         60 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\mainpage\modal\TeamModal\index.vue         | Vue                |         33 |          3 |         10 |         46 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\mainpage\modal\YourWorkModal\index.vue     | Vue                |         81 |          0 |         15 |         96 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\shared\ItemTask\OldItemTask.vue            | Vue                |         76 |          0 |          3 |         79 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\shared\ItemTask\index.scss                 | SCSS               |          0 |          0 |          1 |          1 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\shared\ItemTask\index.vue                  | Vue                |         67 |          1 |          9 |         77 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\shared\MainNavbar\index.vue                | Vue                |         92 |          2 |         15 |        109 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\shared\Navbar\index.vue                    | Vue                |         43 |          2 |          7 |         52 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\components\shared\Sidebar\index.vue                   | Vue                |        149 |          8 |         19 |        176 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\constants\homeInfo.ts                                 | TypeScript         |         70 |          0 |          2 |         72 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\constants\itemTask.ts                                 | TypeScript         |         26 |          1 |          2 |         29 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\main.ts                                               | TypeScript         |         12 |          2 |          4 |         18 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\router\index.js                                       | JavaScript         |        101 |         33 |         11 |        145 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\stores\authStores\authStore.ts                        | TypeScript         |         45 |          0 |          3 |         48 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\stores\authStores\forgotStore.ts                      | TypeScript         |         44 |          3 |          6 |         53 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\stores\authStores\regisStore.ts                       | TypeScript         |         53 |          1 |          9 |         63 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\stores\index.ts                                       | TypeScript         |          3 |          0 |          3 |          6 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\AllProject\index.scss                           | SCSS               |         16 |          3 |          3 |         22 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\AllProject\index.vue                            | Vue                |        213 |          2 |         19 |        234 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\Author\index.vue                                | Vue                |         11 |          0 |          1 |         12 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\Home\index.scss                                 | SCSS               |         15 |          0 |          3 |         18 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\Home\index.vue                                  | Vue                |        133 |          3 |         17 |        153 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\Mainpage\index.vue                              | Vue                |         10 |          0 |          2 |         12 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\views\Project\index.vue                               | Vue                |         27 |          0 |          5 |         32 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\src\vite-env.d.ts                                         | TypeScript         |          5 |          1 |          2 |          8 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\tailwind.config.js                                        | JavaScript         |         23 |          1 |          1 |         25 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\tsconfig.app.json                                         | JSON               |         23 |          2 |          3 |         28 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\tsconfig.json                                             | JSON with Comments |         11 |          0 |          1 |         12 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\tsconfig.node.json                                        | JSON               |         13 |          0 |          1 |         14 |
+| c:\Thuctaphe\GHTK\Jira Clone\JiraTypescript\vite.config.ts                                            | TypeScript         |         17 |          1 |          2 |         20 |
+| Total                                                                                                 |                    |      6,667 |         99 |        433 |      7,199 |
++-------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

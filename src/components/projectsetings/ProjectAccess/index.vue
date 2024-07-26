@@ -2,11 +2,11 @@
   <div class="mt-24 px-8 py-0">
     <div class="min-h-[150px] flex flex-col justify-around">
       <div class="font-ui font-normal text-[#44546F] mb-2">
-        <span class="cursor-pointer hover:underline">emails </span>
+        <span class="cursor-pointer hover:underline">Projects </span>
         <span class="px-1">/</span>
-        <span class="cursor-pointer hover:underline"> email 1</span>
+        <span class="cursor-pointer hover:underline"> Project 1</span>
         <span class="px-1">/</span>
-        <span class="cursor-pointer hover:underline"> email setings</span>
+        <span class="cursor-pointer hover:underline"> Project setings</span>
       </div>
 
       <div class="flex justify-between mb-12">
@@ -19,6 +19,27 @@
           >
             Add people
           </button>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="box-border mb-8 w-full">
+          <div class="flex items-center rounded custom-access">
+            <img src="https://jira-frontend-bifrost.prod-east.frontend.public.atl-paas.net/assets/access-banner.e0758cd5.svg" alt=""/>
+            <div>
+              <div class="text-gray-800">To customize user access, such as roles and permissions, upgrade your plan to Standard. </div>
+              <div class="flex items-center mt-3 mr-4 gap-2">
+                <div>
+                  <a class="inline-flex items-center rounded border-0 text-white py-1.5 px-3 css-1ncptc6" href="">
+                    <span>Upgrade</span>
+                  </a>
+                </div>
+                <a href="">
+                  <span class="text-sky-500">Learn more about managing access</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -46,43 +67,14 @@
             type="text"
             @focus="toggleDropdown(true)"
             @blur="toggleDropdown(false)"
-            placeholder="Filter by product"
-            class="custom-input w-[200px] min-h-[40px] border border-gray-500 rounded py-3 font-light pl-2 pr-10 placeholder-gray-400"
+            placeholder="Roles"
+            class="custom-input w-[100px] min-h-[40px] border border-gray-500 rounded py-3 font-light pl-2 pr-10 placeholder-gray-400"
           />
           <i
             class="fa-solid fa-chevron-down absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"
           ></i>
 
           <!-- Dropdown Menu -->
-          <div
-            v-show="isDropdownVisible"
-            class="absolute z-10 mt-2 w-[200px] bg-white border border-gray-300 rounded shadow-lg"
-          >
-            <div class="text-sm font-normal font-apple">
-              <label
-                class="items-center block mt-2 py-2 border-l-4 border-white hover:bg-gray-200 hover:border-l-4 hover:border-blue-500 transition-all"
-              >
-                <input
-                  type="checkbox"
-                  v-model="selectedFilters"
-                  value="business projects"
-                  class="ml-3"
-                />
-                <span class="ml-2 text-gray-700">Business Projects</span>
-              </label>
-              <label
-                class="block mb-2 py-2 border-l-4 border-white hover:bg-gray-200 hover:border-l-4 hover:border-blue-500 transition-all"
-              >
-                <input
-                  type="checkbox"
-                  v-model="selectedFilters"
-                  value="software projects"
-                  class="ml-3"
-                />
-                <span class="ml-2 text-gray-700">Software Projects</span>
-              </label>
-            </div>
-          </div>
         </div>
       </div>
       <div>
@@ -161,8 +153,6 @@
         </a-table>
       </div>
     </div>
-
-    <div class="flex flex-wrap gap-6 mt-10"></div>
   </div>
 </template>
 
@@ -235,6 +225,6 @@ export default {
 };
 </script>
 
-<!-- <style scoped>
+<style>
 @import 'index.scss';
-</style> -->
+</style>

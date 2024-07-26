@@ -58,7 +58,10 @@
     </div>
 
     <div class="flex flex-wrap gap-6 mt-10">
-      <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col">
+      <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+         @drop="onDrop($event,1)"
+          @dragenter.prevent
+          @dragover.prevent>
         <div class="h-12 py-4 flex justify-between items-center group">
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
             IN PROGRESS
@@ -69,18 +72,27 @@
         </div>
 
         <!-- Container for item-task, positioned right under the header -->
-        <div class="mt-0 m-1 flex flex-col items-center">
-          <item-task 
-            v-for="task in inProgressTasks"
-            :key="task.keyText"
-            :text="task.text"
-            :key-text="task.keyText"
-            :tooltip-title="task.tooltipTitle"
-          />
+        <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]" 
+       
+        >
+    
+            <item-task 
+              v-for="task in getState(1)"
+              :key="task.keyText"
+              :text="task.text"
+              :key-text="task.keyText"
+              :tooltip-title="task.tooltipTitle"
+              draggable="true"
+              @dragstart="startDrag($event,task)"
+            />
+      
         </div>
       </div>
 
-      <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col">
+      <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+          @drop="onDrop($event,2)"
+          @dragenter.prevent
+          @dragover.prevent>
         <div class="h-12 py-4 flex justify-between items-center group">
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
             TO DO
@@ -91,25 +103,49 @@
         </div>
 
         <!-- Container for item-task, positioned right under the header -->
-        <div class="mt-0 m-1 flex flex-col items-center">
-          <item-task 
-            v-for="task in toDoTasks"
-            :key="task.keyText"
-            :text="task.text"
-            :key-text="task.keyText"
-            :tooltip-title="task.tooltipTitle"
-          />
+        <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
+         
+            <item-task         
+              v-for="task in getState(2)"
+              :key="task.keyText"
+              :text="task.text"
+              :key-text="task.keyText"
+              :tooltip-title="task.tooltipTitle"
+              draggable="true"
+              @dragstart="startDrag($event,task)"
+            />
+       
+          
         </div>
       </div>
 
-      <div class="w-[270px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded">
+      <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+          @drop="onDrop($event,3)"
+          @dragenter.prevent
+          @dragover.prevent>
         <div class="h-12 py-4 flex justify-between items-center group">
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
-            DONE
+            TO DO
           </span>
           <button class="text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
+        </div>
+
+        <!-- Container for item-task, positioned right under the header -->
+        <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
+         
+            <item-task         
+              v-for="task in getState(3)"
+              :key="task.keyText"
+              :text="task.text"
+              :key-text="task.keyText"
+              :tooltip-title="task.tooltipTitle"
+              draggable="true"
+              @dragstart="startDrag($event,task)"
+            />
+       
+          
         </div>
       </div>
 
@@ -129,35 +165,62 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import ItemTask from '../shared/ItemTask/index.vue';
-import { tasks } from '../../constants/itemTask'; // Đường dẫn đến file constants
+import { VueDraggableNext } from 'vue-draggable-next';
+import {tasks} from '../../constants/itemTask'
+
+interface Task {
+  text: string;
+  keyText: string;
+  tooltipTitle: string;
+  state: number;
+}
 
 export default defineComponent({
   name: 'Board',
   components: {
     ItemTask,
+    draggable: VueDraggableNext,
   },
   setup() {
-    const searchQuery = ref('');
+    const searchQuery = ref<string>('');
 
     const clearSearch = () => {
       searchQuery.value = '';
     };
 
-    // Lọc các task theo state
-    const inProgressTasks = ref(tasks.filter(task => task.state === 'inProgress'));
-    const toDoTasks = ref(tasks.filter(task => task.state === 'toDo'));
-    const doneTasks = ref(tasks.filter(task => task.state === 'done'));
+    const AllTasks = ref<Task[]>(tasks)
+
+    const getState = (state: number): Task[] => {
+      return AllTasks.value.filter(task => task.state === state);
+    };
+
+    const startDrag = (event: DragEvent, task: Task) => {
+      console.log(task);
+      event.dataTransfer!.dropEffect = 'move';
+      event.dataTransfer!.effectAllowed = 'move';
+      event.dataTransfer!.setData('taskId', task.keyText);
+    };
+
+    const onDrop = (event: DragEvent, state: number) => {
+      const taskId = event.dataTransfer!.getData('taskId');
+      const task = AllTasks.value.find(task => task.keyText === taskId);
+      if (task) {
+        task.state = state;
+      }
+    };
 
     return {
       searchQuery,
+      AllTasks,
       clearSearch,
-      inProgressTasks,
-      toDoTasks,
-      doneTasks,
+      startDrag,
+      onDrop,
+      getState,
     };
   },
 });
 </script>
+
 
 
 
