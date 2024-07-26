@@ -31,7 +31,7 @@
                 {{ tooltipTitle }}
               </template>
               <div
-                class="w-6 h-6 p-0 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold  rounded-full text-sm ">
+                class="w-6 h-6 p-0 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold  rounded-full text-sm cursor-pointer">
                 <!-- {{ text.charAt(0).toUpperCase() }} -->
                   A
               </div>
@@ -61,19 +61,11 @@ export default {
       type: String,
       required: true
     },
-    buttonImgSrc: {
-      type: String,
-      required: true
-    },
+  
   }
 }
 </script>
 
 <style scoped>
-.text-custom {
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-}
+@import 'index.scss'
 </style>

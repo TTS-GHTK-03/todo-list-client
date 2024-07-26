@@ -14,7 +14,7 @@ import ForgotForm from '../components/auth/forgotPassword/ForgotForm/index.vue';
 import AllProject from '../views/AllProject/index.vue';
 import Project from '../views/Project/index.vue';
 import Board from '../components/board/index.vue'
-
+// import Loading from '../views/LoadingPage/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
 import { useForgotPasswordStore, useValidateOtpStore} from '../stores/authStores/forgotStore';
@@ -121,6 +121,12 @@ const routes = [
     ],
     // meta: { requiresAuth: true },
   },
+  // {
+  //   path: '/loading',
+  //   component: Loading,
+  //   meta: { requiresAuth: true },
+  // },
+
   {
     path: '/:pathMatch(.*)*', 
     redirect: '/',

@@ -8,7 +8,6 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Chia nhóm các module từ node_modules vào chunk 'vendor'
           if (id.includes('node_modules')) {
             return 'vendor';
           }

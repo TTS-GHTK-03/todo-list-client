@@ -70,6 +70,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../../../stores/authStores/authStore';
+// import { useProjectStore } from '../../../stores/projectStores/projectStore';
 import '@fortawesome/fontawesome-free/css/all.css';
 
 export default defineComponent({
@@ -77,15 +78,34 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const authStore = useAuthStore();
+    // const projectStore = useProjectStore();
     const username = ref('');
     const password = ref('');
     const showPassword = ref(false);
     const errorMessage = ref('');
     const loading = ref(false);
+    // const loadingFetch = ref(false);
 
     const togglePassword = () => {
       showPassword.value = !showPassword.value;
     };
+
+    // const fetchData = async () => {
+    //   loadingFetch.value = true;
+    //   try {
+    //     await projectStore.loadProjects();
+    //     if (projectStore.error) {
+    //       console.error('Failed to fetch projects:', projectStore.error);
+    //     } else {
+    //       console.log('Successfully fetched projects:', projectStore.projects);
+    //       router.push('/mainpage');
+    //     }
+    //   } catch (error: any) {
+    //     console.error('Failed to fetch projects:', error);
+    //   } finally {
+    //     loadingFetch.value = false;
+    //   }
+    // };
 
     const handleLogin = async () => {
       loading.value = true;
@@ -96,8 +116,9 @@ export default defineComponent({
         if (authStore.error) {
           errorMessage.value = authStore.error;
         } else {
-          console.log('Login successful:', authStore.user);
+          console.log('Successfully logged in');
           router.push('/mainpage');
+     
         }
       } catch (error: any) {
         console.error('Login failed:', error);
@@ -126,6 +147,7 @@ export default defineComponent({
       errorMessage,
       loading,
       togglePassword,
+      
       handleLogin,
       goToRegister,
       goToForgot,
