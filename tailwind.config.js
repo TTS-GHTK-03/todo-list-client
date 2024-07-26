@@ -7,18 +7,18 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        charlie: ['"Charlie Text"', 'sans-serif'],
+        'charlie-display': ['"Charlie Display"', 'sans-serif'],
+        'charlie-text': ['"Charlie Text"', 'sans-serif'],
         apple: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
         ui: ['ui-sans-serif', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
       },
       colors: {
         'custom-dark': '#101214',
         'button-color': '#0C66E4',
-        // 'button-color-hover': '#0A52B2',
+        'text-color-dark-thin': '#172B4D',
+        'text-color-dark': '#44546F',
       },
     },
   },
   plugins: [],
 }
-
-

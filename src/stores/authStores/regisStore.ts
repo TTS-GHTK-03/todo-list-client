@@ -16,7 +16,6 @@ export const useRegisAccountStore = defineStore('regisAccount', {
       try {
         const response = await regisAccount({ email });
         console.log(response.data);
-        // Check the response data for "Account has been registered"
         if (response.data === "Account has been registered") {
           console.log(response.data);
           throw new Error("Account has already been registered");
@@ -60,4 +59,4 @@ export const useValidateOtpRegisStore = defineStore('validateOtp', {
   },
 });
 
-  //
+

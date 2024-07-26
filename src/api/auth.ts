@@ -16,9 +16,7 @@ export interface LoginRequest {
   password: string;
 }
 
-export const login = async (
-  credentials: LoginRequest
-): Promise<LoginResponse> => {
+export const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
   try {
     const response = await apiClient.post<LoginResponse>(
       "/auth/login",

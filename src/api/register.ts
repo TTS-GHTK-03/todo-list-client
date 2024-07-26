@@ -11,16 +11,13 @@ interface RegisterResponse {
   data: any;
 }
 
-export const regisAccount = async (
-  credentials: RegisterRequest
-): Promise<RegisterResponse> => {
+export const regisAccount = async (credentials: RegisterRequest): Promise<RegisterResponse> => {
   try {
     const response = await apiClient.post<RegisterResponse>(
       "/auth/register/email/validate",
       credentials
     );
 
-    // Check the response data for "Account has been registered"
     if (response.data.data === "Account has been registered") {
       console.log(response.data.data);
       throw new Error("Account has already been registered");
@@ -46,7 +43,6 @@ export const regisAccount = async (
   }
 };
 
-
 // validate OTP
 interface ValidateOtpRequest {
   email: string;
@@ -61,9 +57,7 @@ interface ValidateOtpResponse {
   };
 }
 
-export const validateOtp = async (
-  credentials: ValidateOtpRequest
-): Promise<string> => {
+export const validateOtp = async (credentials: ValidateOtpRequest): Promise<string> => {
   try {
     const response = await apiClient.post<ValidateOtpResponse>(
       "/auth/register/otp/validate",
@@ -99,9 +93,7 @@ interface CreatePasswordResponse {
   data: any;
 }
 
-export const createPassWord = async (
-  credentials: CreatePasswordRequest
-): Promise<CreatePasswordResponse> => {
+export const createPassWord = async (credentials: CreatePasswordRequest): Promise<CreatePasswordResponse> => {
   try {
     const response = await apiClient.post<CreatePasswordResponse>(
       "auth/register",
