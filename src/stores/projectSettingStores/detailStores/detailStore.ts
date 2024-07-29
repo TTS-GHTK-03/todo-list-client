@@ -1,22 +1,22 @@
 // 
 import { defineStore } from 'pinia';
-import { fetchAllUserByProjects } from '../../../api/getAllUserByProject';
+import { fetchProjectDetail } from '../../../api/getDetailProject';
 
-interface UserProjectState {
-  userProjects: any[] ;
+interface ProjectDetailState {
+  project: any[] ;
   error: string | null;
 }
 
-export const useUserProjectStore = defineStore('userProjects', {
-  state: (): UserProjectState => ({
-    userProjects: [],
+export const useProjectDetailStore = defineStore('projectDetail', {
+  state: (): ProjectDetailState => ({
+    project: [],
     error: null,
   }),
   actions: {
-    async loadUserProjects() {
+    async loadProjectDetail() {
       try {
-        const response = await fetchAllUserByProjects();
-        this.userProjects = response.data; 
+        const response = await fetchProjectDetail();
+        this.project = response.data; 
         this.error = null;
       } catch (error: any) {
         this.error = error.message;

@@ -1,25 +1,31 @@
 // src/api/projects.ts
 import apiClient from "../api/index";
 
-export interface UserProject {
-  id: string;
+export interface UserName {
   firstName: string;
   middleName: string;
   lastName: string;
-  email: string;
 }
 
-export interface UserProjectResponse {
+export interface ProjectInformation {
+  id: string;
+  title: String;
+  keyProject: string;
+  roleUser: string;
+  userNameResponseList: UserName[]
+}
+
+export interface ProjectInformationResponse {
   status: number;
   timestamp: string;
-  data: UserProject[];
+  data: ProjectInformation[];
 }
 
-export const fetchAllUserByProjects = async (): Promise<UserProjectResponse> => {
+export const fetchProjectDetail = async (): Promise<ProjectInformationResponse> => {
   try {
     
-    const response = await apiClient.get<UserProjectResponse>("/users/projects/7bfec841-f7b5-494c-a871-a9aeff2c4a45");
-    console.log("fetchAllUserByProjects (response): ", response)
+    const response = await apiClient.get<ProjectInformationResponse>("/projects/7bfec841-f7b5-494c-a871-a9aeff2c4a45/information");
+    console.log("fetchProjectDetail (response): ", response)
     return response.data;
   } catch (error: any) {
     if (error.response) {

@@ -92,37 +92,33 @@
         <a-table :columns="columns" :data-source="data" class="mt-6">
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
-              <div class="text-[#0C66E4] flex">
+              <div class="flex">
                 <img
                   src="../../assets/img/project_logo.svg"
                   alt=""
                   height="24"
                   width="24"
                 />
-                <span class="ml-2">{{ text }}</span>
+                <span class="text-slate-950 ml-2">{{ text }}</span>
               </div>
             </template>
             <template v-if="column.dataIndex === 'role'">
-              <div
-                class="relative flex items-center cursor-pointer"
-                @click="toggleHover(record.role)"
+              <a-select
+                v-model:value="record.role"
+                style="width: 160px"
+                :dropdown-match-select-width="false"
+                @change="handleRoleChange(record)"
               >
-                <div
-                  class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2"
-                >
-                  {{ text.charAt(0) }}
-                </div>
-                <span
-                  class="text-[#0C66E4] flex cursor-pointer hover:underline ml-1"
-                  >{{ text }}</span
-                >
-              </div>
+                <a-select-option value="admin">Administrator</a-select-option>
+                <a-select-option value="member">Member</a-select-option>
+                <a-select-option value="view">Viewer</a-select-option>
+              </a-select>
             </template>
             <template v-if="column.dataIndex === 'actions'">
               <div
-                class="flex items-center justify-center h-10 w-10 cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
+                class="text-[#0C66E4] flex items-center justify-center cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
               >
-                <i class="fa-solid fa-ellipsis text-2xl text-gray-500"></i>
+                Remove
               </div>
             </template>
           </template>
@@ -170,8 +166,6 @@ const columns: TableColumnType<DataType>[] = [
   },
 ];
 
-
-
 export default {
   setup() {
     const searchQuery = ref("");
@@ -182,17 +176,16 @@ export default {
 
     const loadData = async () => {
       await accessStore.loadUserProjects();
-      
+
       const newProjects = accessStore.userProjects.map((project) => ({
-        key: project?.id, 
+        key: project?.id,
         name: project?.email,
         email: project?.email,
-        role: project?.email,
+        role: project?.role || 'admin',
       }));
 
       data.value = newProjects;
       console.log("Item:", data);
-      
     };
 
     // Gọi loadData khi component được mount
@@ -203,11 +196,17 @@ export default {
     const clearSearch = () => {
       searchQuery.value = "";
     };
+    const handleRoleChange = (record: DataType) => {
+      // Xử lý thay đổi role tại đây, ví dụ:
+      console.log('Role changed for:', record);
+    };
+
     return {
       data,
       columns,
       searchQuery,
       clearSearch,
+      handleRoleChange,
     };
   },
 };
