@@ -25,17 +25,28 @@
       <div class="flex">
         <div class="box-border mb-8 w-full">
           <div class="flex items-center rounded custom-access">
-            <img src="https://jira-frontend-bifrost.prod-east.frontend.public.atl-paas.net/assets/access-banner.e0758cd5.svg" alt=""/>
+            <img
+              src="https://jira-frontend-bifrost.prod-east.frontend.public.atl-paas.net/assets/access-banner.e0758cd5.svg"
+              alt=""
+            />
             <div>
-              <div class="text-gray-800">To customize user access, such as roles and permissions, upgrade your plan to Standard. </div>
+              <div class="text-gray-800">
+                To customize user access, such as roles and permissions, upgrade
+                your plan to Standard.
+              </div>
               <div class="flex items-center mt-3 mr-4 gap-2">
                 <div>
-                  <a class="inline-flex items-center rounded border-0 text-white py-1.5 px-3 css-1ncptc6" href="">
+                  <a
+                    class="inline-flex items-center rounded border-0 text-white py-1.5 px-3 css-1ncptc6"
+                    href=""
+                  >
                     <span>Upgrade</span>
                   </a>
                 </div>
                 <a href="">
-                  <span class="text-sky-500">Learn more about managing access</span>
+                  <span class="text-sky-500"
+                    >Learn more about managing access</span
+                  >
                 </a>
               </div>
             </div>
@@ -83,7 +94,7 @@
             <template v-if="column.dataIndex === 'name'">
               <div class="text-[#0C66E4] flex">
                 <img
-                  src="../../assets/img/email_logo.svg"
+                  src="../../assets/img/project_logo.svg"
                   alt=""
                   height="24"
                   width="24"
@@ -105,41 +116,6 @@
                   class="text-[#0C66E4] flex cursor-pointer hover:underline ml-1"
                   >{{ text }}</span
                 >
-                <!-- Hover Box -->
-                <div
-                  v-if="activerole === record.role"
-                  class="cursor-default absolute top-[-210px] left-0 w-[360px] h-[200px] bg-white border border-gray-300 shadow-lg z-50 flex flex-col rounded-lg"
-                >
-                  <div
-                    class="absolute top-[30px] left-[40px] w-[100px] h-[100px] rounded-full bg-[#1b2b4e] text-white text-5xl flex items-center justify-center"
-                  >
-                    {{ text.charAt(0) }}
-                  </div>
-
-                  <div
-                    class="w-full h-[100px] bg-blue-600 flex items-center justify-center border-t rounded"
-                  >
-                    <div class="mt-8 ml-20 text-white font-apple text-lg">
-                      {{ text }}
-                    </div>
-                  </div>
-
-                  <div
-                    class="w-full h-[100px] bg-white flex items-center justify-center flex-col"
-                  >
-                    <div
-                      class="mb-4 ml-32 text-[#172B4D] font-apple text-xs font-medium"
-                    >
-                      <i class="fa-regular fa-envelope mt-1"></i>
-                      <span class="ml-2">email@gmail.com</span>
-                    </div>
-                    <button
-                      class="mb-4 ml-48 bg-gray-200 hover p-2 text-[#172B4D] font-apple font-semibold border rounded"
-                    >
-                      View profile
-                    </button>
-                  </div>
-                </div>
               </div>
             </template>
             <template v-if="column.dataIndex === 'actions'">
@@ -157,7 +133,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted } from "vue";
+import { useUserProjectStore } from "../../../stores/projectSettingStores/accessStores/accessStore";
 
 interface DataType {
   name: string;
@@ -193,24 +170,35 @@ const columns: TableColumnType<DataType>[] = [
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "Name 1",
-    email: "h@gmail.com",
-    role: "AliceJohnson",
-  },
-  {
-    key: "2",
-    name: "Name 2",
-    email: "hh@gmail.com",
-    role: "BobSmith",
-  },
-];
+
 
 export default {
   setup() {
     const searchQuery = ref("");
+
+    const accessStore = useUserProjectStore();
+
+    const data = ref<DataType[]>([]);
+
+    const loadData = async () => {
+      await accessStore.loadUserProjects();
+      
+      const newProjects = accessStore.userProjects.map((project) => ({
+        key: project?.id, 
+        name: project?.email,
+        email: project?.email,
+        role: project?.email,
+      }));
+
+      data.value = newProjects;
+      console.log("Item:", data);
+      
+    };
+
+    // Gọi loadData khi component được mount
+    onMounted(() => {
+      loadData();
+    });
 
     const clearSearch = () => {
       searchQuery.value = "";
@@ -226,5 +214,5 @@ export default {
 </script>
 
 <style>
-@import 'index.scss';
+@import "index.scss";
 </style>

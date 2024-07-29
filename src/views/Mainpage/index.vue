@@ -42,11 +42,11 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      fetchData();
+      // fetchData();
     });
 
     return {
-      isLoading,
+      // isLoading,
     };
   },
 });

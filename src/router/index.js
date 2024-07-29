@@ -118,7 +118,7 @@ const routes = [
             component: Board,
           },
           {
-            path: '/projects/settings/assess',
+            path: '/projects/settings/access',
             component: ProjectAccess,
           },
           {
