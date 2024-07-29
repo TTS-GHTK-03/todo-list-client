@@ -2,7 +2,8 @@ import axios from "axios";
 import { useAuthStore } from '../stores/authStores/authStore'; // Cập nhật đường dẫn đúng tới store
 
 const apiClient = axios.create({
-  baseURL: "https://moose-helping-dog.ngrok-free.app/api/v1",
+  // baseURL: "https://moose-helping-dog.ngrok-free.app/api/v1",
+  baseURL: "http://localhost:8080/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
@@ -16,6 +17,7 @@ apiClient.interceptors.request.use(
 
     if (token) {
       request.headers['Authorization'] = `Bearer ${token}`;
+      console.log("Token:", token);
     }
 
     console.log("Starting Request", request);
