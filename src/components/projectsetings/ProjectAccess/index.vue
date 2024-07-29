@@ -114,8 +114,10 @@
                 <a-select-option value="view">Viewer</a-select-option>
               </a-select>
             </template>
+           
             <template v-if="column.dataIndex === 'actions'">
               <div
+                @click="confirmRemove(record)"
                 class="text-[#0C66E4] flex items-center justify-center cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
               >
                 Remove
@@ -125,6 +127,19 @@
         </a-table>
       </div>
     </div>
+    <!-- Dialog -->
+    <a-modal
+      v-model:visible="isModalVisible"
+      title="Confirm Deletion"
+      @ok="handleOk"
+      @cancel="handleCancel"
+      :maskClosable="false"
+    >
+      <p>
+        Are you sure you want to delete the project "{{ projectToRemove.name }}"
+        with email "{{ projectToRemove.email }}"?
+      </p>
+    </a-modal>
   </div>
 </template>
 
@@ -166,29 +181,31 @@ const columns: TableColumnType<DataType>[] = [
   },
 ];
 
-export default {
+export default defineComponent({
   setup() {
     const searchQuery = ref("");
+    const isModalVisible = ref(false);
+    const projectToRemove = ref<{
+      id: string;
+      name: string;
+      email: string;
+    } | null>(null);
 
     const accessStore = useUserProjectStore();
-
     const data = ref<DataType[]>([]);
 
     const loadData = async () => {
       await accessStore.loadUserProjects();
-
       const newProjects = accessStore.userProjects.map((project) => ({
         key: project?.id,
-        name: project?.email,
-        email: project?.email,
-        role: project?.role || 'admin',
+        name: project?.firstName || "",
+        email: project?.email || "",
+        role: project?.role || "admin",
       }));
-
       data.value = newProjects;
       console.log("Item:", data);
     };
 
-    // Gọi loadData khi component được mount
     onMounted(() => {
       loadData();
     });
@@ -196,9 +213,31 @@ export default {
     const clearSearch = () => {
       searchQuery.value = "";
     };
+
     const handleRoleChange = (record: DataType) => {
-      // Xử lý thay đổi role tại đây, ví dụ:
-      console.log('Role changed for:', record);
+      
+      console.log("Role changed for:", record);
+    };
+
+    const confirmRemove = (record: DataType) => {
+      projectToRemove.value = {
+        id: record.key,
+        name: record.name,
+        email: record.email,
+      };
+      isModalVisible.value = true;
+    };
+
+    const handleOk = async () => {
+      if (projectToRemove.value) {
+        await accessStore.removeUserProject(projectToRemove.value.id);
+        await loadData();
+      }
+      isModalVisible.value = false;
+    };
+
+    const handleCancel = () => {
+      isModalVisible.value = false;
     };
 
     return {
@@ -207,9 +246,14 @@ export default {
       searchQuery,
       clearSearch,
       handleRoleChange,
+      confirmRemove,
+      isModalVisible,
+      handleOk,
+      handleCancel,
+      projectToRemove,
     };
   },
-};
+});
 </script>
 
 <style>
