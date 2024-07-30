@@ -109,9 +109,9 @@
                 :dropdown-match-select-width="false"
                 @change="handleRoleChange(record)"
               >
-                <a-select-option value="ADMIN">Administrator</a-select-option>
-                <a-select-option value="MEMBER">Member</a-select-option>
-                <a-select-option value="VIEWER">Viewer</a-select-option>
+                <a-select-option :value="RoleProjectUser.ADMIN">Administrator</a-select-option>
+                <a-select-option :value="RoleProjectUser.EDIT">Member</a-select-option>
+                <a-select-option :value="RoleProjectUser.VIEWER">Viewer</a-select-option>
               </a-select>
             </template>
 
@@ -147,7 +147,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { normalizeName } from "../../../../utils/normalizeName"
 import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
-
+import { RoleProjectUser } from "../../../../utils/constants/enum"
 interface DataType {
   name: string;
   email: string;
@@ -259,6 +259,7 @@ export default defineComponent({
       handleOk,
       handleCancel,
       projectToRemove,
+      RoleProjectUser,
     };
   },
 });
