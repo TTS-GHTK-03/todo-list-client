@@ -4,6 +4,7 @@
       <span class="font-ui text-2xl font-semibold opacity-80">Projects</span>
       <div class="flex">
         <button
+          @click="handleCreateProject()"
           class="h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded"
         >
           Create project
@@ -292,6 +293,10 @@ export default {
       }
     };
 
+    const handleCreateProject = () => {
+      router.push("/project-create");
+    }
+
     const clearSearch = () => {
       searchQuery.value = "";
     };
@@ -325,6 +330,7 @@ export default {
       toggleHover,
       toggleDropdown,
       handleProject,
+      handleCreateProject,
     };
   },
 };

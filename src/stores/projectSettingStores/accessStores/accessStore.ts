@@ -1,6 +1,6 @@
 // 
 import { defineStore } from 'pinia';
-import { fetchAllUserByProjects } from '../../../api/getAllUserByProject';
+import { fetchAllUserByProjects } from '../../../api/project';
 
 interface UserProjectState {
   userProjects: any[] ;
