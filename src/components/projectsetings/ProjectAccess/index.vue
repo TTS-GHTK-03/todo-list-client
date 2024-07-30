@@ -114,7 +114,7 @@
                 <a-select-option value="view">Viewer</a-select-option>
               </a-select>
             </template>
-           
+
             <template v-if="column.dataIndex === 'actions'">
               <div
                 @click="confirmRemove(record)"
@@ -200,7 +200,7 @@ export default defineComponent({
         key: project?.id,
         name: project?.firstName || "",
         email: project?.email || "",
-        role: project?.roleUser || "admin",
+        role: project?.roleUser || "",
       }));
       data.value = newProjects;
       console.log("Item:", data);
@@ -215,7 +215,6 @@ export default defineComponent({
     };
 
     const handleRoleChange = (record: DataType) => {
-      
       console.log("Role changed for:", record);
     };
 
