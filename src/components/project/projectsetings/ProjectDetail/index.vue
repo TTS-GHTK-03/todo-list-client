@@ -93,10 +93,10 @@
 </template>
 
 <script lang="ts">
-import { Form, Input, Select, Button, Upload } from "ant-design-vue";
 
-import { defineComponent, ref, onMounted } from "vue";
-import { useProjectDetailStore } from "../../../stores/projectSettingStores/detailStores/detailStore";
+
+import {  ref, onMounted } from "vue";
+import { useProjectDetailStore } from "../../../../stores/projectSettingStores/detailStores/detailStore";
 
 export default {
   setup() {

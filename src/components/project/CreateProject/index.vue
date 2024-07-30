@@ -1,11 +1,11 @@
 <template>
   <div class="container mx-auto flex flex-col justify-center items-center min-h-screen">
-    <button @click="goBack" class="back-button">
+    <!-- <button @click="goBack" class="back-button mt-20">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
         <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10H17a1 1 0 110 2H9.414l3.293 3.293a1 1 0 01-1.414 1.414l-5-5a1 1 0 010-1.414l5-5a1 1 0 011.414 0z" clip-rule="evenodd" />
       </svg>
       Back to project types
-    </button>
+    </button> -->
     <div class="flex flex-col justify-center items-center w-full max-w-md bg-white p-6 rounded shadow-md border border-gray-300">
       <h2 class="text-2xl font-semibold mb-2 custom-font">Add project details</h2>
       <p class="text-[#5E6C84] mb-4">Explore what's possible when you collaborate with your team. Edit project details anytime in project settings.</p>

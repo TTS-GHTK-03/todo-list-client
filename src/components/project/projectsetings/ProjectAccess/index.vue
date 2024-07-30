@@ -15,7 +15,7 @@
         >
         <div class="flex items-center">
           <button
-            class="h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded h-9 flex items-center"
+            class="h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded flex items-center"
           >
             Add people
           </button>
@@ -145,7 +145,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { useUserProjectStore } from "../../../stores/projectSettingStores/accessStores/accessStore";
+import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
 
 interface DataType {
   name: string;
