@@ -11,16 +11,17 @@ import Forgot from '../components/auth/forgotPassword/Forgot/index.vue';
 import ValidForgot from '../components/auth/forgotPassword/ValidForgot/index.vue';
 import ForgotForm from '../components/auth/forgotPassword/ForgotForm/index.vue';
 
+
 import AllProject from '../views/AllProject/index.vue';
 import Project from '../views/Project/index.vue';
 import Board from '../components/board/index.vue';
 import Task from '../components/task/index.vue';
 import ProjectAccess from '../components/projectsetings/ProjectAccess/index.vue';
 import ProjectDetail from '../components/projectsetings/ProjectDetail/index.vue';
+import Backlog from '../components/backlog/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
-import { useForgotPasswordStore, useValidateOtpStore} from '../stores/authStores/forgotStore';
-import { useRegisAccountStore, useValidateOtpRegisStore} from '../stores/authStores/regisStore';
+
 
 const routes = [
   {
@@ -109,6 +110,7 @@ const routes = [
         path: '/allproject',
         component: AllProject,  
       },
+
       {
         path: '',
         component: Project,
@@ -124,6 +126,12 @@ const routes = [
           {
             path: '/projects/settings/detail',
             component: ProjectDetail,
+            
+          },
+
+          {
+            path: 'backlog',
+            component: Backlog,
           }
           
         ]
@@ -136,11 +144,7 @@ const routes = [
     ],
     // meta: { requiresAuth: true },
   },
-  // {
-  //   path: '/loading',
-  //   component: Loading,
-  //   meta: { requiresAuth: true },
-  // },
+
 
   {
     path: '/:pathMatch(.*)*', 
