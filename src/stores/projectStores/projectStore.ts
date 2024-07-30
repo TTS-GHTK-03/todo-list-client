@@ -1,6 +1,6 @@
 // src/store/projects.ts
 import { defineStore } from 'pinia';
-import { fetchAllProjects,Project } from '../../api/getAllproject';
+import { fetchAllProjects } from '../../api/getAllproject';
 
 interface ProjectState {
   projects: any[] ; // Đổi kiểu projects thành any[]

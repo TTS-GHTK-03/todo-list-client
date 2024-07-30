@@ -200,7 +200,7 @@ export default defineComponent({
         key: project?.id,
         name: project?.firstName || "",
         email: project?.email || "",
-        role: project?.role || "admin",
+        role: project?.roleUser || "admin",
       }));
       data.value = newProjects;
       console.log("Item:", data);
