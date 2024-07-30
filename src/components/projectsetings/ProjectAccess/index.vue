@@ -89,7 +89,7 @@
         </div>
       </div>
       <div>
-        <a-table :columns="columns" :data-source="data" class="mt-6">
+        <a-table :loading="loading" :columns="columns" :data-source="data" class="mt-6">
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
               <div class="flex">
@@ -109,9 +109,9 @@
                 :dropdown-match-select-width="false"
                 @change="handleRoleChange(record)"
               >
-                <a-select-option value="admin">Administrator</a-select-option>
-                <a-select-option value="member">Member</a-select-option>
-                <a-select-option value="view">Viewer</a-select-option>
+                <a-select-option value="ADMIN">Administrator</a-select-option>
+                <a-select-option value="MEMBER">Member</a-select-option>
+                <a-select-option value="VIEWER">Viewer</a-select-option>
               </a-select>
             </template>
 
@@ -146,6 +146,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
 import { useUserProjectStore } from "../../../stores/projectSettingStores/accessStores/accessStore";
+import { normalizeName } from "../../../utils/normalizeName"
 
 interface DataType {
   name: string;
@@ -191,19 +192,26 @@ export default defineComponent({
       email: string;
     } | null>(null);
 
+    const loading = ref(false);
     const accessStore = useUserProjectStore();
     const data = ref<DataType[]>([]);
 
     const loadData = async () => {
-      await accessStore.loadUserProjects();
-      const newProjects = accessStore.userProjects.map((project) => ({
-        key: project?.id,
-        name: project?.firstName || "",
-        email: project?.email || "",
-        role: project?.roleUser || "",
-      }));
-      data.value = newProjects;
-      console.log("Item:", data);
+      loading.value = true;
+      try {
+        await accessStore.loadUserProjects();
+        const newProjects = accessStore.userProjects.map((project) => ({
+          key: project?.id,
+          name: normalizeName(project?.firstName, project?.middleName, project?.lastName),
+          email: project?.email || "",
+          role: project?.role || "",
+        }));
+        data.value = newProjects;
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        loading.value = false;
+      }
     };
 
     onMounted(() => {
@@ -242,6 +250,7 @@ export default defineComponent({
     return {
       data,
       columns,
+      loading,
       searchQuery,
       clearSearch,
       handleRoleChange,

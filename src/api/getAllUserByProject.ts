@@ -7,6 +7,7 @@ export interface UserProject {
   middleName: string;
   lastName: string;
   email: string;
+  role: string;
 }
 
 export interface UserProjectResponse {

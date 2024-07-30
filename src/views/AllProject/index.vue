@@ -81,6 +81,7 @@
 
     <div>
       <a-table
+        :loading="loading"
         :row-selection="rowSelection"
         :columns="columns"
         :data-source="data"
@@ -169,11 +170,12 @@
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 
 import { type TableProps, type TableColumnType } from "ant-design-vue/es";
 import type { Key } from "ant-design-vue/es/table/interface";
 
-import { useProjectStore } from "../../stores/projectStores/projectStore";
+import { useProjectStore, useProjectRoleStore } from "../../stores/projectStores/projectStore";
 import { normalizeName } from "../../utils/normalizeName"
 
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -242,29 +244,45 @@ const rowSelection: TableProps<DataType>["rowSelection"] = {
 
 export default {
   setup() {
+    const router = useRouter();
+
     const searchQuery = ref("");
     const isDropdownVisible = ref(false);
     const selectedFilters = ref<string[]>([]);
     const activeLead = ref<string | null>(null);
     const data = ref<DataType[]>([]);
-
+    const loading = ref(false);
     const projectStore = useProjectStore();
 
     const loadData = async () => {
-      await projectStore.loadProjects();
-      const newProjects = projectStore.projects.map((project) => ({
-        key: project?.id,
-        name: project?.title || "",
-        project: project?.keyProject || "",
-        role: project?.roleUser || "",
-        lead: normalizeName(project?.userNameResponseList[0]?.firstName, project?.userNameResponseList[0]?.middleName, project?.userNameResponseList[0]?.lastName), // sau set list lead
-      }));
-      data.value = newProjects;
+      loading.value = true;
+      try {
+        await projectStore.loadProjects();
+        const newProjects = projectStore.projects.map((project) => ({
+          key: project?.id,
+          name: project?.title || "",
+          project: project?.keyProject || "",
+          role: project?.roleUser || "",
+          lead: normalizeName(project?.userNameResponseList[0]?.firstName, project?.userNameResponseList[0]?.middleName, project?.userNameResponseList[0]?.lastName), // sau set list lead
+        }));
+        data.value = newProjects;
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        loading.value = false;
+      }
+
     };
 
     onMounted(() => {
       loadData();
     });
+
+    const handleProject = (id : string) => {
+      const projectRoleStore = useProjectRoleStore();
+      console.log("projectRoleStore", projectRoleStore.loadProjectRole())
+      router.push("/mainpage");
+    }
 
     const clearSearch = () => {
       searchQuery.value = "";
@@ -288,11 +306,13 @@ export default {
       selectedFilters,
       data,
       columns,
+      loading,
       rowSelection,
       activeLead,
       clearSearch,
       toggleHover,
       toggleDropdown,
+      handleProject,
     };
   },
 };
