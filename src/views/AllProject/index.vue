@@ -49,7 +49,7 @@
       <a-table :row-selection="rowSelection" :columns="columns" :data-source="data" class="mt-6 ">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'name'">
-            <div class="text-[#0C66E4] flex cursor-pointer hover:underline">
+            <div class="text-button-color flex cursor-pointer hover:underline">
               <img src="../../assets/img/project_logo.svg" alt="" height="24" width="24" />
               <span class="ml-2">{{ text }}</span>
             </div>
@@ -61,7 +61,7 @@
                 class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2">
                 {{ text.charAt(0) }}
               </div>
-              <span class="text-[#0C66E4] flex cursor-pointer hover:underline ml-1">{{ text }}</span>
+              <span class="text-button-color flex cursor-pointer hover:underline ml-1">{{ text }}</span>
               <!-- Hover Box -->
               <div v-if="activeLead === record.lead"
                 class="cursor-default absolute top-[-210px] left-0 w-[360px] h-[200px] bg-white border border-gray-300 shadow-lg z-50 flex flex-col rounded-lg">
@@ -77,12 +77,12 @@
                 </div>
 
                 <div class="w-full h-[100px] bg-white flex items-center justify-center flex-col">
-                  <div class="mb-4 ml-32 text-[#172B4D] font-apple text-xs font-medium">
+                  <div class="mb-4 ml-32 text-text-dark-thin font-apple text-xs font-medium">
                     <i class="fa-regular fa-envelope mt-1"></i>
                     <span class="ml-2">email@gmail.com</span>
                   </div>
                   <button
-                    class="mb-4 ml-48 bg-gray-200 hover p-2 text-[#172B4D] font-apple font-semibold border rounded">
+                    class="mb-4 ml-48 bg-gray-200 hover p-2 text-text-dark-thin font-apple font-semibold border rounded">
                     View profile
                   </button>
                 </div>

@@ -7,12 +7,12 @@
           
             <div class="flex items-center cursor-pointer ml-1">
                 <i class="fa-solid fa-square-check text-blue-400 ml-1"></i>
-                <span class="text-xs font-medium font-apple text-[#44546F] ml-1">
+                <span class="text-xs font-medium font-apple text-text-dark ml-1">
                     SCRUM-1
                 </span>
             </div>
             
-            <div class="flex items-center text-sm font-ui text-[#172B4D] ml-4 mb-1 cursor-pointer">
+            <div class="flex items-center text-sm font-ui text-text-dark-thin ml-4 mb-1 cursor-pointer">
                 <span class="hover:underline">name</span>
                 <div class="hover:bg-gray-300 w-5 h-5 flex items-center justify-center rounded ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <i class="fa-solid fa-pen text-xs mt-1"></i>
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="flex justify-between items-center min-w-[300px] text-[#172B4D] relative">
+        <div class="flex justify-between items-center min-w-[300px] text-text-dark-thin relative">
             <button @click.stop="toggleDropdown" class="text-xs font-bold font-apple bg-gray-200 hover:bg-gray-300 bg-opacity-70 px-1 rounded">
                 <span>TO DO</span>
                 <i class="fa-solid fa-chevron-down ml-1 text-xs w-4"></i>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="border-b border-gray-600 opacity-30 mb-0"></div>
                 <button class="hover:bg-gray-200 w-full flex justify-start items-center h-12">
-                    <span class="font-apple text-[#172B4D] text-sm font-semibold px-3 ">View workflow</span>
+                    <span class="font-apple text-text-dark-thin text-sm font-semibold px-3 ">View workflow</span>
                 </button>
             </div>
 
@@ -92,7 +92,7 @@
                                     <!-- {{ text.charAt(0).toUpperCase() }} -->
                                     A
                                 </div>
-                                <div class="flex flex-col ml-2 font-ui text-[#172B4D]">
+                                <div class="flex flex-col ml-2 font-ui text-text-dark-thin">
                                         <span class="text-sm font-medium">username</span>
                                         <span class="text-xs font-normal">emai@gmail.com</span>
                                 </div>
@@ -104,7 +104,7 @@
                                     <!-- {{ text.charAt(0).toUpperCase() }} -->
                                     A
                                 </div>
-                                <div class="flex flex-col ml-2 font-ui text-[#172B4D]">
+                                <div class="flex flex-col ml-2 font-ui text-text-dark-thin">
                                         <span class="text-sm font-medium">username</span>
                                         <span class="text-xs font-normal">emai@gmail.com</span>
                                 </div>

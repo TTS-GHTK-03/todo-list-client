@@ -1,7 +1,7 @@
 <template>
   <div class="mt-24 px-8 py-0">
     <div class="min-h-[150px] flex flex-col justify-around">
-      <div class="font-ui font-normal text-[#44546F] mb-2">
+      <div class="font-ui font-normal text-text-dark mb-2">
         <span class="cursor-pointer hover:underline">Projects </span>
         <span class="px-1">/</span>
         <span class="cursor-pointer hover:underline"> Project 1</span>
@@ -10,7 +10,7 @@
       </div>
 
       <div class="flex justify-between mb-12">
-        <span class="font-ui text-2xl font-semibold text-[#172B4D]"
+        <span class="font-ui text-2xl font-semibold text-text-dark-thin"
           >Access</span
         >
         <div class="flex items-center">
@@ -118,7 +118,7 @@
             <template v-if="column.dataIndex === 'actions'">
               <div
                 @click="confirmRemove(record)"
-                class="text-[#0C66E4] flex items-center justify-center cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
+                class="text-button-color flex items-center justify-center cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
               >
                 Remove
               </div>

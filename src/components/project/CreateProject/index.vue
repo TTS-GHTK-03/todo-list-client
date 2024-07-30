@@ -12,7 +12,7 @@
       <p class="text-[#5E6C84] mb-4 text-left w-full">Required fields are marked with an asterisk <span class="text-red-500">*</span></p>
       <form @submit.prevent="submitForm" class="w-full">
         <div class="form-group mb-4">
-          <label for="name" class="block text-sm font-medium text-[#172B4D]">Name <span class="text-red-500">*</span></label>
+          <label for="name" class="block text-sm font-medium text-text-dark-thin">Name <span class="text-red-500">*</span></label>
           <input
             type="text"
             id="name"
@@ -24,7 +24,7 @@
         </div>
         <p class="text-[#5E6C84] mb-4 text-sm">Access: Anyone with access to linh-truong2359 can access and administer this project. <a href="#" class="text-[#0052CC] ">Upgrade your plan </a> to customize project permissions.</p>
         <div class="form-group mb-6">
-          <label for="key" class="block text-sm font-medium text-[#172B4D]">
+          <label for="key" class="block text-sm font-medium text-text-dark-thin">
             Key 
             <span class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" viewBox="0 0 20 20" fill="currentColor">
@@ -42,7 +42,7 @@
           />
         </div>
         <div class="flex justify-end space-x-2">
-          <button type="button" @click="cancel" class="px-4 py-2 bg-gray-100 text-[#172B4D] rounded hover:bg-gray-200">Cancel</button>
+          <button type="button" @click="cancel" class="px-4 py-2 bg-gray-100 text-text-dark-thin rounded hover:bg-gray-200">Cancel</button>
           <button type="submit" class="px-4 py-2 bg-[#0052CC] text-white rounded hover:bg-[#0747A6]">Next</button>
         </div>
       </form>

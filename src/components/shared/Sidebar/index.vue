@@ -20,7 +20,7 @@
             <div class="flex px-4 py-2 h-[52px] bg-white items-center mr-8 mb-4">
                 <img src="../../../assets/img/project_logo.svg" class="h-6 w-6">
                 <span class="flex flex-col ml-4 items-start">
-                    <span class="text-sm font-ui font-semibold text-[#172B4D] min-w-[120px]">My Scrum project</span>
+                    <span class="text-sm font-ui font-semibold text-text-dark-thin min-w-[120px]">My Scrum project</span>
                     <span class="text-xs text-[#626F86] font-ui">Software project</span>
                 </span>
             </div>
@@ -35,7 +35,7 @@
                     <!-- Icon for collapsed state -->
                     <i v-else
                         class="fa-solid fa-chevron-right select-none text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
-                    <span class="text-xs font-[500] text-[#44546F] font-ui ml-2">PLANNING</span>
+                    <span class="text-xs font-[500] text-text-dark font-ui ml-2">PLANNING</span>
                 </button>
 
                 <div v-show="isPlanningVisible" class="w-full text-sm font-ui">
@@ -44,42 +44,42 @@
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-timeline text-xl text-[#46546f]"></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">Timeline</span>
+                        <span class="ml-4 text-text-dark">Timeline</span>
                     </div>
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-bars-staggered text-xl text-[#46546f]"></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">Backlog</span>
+                        <span class="ml-4 text-text-dark">Backlog</span>
                     </div>
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-chalkboard text-xl text-[#46546f]"></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">Board</span>
+                        <span class="ml-4 text-text-dark">Board</span>
                     </div>
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-regular fa-calendar text-xl text-[#46546f]"></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">Calendar</span>
+                        <span class="ml-4 text-text-dark">Calendar</span>
                     </div>
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-list text-xl text-[#46546f] "></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">List</span>
+                        <span class="ml-4 text-text-dark">List</span>
                     </div>
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-chart-line text-xl text-[#46546f]"></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">Reports</span>
+                        <span class="ml-4 text-text-dark">Reports</span>
                     </div>
                 </div>
 
@@ -88,7 +88,7 @@
                     <div class="w-6 flex items-center justify-center">
                         <i class="fa-solid fa-plus text-xl text-[#46546f]"></i>
                     </div>
-                    <span class="ml-4 text-[#44546F] text-sm font-ui min-w-[150px]">Add view</span>
+                    <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Add view</span>
                 </div>
 
                 <button @click="toggleDevelopment"
@@ -99,7 +99,7 @@
                     <!-- Icon for collapsed state -->
                     <i v-else
                         class="fa-solid fa-chevron-right text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
-                    <span class="text-xs font-[500] text-[#44546F] font-ui ml-2">DEVELOPMENT</span>
+                    <span class="text-xs font-[500] text-text-dark font-ui ml-2">DEVELOPMENT</span>
 
                 </button>
                 <div v-show="isDevelopmentVisible" class="w-full text-sm font-ui">
@@ -108,7 +108,7 @@
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-code text-lg text-[#46546f]"></i>
                         </div>
-                        <span class="ml-4 text-[#44546F]">Code</span>
+                        <span class="ml-4 text-text-dark">Code</span>
                     </div>
                 </div>
 
@@ -120,7 +120,7 @@
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-regular fa-file-lines text-2xl text-[#46546f] "></i>
                         </div>
-                        <span class="ml-4 text-[#44546F] text-sm font-ui min-w-[150px]">Project pages</span>
+                        <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Project pages</span>
                     </div>
 
                     <div
@@ -128,14 +128,14 @@
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-gear text-xl text-[#46546f] "></i>
                         </div>
-                        <span class="ml-4 text-[#44546F] text-sm font-ui min-w-[150px]">Project settings</span>
+                        <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Project settings</span>
                     </div>
 
                 </div>
             </div>
 
             <!-- section3 -->
-            <div class="mt-auto p-4 text-center text-[#44546F]">
+            <div class="mt-auto p-4 text-center text-text-dark">
                 <p class="font-ui text-xs min-w-[180px]">You're in a team-managed project</p>
                 <p class="text-xs font-semibold cursor-pointer hover:underline">Learn more</p>
             </div>

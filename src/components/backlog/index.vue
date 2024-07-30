@@ -1,16 +1,16 @@
 <template>
     <div class="mt-24 px-8 py-0 ">
         <div class="min-h-[150px] flex flex-col justify-around ">
-            <div class="font-ui font-normal text-[#44546F] mb-2">
+            <div class="font-ui font-normal text-text-dark mb-2">
                 <span class="cursor-pointer hover:underline">Projects </span>
                 <span class="px-1">/</span>
                 <span class="cursor-pointer hover:underline"> My project name</span>
             </div>
 
             <div class="flex justify-between mb-12">
-                <span class="font-ui text-2xl font-semibold text-[#172B4D]">Backlog</span>
+                <span class="font-ui text-2xl font-semibold text-text-dark-thin">Backlog</span>
                 <div class="flex items-center">
-                    <div class="flex space-x-2 text-[#172B4D] mr-2">
+                    <div class="flex space-x-2 text-text-dark-thin mr-2">
 
 
                         <i
@@ -22,7 +22,7 @@
 
 
                     <button
-                        class="bg-gray-100 text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-1">
+                        class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-1">
                         <i class="fa-solid fa-ellipsis text-xl"></i>
                     </button>
                 </div>
@@ -62,7 +62,7 @@
 
         <div class="flex flex-col mt-8 bg-gray-100 bg-opacity-60 cursor-pointer rounded">
             <div class=" rounded flex flex-col mt-4">
-                <div class="flex justify-between font-apple text-[#172B4D] text-sm">
+                <div class="flex justify-between font-apple text-text-dark-thin text-sm">
                     <div class="font-semibold flex items-center">
                         <div class="w-5 h-5 p-1 flex items-center ml-4">
                             <input type="checkbox" id="checkbox" class="h-3 w-3  border-gray-300 rounded ">
@@ -97,7 +97,7 @@
 
         <div class="flex flex-col  cursor-pointer rounded mt-2">
             <div class=" rounded flex flex-col mt-4">
-                <div class="flex justify-between font-apple text-[#172B4D] text-sm">
+                <div class="flex justify-between font-apple text-text-dark-thin text-sm">
                     <div class="font-semibold flex items-center">
                         <div class="w-5 h-5 p-1 flex items-center ml-4">
                             <input type="checkbox" id="checkbox" class="h-3 w-3  border-gray-300 rounded ">
@@ -123,7 +123,7 @@
                 <BacklogTask />
 
                 <button
-                    class="w-full h-8 hover:bg-gray-200 mt-1 mb-3 rounded text-sm font-apple text-[#172B4D] flex items-center justify-start">
+                    class="w-full h-8 hover:bg-gray-200 mt-1 mb-3 rounded text-sm font-apple text-text-dark-thin flex items-center justify-start">
                     <div>
                         <i class="fa-solid fa-plus font-semibold p-2"></i>
                         <span class="ml font-medium">Create issue</span>

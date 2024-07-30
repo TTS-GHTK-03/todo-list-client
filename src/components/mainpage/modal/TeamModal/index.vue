@@ -6,10 +6,10 @@
       <!-- Section 1 -->
       <div class="mb-4 w-full mt-2">
         <button
-          class="w-full h-10 bg-white text-[#172B4D] text-sm  font-ui font-normal hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
+          class="w-full h-10 bg-white text-text-dark-thin text-sm  font-ui font-normal hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           <i class="fa-solid fa-plus mr-4"></i>Invite people to Jira</button>
         <button
-          class="w-full h-10 bg-white text-[#172B4D] text-sm  font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
+          class="w-full h-10 bg-white text-text-dark-thin text-sm  font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           <i class="fa-solid fa-user-plus mr-4"></i>Create a team</button>
       </div>
 
@@ -20,7 +20,7 @@
       <div class="w-full mt-1">
 
         <button
-          class="w-full h-10 bg-white text-[#172B4D] text-sm  font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">Search
+          class="w-full h-10 bg-white text-text-dark-thin text-sm  font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">Search
           people and teams</button>
       </div>
 

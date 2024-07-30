@@ -68,14 +68,14 @@
         <div>
           <div class="mb-10">
             <div class="flex items-center justify-end">
-              <div class="flex space-x-2 text-[#172B4D] mr-2">
+              <div class="flex space-x-2 text-text-dark-thin mr-2">
                 <i class="fa-solid fa-bolt bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
                 <i class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
                 <i class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
                 <i class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               </div>
 
-              <button class="bg-gray-100 text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+              <button class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
                 <i class="fa-solid fa-ellipsis text-xl"></i>
               </button>
             </div>
@@ -98,7 +98,7 @@
             <div class="relative inline-block ml-4">
               <button
                 :class="[
-                  'text-[#44546F] px-2 py-2 text-sm  rounded transition duration-300',
+                  'text-text-dark px-2 py-2 text-sm  rounded transition duration-300',
                   activeModal === index
                     ? 'bg-white text-inherit hover:bg-slate-200'
                     : 'hover:bg-gray-200',

@@ -6,7 +6,7 @@
       <div>
         <a-anchor ref="anchor" direction="horizontal" 
           :items="items" @change="handleAnchorChange"
-          class="flex font-ui text-sm font-medium text-[#44546F] justify-start mt-2 mx-3 cursor-pointer" />
+          class="flex font-ui text-sm font-medium text-text-dark justify-start mt-2 mx-3 cursor-pointer" />
       </div>
 
       <div class="border-b border-black opacity-20 mb-0"></div>
@@ -21,7 +21,7 @@
 
       <div class="w-full mt-1">
         <button
-          class="w-full h-10 bg-white text-[#172B4D] text-sm font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
+          class="w-full h-10 bg-white text-text-dark-thin text-sm font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           Go to work page
         </button>
       </div>

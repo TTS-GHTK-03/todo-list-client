@@ -43,7 +43,7 @@
   
         <div class=" inline-block">
           <button :class="[
-            'text-[#44546F] px-2 py-2 rounded transition duration-300',
+            'text-text-dark px-2 py-2 rounded transition duration-300',
             activeModal === index
               ? 'bg-white text-inherit hover:bg-slate-200'
               : 'hover:bg-gray-200',
@@ -55,7 +55,7 @@
   
         <div class=" inline-block ml-4">
           <button :class="[
-            'text-[#44546F] px-2 py-2  rounded transition duration-300',
+            'text-text-dark px-2 py-2  rounded transition duration-300',
             activeModal === index
               ? 'bg-white text-inherit hover:bg-slate-200'
               : 'hover:bg-gray-200',
