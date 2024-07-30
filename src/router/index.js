@@ -19,6 +19,7 @@ import Task from '../components/task/index.vue';
 import ProjectAccess from '../components/projectsetings/ProjectAccess/index.vue';
 import ProjectDetail from '../components/projectsetings/ProjectDetail/index.vue';
 import Backlog from '../components/backlog/index.vue';
+import CreateProject from '../components/project/CreateProject/index.vue'
 
 import { useAuthStore } from '../stores/authStores/authStore';
 
@@ -137,14 +138,14 @@ const routes = [
         ]
       },
       {
-        path: '/task',
-        component: Task,
-      }
+        path: '/project-create',
+        component: CreateProject,
+      },
       
     ],
     // meta: { requiresAuth: true },
   },
-
+ 
 
   {
     path: '/:pathMatch(.*)*', 
