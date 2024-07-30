@@ -15,11 +15,26 @@ export interface ProjectInformation {
   userNameResponseList: UserName[]
 }
 
+export interface ProjectRole {
+  id: string;
+  title: string;
+  keyProject: string;
+  roleUser: string;
+  
+}
+
 export interface ProjectInformationResponse {
   status: number;
   timestamp: string;
   data: ProjectInformation[];
 }
+
+export interface ProjectRoleResponse {
+  status: number;
+  timestamp: string;
+  data: ProjectRole;
+}
+
 
 export const fetchProjectDetail = async (): Promise<ProjectInformationResponse> => {
   try {
