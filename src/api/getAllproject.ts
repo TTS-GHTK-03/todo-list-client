@@ -1,23 +1,29 @@
 // src/api/projects.ts
 import apiClient from "../api/index";
 
-export interface Project {
-  id: string;
-  createdAt: string;
-  lastUpdatedAt: string;
-  title: string;
-  keyProject: string;
+export interface UserName {
+  firstName: string;
+  middleName: string;
+  lastName: string;
 }
 
-export interface ProjectsResponse {
+export interface ProjectInformation {
+  id: string;
+  title: String;
+  keyProject: string;
+  roleUser: string;
+  userNameResponseList: UserName[]
+}
+
+export interface ProjectInformationResponse {
   status: number;
   timestamp: string;
-  data: Project[];
+  data: ProjectInformation[];
 }
 
-export const fetchAllProjects = async (): Promise<ProjectsResponse> => {
+export const fetchAllProjects = async (): Promise<ProjectInformationResponse> => {
   try {
-    const response = await apiClient.get<ProjectsResponse>("/projects");
+    const response = await apiClient.get<ProjectInformationResponse>("/projects");
     console.log("fetchAllProjects (response): ", response)
     return response.data;
   } catch (error: any) {

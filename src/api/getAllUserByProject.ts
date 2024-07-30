@@ -1,5 +1,6 @@
 // src/api/projects.ts
 import apiClient from "../api/index";
+import { useProjectRoleStore } from '../stores/projectStores/projectStore'; 
 
 export interface UserProject {
   id: string;
@@ -7,6 +8,7 @@ export interface UserProject {
   middleName: string;
   lastName: string;
   email: string;
+  role: string;
 }
 
 export interface UserProjectResponse {
@@ -17,8 +19,13 @@ export interface UserProjectResponse {
 
 export const fetchAllUserByProjects = async (): Promise<UserProjectResponse> => {
   try {
-    
-    const response = await apiClient.get<UserProjectResponse>("/users/projects/7bfec841-f7b5-494c-a871-a9aeff2c4a45");
+    const projectRoleStore = useProjectRoleStore()
+    const idProject = projectRoleStore.idProject
+      
+    if (!idProject) {
+      throw new Error("Project ID is not defined");
+    }
+    const response = await apiClient.get<UserProjectResponse>(`/users/projects/${idProject}`);
     console.log("fetchAllUserByProjects (response): ", response)
     return response.data;
   } catch (error: any) {
