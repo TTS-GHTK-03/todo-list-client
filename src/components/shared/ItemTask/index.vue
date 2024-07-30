@@ -11,9 +11,31 @@
           </div>
           
           <div class="absolute right-[0px] top-[-5px] ">
-            <button class=" text-sm text-text-dark-thin bg-white bg-opacity-30  hover:bg-gray-300 rounded h-8 w-8 flex  items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <button @click.stop="toggleDropdown" class=" text-sm text-text-dark-thin bg-white bg-opacity-30  hover:bg-gray-300 rounded h-8 w-8 flex  items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <i class="fa-solid fa-ellipsis text-xl"></i>
             </button>
+
+            <div v-if="showDropdown" ref="dropdownMenu" @mouseleave="hideMenu" class="absolute top-[28px] left-0 mt-1 w-[200px]  bg-white border border-gray-300 rounded shadow-lg z-10">
+                <div >
+                    <div class="py-[8px] px-[20px] font-ui text-sm hover:bg-gray-300">
+                      <button>Copy issue key</button>
+                    </div>
+                    <hr />
+                    <div class="py-[8px] px-[20px] font-ui text-sm hover:bg-gray-300">
+                      <button >Add flag</button>
+                    </div>
+                    <div class="py-[8px] px-[20px] font-ui text-sm hover:bg-gray-300" >
+                      <button >Add label</button>
+                    </div>
+                    <div class="py-[8px] px-[20px] font-ui text-sm hover:bg-gray-300">
+                      <button >Link issue</button>
+                    </div>
+                    <hr />
+                    <div class="py-[8px] px-[20px] font-ui text-sm hover:bg-gray-300">
+                      <button >Delete</button>
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
         
@@ -44,6 +66,7 @@
 </template>
 
 <script>
+import { ref} from 'vue';
 export default {
   name: 'MyComponent',
   props: {
@@ -62,6 +85,25 @@ export default {
       required: true
     },
   
+  },
+  setup() {
+    const showDropdown = ref(false);
+    const dropdownMenu = ref<HTMLElement | null>(null);
+
+    function toggleDropdown() {
+            showDropdown.value = !showDropdown.value;
+    };
+
+    function hideMenu() {
+      showDropdown.value = false;
+    }
+      
+    return {
+      toggleDropdown,
+      dropdownMenu,
+      showDropdown,
+      hideMenu,
+    }
   }
 }
 </script>
