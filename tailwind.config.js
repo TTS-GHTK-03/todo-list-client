@@ -15,8 +15,8 @@ export default {
       colors: {
         'custom-dark': '#101214',
         'button-color': '#0C66E4',
-        'text-color-dark-thin': '#172B4D',
-        'text-color-dark': '#44546F',
+        'text-dark-thin': '#172B4D',
+        'text-dark': '#44546F',
       },
     },
   },

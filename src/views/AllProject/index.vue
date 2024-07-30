@@ -89,9 +89,9 @@
       >
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'name'">
-            <div 
-              class="text-[#0C66E4] flex cursor-pointer hover:underline"
+            <div
               @click="handleProject(record.id)"
+              class="text-button-color flex cursor-pointer hover:underline"
             >
               <img
                 src="../../assets/img/project_logo.svg"
@@ -113,8 +113,9 @@
               >
                 {{ text.charAt(0) }}
               </div>
+
               <span
-                class="text-[#0C66E4] flex cursor-pointer hover:underline ml-1"
+                class="text-button-color flex cursor-pointer hover:underline ml-1"
                 >{{ text }}</span
               >
               <!-- Hover Box -->
@@ -140,13 +141,13 @@
                   class="w-full h-[100px] bg-white flex items-center justify-center flex-col"
                 >
                   <div
-                    class="mb-4 ml-32 text-[#172B4D] font-apple text-xs font-medium"
+                    class="mb-4 ml-32 text-text-dark-thin font-apple text-xs font-medium"
                   >
                     <i class="fa-regular fa-envelope mt-1"></i>
                     <span class="ml-2">email@gmail.com</span>
                   </div>
                   <button
-                    class="mb-4 ml-48 bg-gray-200 hover p-2 text-[#172B4D] font-apple font-semibold border rounded"
+                    class="mb-4 ml-48 bg-gray-200 hover p-2 text-text-dark-thin font-apple font-semibold border rounded"
                   >
                     View profile
                   </button>
@@ -175,8 +176,11 @@ import { useRouter } from "vue-router";
 import { type TableProps, type TableColumnType } from "ant-design-vue/es";
 import type { Key } from "ant-design-vue/es/table/interface";
 
-import { useProjectStore, useProjectRoleStore } from "../../stores/projectStores/projectStore";
-import { normalizeName } from "../../utils/normalizeName"
+import {
+  useProjectStore,
+  useProjectRoleStore,
+} from "../../stores/projectStores/projectStore";
+import { normalizeName } from "../../utils/normalizeName";
 
 import "@fortawesome/fontawesome-free/css/all.css";
 
@@ -237,7 +241,7 @@ const rowSelection: TableProps<DataType>["rowSelection"] = {
     );
   },
   getCheckboxProps: (record: DataType) => ({
-    disabled: record.name === "Disabled User", // Column configuration not to be checked
+    disabled: record.name === "Disabled User",
     name: record.name,
   }),
 };
@@ -263,7 +267,11 @@ export default {
           name: project?.title || "",
           project: project?.keyProject || "",
           role: project?.roleUser || "",
-          lead: normalizeName(project?.userNameResponseList[0]?.firstName, project?.userNameResponseList[0]?.middleName, project?.userNameResponseList[0]?.lastName), // sau set list lead
+          lead: normalizeName(
+            project?.userNameResponseList[0]?.firstName,
+            project?.userNameResponseList[0]?.middleName,
+            project?.userNameResponseList[0]?.lastName
+          ), // sau set list lead
         }));
         data.value = newProjects;
       } catch (error) {
@@ -271,18 +279,18 @@ export default {
       } finally {
         loading.value = false;
       }
-
     };
 
-    onMounted(() => {
-      loadData();
-    });
-
-    const handleProject = (id : string) => {
-      const projectRoleStore = useProjectRoleStore();
-      console.log("projectRoleStore", projectRoleStore.loadProjectRole())
-      router.push("/mainpage");
-    }
+    const handleProject = (id: string) => {
+      try {
+        const projectRoleStore = useProjectRoleStore();
+        console.log("projectRoleStore", projectRoleStore.loadProjectRole());
+        router.push("/mainpage");
+      } catch (error) {
+        console.error("Error data:", error);
+      } finally {
+      }
+    };
 
     const clearSearch = () => {
       searchQuery.value = "";
@@ -299,6 +307,10 @@ export default {
         activeLead.value = lead;
       }
     };
+
+    onMounted(() => {
+      loadData();
+    });
 
     return {
       searchQuery,

@@ -16,7 +16,7 @@
 
         <ul class="ml-4 flex items-center relative">
           <li v-for="(button, index) in buttons" :key="index" class="font-apple font-medium px-1 relative">
-            <button :class="['text-[#44546F] px-2 py-2 mt-4  rounded transition duration-300',
+            <button :class="['text-text-dark px-2 py-2 mt-4  rounded transition duration-300',
               activeModal === index
                 ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
                 : 'hover:bg-gray-200',]" 

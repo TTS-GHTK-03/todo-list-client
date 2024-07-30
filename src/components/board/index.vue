@@ -1,27 +1,27 @@
 <template>
   <div class="mt-24 px-8 py-0 ">
     <div class="min-h-[150px] flex flex-col justify-around ">
-      <div class="font-ui font-normal text-[#44546F] mb-2">
+      <div class="font-ui font-normal text-text-dark mb-2">
         <span class="cursor-pointer hover:underline">Projects </span>
         <span class="px-1">/</span>
         <span class="cursor-pointer hover:underline"> My project name</span>
       </div>
 
       <div class="flex justify-between mb-12">
-        <span class="font-ui text-2xl font-semibold text-[#172B4D]">SCRUM Sprint 1</span>
+        <span class="font-ui text-2xl font-semibold text-text-dark-thin">SCRUM Sprint 1</span>
         <div class="flex items-center">
-          <div class="flex space-x-2 text-[#172B4D] mr-2">
+          <div class="flex space-x-2 text-text-dark-thin mr-2">
             <i class="fa-solid fa-bolt bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
             <i class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
             <i class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
             <i class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
           </div>
 
-          <button class="bg-gray-100 font-medium font-apple text-sm text-[#172B4D] hover:bg-gray-200 px-4 py-2 rounded h-9 flex items-center">
+          <button class="bg-gray-100 font-medium font-apple text-sm text-text-dark-thin hover:bg-gray-200 px-4 py-2 rounded h-9 flex items-center">
             Complete sprint
           </button>
 
-          <button class="bg-gray-100 text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+          <button class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
         </div>
@@ -66,7 +66,7 @@
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
             IN PROGRESS
           </span>
-          <button class="text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
         </div>
@@ -97,7 +97,7 @@
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
             TO DO
           </span>
-          <button class="text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
         </div>
@@ -127,7 +127,7 @@
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
             TO DO
           </span>
-          <button class="text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
         </div>
@@ -152,7 +152,7 @@
       <div class="w-[270px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded">
         <div class="h-12 py-4 flex justify-between items-center group">
           <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-grab flex-grow">IN PROGRESS</span>
-          <button class="text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
         </div>

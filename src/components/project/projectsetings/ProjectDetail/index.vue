@@ -1,7 +1,7 @@
 <template>
   <div class="mt-24 px-8 py-0">
     <div class="min-h-[150px] flex flex-col justify-around">
-      <div class="font-ui font-normal text-[#44546F] mb-2">
+      <div class="font-ui font-normal text-text-dark mb-2">
         <span class="cursor-pointer hover:underline">Projects </span>
         <span class="px-1">/</span>
         <span class="cursor-pointer hover:underline"> Project 1</span>
@@ -10,10 +10,10 @@
       </div>
 
       <div class="flex justify-between mb-12">
-        <span class="font-ui text-2xl font-semibold text-[#172B4D]">Details</span>
+        <span class="font-ui text-2xl font-semibold text-text-dark-thin">Details</span>
         <div class="flex items-center">
           <button
-            class="bg-gray-100 text-sm text-[#172B4D] hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2"
+            class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2"
           >
             <i class="fa-solid fa-ellipsis text-xl"></i>
           </button>
@@ -93,10 +93,10 @@
 </template>
 
 <script lang="ts">
-import { Form, Input, Select, Button, Upload } from "ant-design-vue";
 
-import { defineComponent, ref, onMounted } from "vue";
-import { useProjectDetailStore } from "../../../stores/projectSettingStores/detailStores/detailStore";
+
+import {  ref, onMounted } from "vue";
+import { useProjectDetailStore } from "../../../../stores/projectSettingStores/detailStores/detailStore";
 
 export default {
   setup() {

@@ -3,7 +3,7 @@
     <div class="p-3  w-full h-full "> 
       <div class="w-full flex flex-col justify-between ">
         <div class="flex justify-between relative">
-          <div class="flex text-sm font-apple text-[#172B4D] ml-1 cursor-pointer">
+          <div class="flex text-sm font-apple text-text-dark-thin ml-1 cursor-pointer">
             <span class ="group-hover:underline ">{{ text }}</span>  
             <div class="hover:bg-gray-300 w-5 h-5 flex items-center justify-center rounded ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <i class="fa-solid fa-pen text-xs "></i>
@@ -11,7 +11,7 @@
           </div>
           
           <div class="absolute right-[0px] top-[-5px] ">
-            <button class=" text-sm text-[#172B4D] bg-white bg-opacity-30  hover:bg-gray-300 rounded h-8 w-8 flex  items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <button class=" text-sm text-text-dark-thin bg-white bg-opacity-30  hover:bg-gray-300 rounded h-8 w-8 flex  items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <i class="fa-solid fa-ellipsis text-xl"></i>
             </button>
           </div>
@@ -20,7 +20,7 @@
         <div class="flex justify-between  mt-4">
           <div class="flex items-center cursor-pointer">
             <i class="fa-solid fa-square-check text-blue-400 ml-1"></i>
-            <span class="  text-xs font-medium font-apple text-[#44546F] ml-2 mb-1">
+            <span class="  text-xs font-medium font-apple text-text-dark ml-2 mb-1">
               {{ keyText }}
               
             </span>

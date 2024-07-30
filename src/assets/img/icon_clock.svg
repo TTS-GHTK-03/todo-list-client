@@ -40,7 +40,7 @@
                       ></stop>
                       <stop
                         offset="1"
-                        stop-color="var(--ds-chart-blue-bolder-hovered, #0C66E4)"
+                        stop-color="var(--ds-chart-blue-bolder-hovered, button-color)"
                       ></stop>
                     </linearGradient>
                     <linearGradient
@@ -56,7 +56,7 @@
                       ></stop>
                       <stop
                         offset="1"
-                        stop-color="var(--ds-chart-blue-bolder-hovered, #0C66E4)"
+                        stop-color="var(--ds-chart-blue-bolder-hovered, button-color)"
                       ></stop>
                     </linearGradient>
                     <linearGradient
@@ -72,7 +72,7 @@
                       ></stop>
                       <stop
                         offset="1"
-                        stop-color="var(--ds-chart-blue-bolder-hovered, #0C66E4)"
+                        stop-color="var(--ds-chart-blue-bolder-hovered, button-color)"
                       ></stop>
                     </linearGradient>
                   </defs></svg>

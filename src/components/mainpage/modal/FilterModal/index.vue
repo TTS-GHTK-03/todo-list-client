@@ -3,7 +3,7 @@
       <div class="bg-white w-[320px] shadow-lg border rounded border-gray-500 border-opacity-20 p-0">
   
         <!-- Section 1 -->
-        <div class="mb-4 w-full mt-4 flex flex-col items-center text-center text-[#172b4d]">
+        <div class="mb-4 w-full mt-4 flex flex-col items-center text-center text-text-dark-thin">
           <div class="mt-2">
             <img src="../../../../assets/img/filter.svg" alt="" height="160" width="160">
           </div>
@@ -16,7 +16,7 @@
         <div class="border-b border-black opacity-20 mb-0"></div>
   
         <!-- Section 3 -->
-        <div class="w-full mt-1 text-[#172b4d]">
+        <div class="w-full mt-1 text-text-dark-thin">
           <button class="w-full h-10 bg-white  text-sm  font-ui font-normal hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">View all filters</button>
           <button class="w-full h-10 bg-white text-sm  font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">View all issues</button>
         </div>
