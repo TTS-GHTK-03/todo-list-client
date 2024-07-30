@@ -13,9 +13,11 @@ import ForgotForm from '../components/auth/forgotPassword/ForgotForm/index.vue';
 
 import AllProject from '../views/AllProject/index.vue';
 import Project from '../views/Project/index.vue';
-import Board from '../components/board/index.vue'
+import Board from '../components/board/index.vue';
+import Task from '../components/task/index.vue';
+import ProjectAccess from '../components/projectsetings/ProjectAccess/index.vue';
+import ProjectDetail from '../components/projectsetings/ProjectDetail/index.vue';
 import CreateProject from '../components/project/CreateProject/index.vue'
-// import Loading from '../views/LoadingPage/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
 import { useForgotPasswordStore, useValidateOtpStore} from '../stores/authStores/forgotStore';
@@ -115,9 +117,22 @@ const routes = [
           {
             path: '',
             component: Board,
+          },
+          {
+            path: '/projects/settings/access',
+            component: ProjectAccess,
+          },
+          {
+            path: '/projects/settings/detail',
+            component: ProjectDetail,
           }
+          
         ]
       },
+      {
+        path: '/task',
+        component: Task,
+      }
       
     ],
     // meta: { requiresAuth: true },

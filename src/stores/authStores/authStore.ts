@@ -12,11 +12,11 @@ interface AuthState {
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    accessToken: null,
-    refreshToken: null,
-    accessTokenLifeTime: null,
-    refreshTokenLifeTime: null,
-    loginTimestamp: null,
+    accessToken: localStorage.getItem('accessToken') || null,
+    refreshToken: localStorage.getItem('refreshToken') || null,
+    accessTokenLifeTime: localStorage.getItem('accessTokenLifeTime') || null,
+    refreshTokenLifeTime: localStorage.getItem('refreshTokenLifeTime') || null,
+    loginTimestamp: localStorage.getItem('loginTimestamp') ? Number(localStorage.getItem('loginTimestamp')) : null,
     error: null,
   }),
   actions: {
@@ -25,11 +25,16 @@ export const useAuthStore = defineStore('auth', {
         const response = await login(credentials);
         this.loginTimestamp = response.timestamp;
         this.accessToken = response.data.accessToken;
-        console.log(this.accessToken);
         this.refreshToken = response.data.refreshToken;
         this.accessTokenLifeTime = response.data.accessTokenLifeTime;
         this.refreshTokenLifeTime = response.data.refreshTokenLifeTime;
         this.error = null;
+
+        localStorage.setItem('accessToken', this.accessToken);
+        localStorage.setItem('refreshToken', this.refreshToken);
+        localStorage.setItem('loginTimestamp', String(this.loginTimestamp));
+        localStorage.setItem('accessTokenLifeTime', this.accessTokenLifeTime || '');
+        localStorage.setItem('refreshTokenLifeTime', this.refreshTokenLifeTime || '');
       } catch (error: any) {
         this.error = error.message;
       }
