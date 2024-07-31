@@ -1,6 +1,6 @@
 <template>
-  <div class="mt-24 px-8 py-0">
-    <div class="min-h-[150px] flex flex-col justify-around">
+  <div class="mt-24 px-8 py-0 ">
+    <div class="min-h-[150px] flex flex-col justify-around ">
       <div class="font-ui font-normal text-text-dark mb-2">
         <span class="cursor-pointer hover:underline">Projects </span>
         <span class="px-1">/</span>
@@ -101,6 +101,15 @@
               height="36"
             />
           </a-button>
+
+          <!-- Add People -->
+          <button @click="showModal = true" class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+          <AddPeopleModal 
+            :showModal="showModal" 
+            @close="showModal = false"
+          />
         </div>
       </div>
     </div>
@@ -251,15 +260,10 @@
 </template>
 
 <script lang="ts">
-
-import { defineComponent, ref, onMounted } from "vue";
-import ItemTask from "../shared/ItemTask/index.vue";
-import { VueDraggableNext } from "vue-draggable-next";
-import { tasks } from "../../constants/itemTask";
-import { fetchAllTaskByAllSprint, updateStatusTask } from "../../api/task";
-import { TaskStatus } from "../../utils/constants/enum";
-
-
+import { defineComponent, ref } from 'vue';
+import ItemTask from '../shared/ItemTask/index.vue';
+import { VueDraggableNext } from 'vue-draggable-next';
+import {tasks} from '../../constants/itemTask'
 
 interface Task {
   text: string;
@@ -273,10 +277,10 @@ export default defineComponent({
   components: {
     ItemTask,
     draggable: VueDraggableNext,
+    AddPeopleModal,
   },
   setup() {
-    const searchQuery = ref<string>("");
-    const data = ref<Map<string, DataType[]>>(new Map());
+    const searchQuery = ref<string>('');
 
     const clearSearch = () => {
       searchQuery.value = "";
@@ -291,49 +295,13 @@ export default defineComponent({
       event.dataTransfer!.setData("status", task.status);
     };
 
-    const onDrop = (event: DragEvent, newStatus: string) => {
-      const taskId = event.dataTransfer!.getData("taskId");
-      const oldStatus = event.dataTransfer!.getData("status");
-      console.log(taskId);
-      console.log(oldStatus);
-
-      // Lấy danh sách nhiệm vụ từ trạng thái cũ và mới
-      const oldTasks = data.value.get(oldStatus) || [];
-      const newTasks = data.value.get(newStatus) || [];
-
-      // Tìm nhiệm vụ trong danh sách trạng thái cũ
-      const taskIndex = oldTasks.findIndex((task) => task.id === taskId);
-      if (taskIndex !== -1) {
-        try {
-          updateStatusTask(taskId, newStatus);
-          const [task] = oldTasks.splice(taskIndex, 1); // Xóa nhiệm vụ khỏi trạng thái cũ
-          if (task) {
-            task.status = newStatus; // Cập nhật trạng thái của nhiệm vụ
-            newTasks.push(task); // Thêm nhiệm vụ vào trạng thái mới
-            data.value.set(oldStatus, oldTasks); // Cập nhật danh sách trạng thái cũ
-            data.value.set(newStatus, newTasks); // Cập nhật danh sách trạng thái mới
-          }
-        } catch (error) {}
+    const onDrop = (event: DragEvent, state: number) => {
+      const taskId = event.dataTransfer!.getData('taskId');
+      const task = AllTasks.value.find(task => task.keyText === taskId);
+      if (task) {
+        task.state = state;
       }
     };
-
-    onMounted(async () => {
-      try {
-        const response = await fetchAllTaskByAllSprint();
-        console.log("response: ", response);
-        const map = new Map<string, DataType[]>();
-        response.data.forEach((task) => {
-          if (!map.has(task.status)) {
-            map.set(task.status, []);
-          }
-          map.get(task.status)!.push(task);
-        });
-        data.value = map;
-        console.log("data: ", data.value);
-      } catch (error) {
-        console.error("Failed to fetch tasks", error);
-      }
-    });
 
     return {
       searchQuery,
@@ -341,8 +309,7 @@ export default defineComponent({
       clearSearch,
       startDrag,
       onDrop,
-      // getState,
-      TaskStatus,
+      getState,
     };
   },
 });
