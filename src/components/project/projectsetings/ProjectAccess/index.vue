@@ -93,12 +93,9 @@
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
               <div class="flex">
-                <img
-                  src="../../assets/img/project_logo.svg"
-                  alt=""
-                  height="24"
-                  width="24"
-                />
+                <div class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2">
+                  {{ text.charAt(0) }}
+                </div>
                 <span class="text-slate-950 ml-2">{{ text }}</span>
               </div>
             </template>

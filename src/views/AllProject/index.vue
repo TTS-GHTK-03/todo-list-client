@@ -3,12 +3,9 @@
     <div class="h-[40px] flex justify-between">
       <span class="font-ui text-2xl font-semibold opacity-80">Projects</span>
       <div class="flex">
-        <button
-          @click="handleCreateProject()"
-          class="h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded"
-        >
+        <router-link to="/project-create" class="flex justify-center items-center h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded">
           Create project
-        </button>
+        </router-link>
         <button
           class="h-[36px] bg-gray-100 text-black hover:bg-gray-300 px-3 rounded"
         >
