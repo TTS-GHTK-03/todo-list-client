@@ -100,20 +100,21 @@
               </div>
             </template>
             <template v-if="column.dataIndex === 'role'">
+              <!-- :disabled="record.role === RoleProjectUser.ADMIN" -->
               <a-select
                 v-model:value="record.role"
                 style="width: 160px"
                 :dropdown-match-select-width="false"
-                @change="handleRoleChange(record)"
+                @change="(value) => handleRoleChange(value, record)"
               >
                 <a-select-option :value="RoleProjectUser.ADMIN">Administrator</a-select-option>
-                <a-select-option :value="RoleProjectUser.EDIT">Member</a-select-option>
+                <a-select-option :value="RoleProjectUser.EDIT">Edit</a-select-option>
                 <a-select-option :value="RoleProjectUser.VIEWER">Viewer</a-select-option>
               </a-select>
             </template>
 
             <template v-if="column.dataIndex === 'actions'">
-              <div
+              <div v-if="roleUser === RoleProjectUser.ADMIN"
                 @click="confirmRemove(record)"
                 class="text-button-color flex items-center justify-center cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
               >
@@ -144,6 +145,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { normalizeName } from "../../../../utils/normalizeName"
 import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
+import { updateRoleProjectUser } from "../../../../api/projectUser";
 import { RoleProjectUser } from "../../../../utils/constants/enum"
 interface DataType {
   name: string;
@@ -181,6 +183,9 @@ const columns: TableColumnType<DataType>[] = [
 
 export default defineComponent({
   setup() {
+    
+    const roleUser = ref(localStorage.getItem('roleUser') || null);
+
     const searchQuery = ref("");
     const isModalVisible = ref(false);
     const projectToRemove = ref<{
@@ -219,8 +224,19 @@ export default defineComponent({
       searchQuery.value = "";
     };
 
-    const handleRoleChange = (record: DataType) => {
-      console.log("Role changed for:", record);
+    const handleRoleChange = async (newRole: string, record: DataType) => {
+      const oldRole = record.role;
+      
+      try {
+        const response = await updateRoleProjectUser({
+          memberId: record.key,
+          role: newRole,
+        });
+        console.log("Role changed successfully:", response);
+      } catch (error) {
+        record.role = oldRole;
+        console.error("Failed to change role:", error.message);
+      }
     };
 
     const confirmRemove = (record: DataType) => {
@@ -246,6 +262,7 @@ export default defineComponent({
 
     return {
       data,
+      roleUser,
       columns,
       loading,
       searchQuery,

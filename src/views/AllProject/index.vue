@@ -3,7 +3,10 @@
     <div class="h-[40px] flex justify-between">
       <span class="font-ui text-2xl font-semibold opacity-80">Projects</span>
       <div class="flex">
-        <router-link to="/project-create" class="flex justify-center items-center h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded">
+        <router-link
+          to="/project-create"
+          class="flex justify-center items-center h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded"
+        >
           Create project
         </router-link>
         <button
@@ -88,7 +91,7 @@
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'name'">
             <div
-              @click="handleProject(record.id)"
+              @click="handleProject(record.key)"
               class="text-button-color flex cursor-pointer hover:underline"
             >
               <img
@@ -282,7 +285,7 @@ export default {
     const handleProject = (id: string) => {
       try {
         const projectRoleStore = useProjectRoleStore();
-        console.log("projectRoleStore", projectRoleStore.loadProjectRole());
+        console.log("projectRoleStore", projectRoleStore.loadProjectRole(id));
         router.push("/mainpage");
       } catch (error) {
         console.error("Error data:", error);
@@ -292,7 +295,7 @@ export default {
 
     const handleCreateProject = () => {
       router.push("/project-create");
-    }
+    };
 
     const clearSearch = () => {
       searchQuery.value = "";
