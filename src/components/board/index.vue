@@ -1,6 +1,6 @@
 <template>
   <div class="mt-24 px-8 py-0 ">
-    <div class="min-h-[150px] flex flex-col justify-around ">
+    <div class="min-h-[150px] flex flex-col justify-around " >
       <div class="font-ui font-normal text-text-dark mb-2">
         <span class="cursor-pointer hover:underline">Projects </span>
         <span class="px-1">/</span>
