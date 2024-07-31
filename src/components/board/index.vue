@@ -238,14 +238,7 @@
         </div>
       </div>
 
-      <!-- <div class="w-[270px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded">
-        <div class="h-12 py-4 flex justify-between items-center group">
-          <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-grab flex-grow">IN PROGRESS</span>
-          <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <i class="fa-solid fa-ellipsis text-xl"></i>
-          </button>
-        </div>
-      </div> -->
+      
     </div>
   </div>
 </template>
@@ -255,7 +248,7 @@
 import { defineComponent, ref, onMounted } from "vue";
 import ItemTask from "../shared/ItemTask/index.vue";
 import { VueDraggableNext } from "vue-draggable-next";
-import { tasks } from "../../constants/itemTask";
+// import { tasks } from "../../constants/itemTask";
 import { fetchAllTaskByAllSprint, updateStatusTask } from "../../api/task";
 import { TaskStatus } from "../../utils/constants/enum";
 

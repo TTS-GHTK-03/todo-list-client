@@ -286,6 +286,7 @@ export default {
       try {
         const projectRoleStore = useProjectRoleStore();
         console.log("projectRoleStore", projectRoleStore.loadProjectRole(id));
+        
         router.push("/mainpage");
       } catch (error) {
         console.error("Error data:", error);

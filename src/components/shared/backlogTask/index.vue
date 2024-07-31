@@ -25,7 +25,7 @@
                 <input v-model="inputTitle" type="text"
                     class="min-w-[300px] rounded px-2 h-[34px] text-xs placeholder-transparent border-2 border-blue-400 input-field"
                     @input="validateTitle" />
-                <div class="absolute right-0 top-[36px] z-20 ml-1" ref="popupEditTitle">
+                <div class="absolute right-0 top-[36px] z-20 ml-1" >
                         <button @click="confirmTitle"
                             class="h-8 w-8 rounded border bg-white hover:bg-gray-200 mr-1 shadow-lg">
                             <i class="fa-solid fa-check"></i>
@@ -165,184 +165,134 @@
 
 
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
 
-export default {
-    name: 'BacklogTask',
-    props: {
-        key:{
-            type: String ,
-            required: true
-        },
-        title: {
-            type: String ,
-            required: true
-        },
-        point: {
-            type: Number ,
-            required: true
-        },
-        userId: {
-            type: String ,
-            required: true
-        },
-        keyProjectTask: {
-            type: String ,
-            required: true
-        }
-    },
-    setup(props) {
+// Props definition
+const props = defineProps<{
+  key: string;
+  title: string;
+  point: number;
+  userId: string;
+  keyProjectTask: string;
+}>();
 
-        const showDropdown = ref(false);
-        const showDropdownAssignee = ref(false);
-        const selectedStatus = ref('TO DO');
+// Reactive state variables
+const showDropdown = ref(false);
+const showDropdownAssignee = ref(false);
+const selectedStatus = ref('TO DO');
+const showEditTitle = ref(false);
+const inputTitle = ref(props.title);
+const displayTitle = ref(props.title);
+const showEditNumber = ref(false);
+const inputValue = ref(props.point);
+const displayValue = ref(props.point.toString());
+const dropdownMenu = ref<HTMLElement | null>(null);
+const dropdownMenuAssignee = ref<HTMLElement | null>(null);
+const popupEditNumber = ref<HTMLElement | null>(null);
+const popupEditTitle = ref<HTMLElement | null>(null);
 
-        const showEditTitle= ref(false);
-        const inputTitle = ref(props.title);
-        const displayTitle = ref(props.title);
+// Computed classes
+const buttonClasses = computed(() => {
+  switch (selectedStatus.value) {
+    case 'IN PROGRESS':
+      return 'bg-blue-100 hover:bg-blue-200';
+    case 'DONE':
+      return 'bg-green-100 hover:bg-green-200';
+    default:
+      return 'bg-gray-200 hover:bg-gray-300';
+  }
+});
 
-        const showEditNumber = ref(false);
-        const inputValue = ref(props.point);
-        const displayValue = ref(props.point.toString());
+const statusClasses = computed(() => {
+  switch (selectedStatus.value) {
+    case 'IN PROGRESS':
+      return 'text-blue-500';
+    case 'DONE':
+      return 'text-green-600';
+    default:
+      return 'text-gray-500';
+  }
+});
 
-        const dropdownMenu = ref<HTMLElement | null>(null);
-        const dropdownMenuAssignee = ref<HTMLElement | null>(null);
-        const popupEditNumber = ref<HTMLElement | null>(null);
-        const popupEditTitle = ref<HTMLElement | null>(null);
-
-        const buttonClasses = computed(() => {
-            switch (selectedStatus.value) {
-                case 'IN PROGRESS':
-                    return 'bg-blue-100 hover:bg-blue-200';
-                case 'DONE':
-                    return 'bg-green-100 hover:bg-green-200';
-                default:
-                    return 'bg-gray-200 hover:bg-gray-300';
-            }
-        });
-
-        const statusClasses = computed(() => {
-            switch (selectedStatus.value) {
-                case 'IN PROGRESS':
-                    return 'text-blue-500';
-                case 'DONE':
-                    return 'text-green-600';
-                default:
-                    return 'text-gray-500';
-            }
-        });
-
-        const itemClasses = (status: string) => {
-            return computed(() => {
-                switch (status) {
-                    case 'IN PROGRESS':
-                        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-blue-500';
-                    case 'DONE':
-                        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-green-500';
-                    default:
-                        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-gray-500';
-                }
-            });
-        };
-
-        function selectStatus(status: string) {
-            selectedStatus.value = status;
-            showDropdown.value = false;
-        }
-
-        const toggleDropdown = () => showDropdown.value = !showDropdown.value;
-        const toggleDropdownAssignee = () => showDropdownAssignee.value = !showDropdownAssignee.value;
-        const toggleEditNumber = () => showEditNumber.value = !showEditNumber.value;
-        const toggleEditTitle = () => showEditTitle.value = !showEditTitle.value;
-
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownMenu.value && !dropdownMenu.value.contains(event.target as Node)) {
-                showDropdown.value = false;
-            }
-            if (dropdownMenuAssignee.value && !dropdownMenuAssignee.value.contains(event.target as Node)) {
-                showDropdownAssignee.value = false;
-            }
-            if (popupEditNumber.value && !popupEditNumber.value.contains(event.target as Node)) {
-                showEditNumber.value = false;
-            }
-            if (popupEditTitle.value && !popupEditTitle.value.contains(event.target as Node)) {
-                showEditNumber.value = false;
-            }
-        };
-
-        function confirmValue() {
-            let value1 = inputValue.value > 5 ? 5 : inputValue.value;
-            displayValue.value = value1.toString();
-            toggleEditNumber(); // Close the input field
-        }
-
-        function cancelEdit() {
-            toggleEditNumber(); // Close the input field without saving changes
-        }
-
-        function confirmTitle(){    
-
-            if (inputTitle.value.length > 0) {
-                displayTitle.value = inputTitle.value;
-            }
-            toggleEditTitle();
-
-        }
-
-        function cancelEditTitle(){
-            toggleEditTitle();
-        }
-
-        function validateTitle(event: any) {
-            if (event.target.value.length > 10) {
-                event.target.value = event.target.value.slice(0, 10); 
-            }
-
-        }
-        function validateInput(event: any) {
-            if (event.target.value > 5) {
-                event.target.value = 5; // Set to 5 if exceeds
-            }
-        }
-
-        onMounted(() => {
-            document.addEventListener('click', handleClickOutside);
-        });
-
-
-        return {
-            validateTitle,
-            confirmTitle,
-            cancelEditTitle,
-            toggleEditTitle,
-            showEditTitle,
-            inputTitle,
-            displayTitle,
-            props,
-            showDropdown,
-            showDropdownAssignee,
-            selectedStatus,
-            showEditNumber,
-            inputValue,
-            displayValue,
-            dropdownMenu,
-            dropdownMenuAssignee,
-            popupEditNumber,
-            buttonClasses,
-            statusClasses,
-            itemClasses,
-            selectStatus,
-            toggleDropdown,
-            toggleDropdownAssignee,
-            toggleEditNumber,
-            handleClickOutside,
-            confirmValue,
-            cancelEdit,
-            validateInput,
-        };
-    },
+const itemClasses = (status: string) => {
+  return computed(() => {
+    switch (status) {
+      case 'IN PROGRESS':
+        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-blue-500';
+      case 'DONE':
+        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-green-500';
+      default:
+        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-gray-500';
+    }
+  });
 };
+
+// Methods
+const selectStatus = (status: string) => {
+  selectedStatus.value = status;
+  showDropdown.value = false;
+};
+
+const toggleDropdown = () => showDropdown.value = !showDropdown.value;
+const toggleDropdownAssignee = () => showDropdownAssignee.value = !showDropdownAssignee.value;
+const toggleEditNumber = () => showEditNumber.value = !showEditNumber.value;
+const toggleEditTitle = () => showEditTitle.value = !showEditTitle.value;
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownMenu.value && !dropdownMenu.value.contains(event.target as Node)) {
+    showDropdown.value = false;
+  }
+  if (dropdownMenuAssignee.value && !dropdownMenuAssignee.value.contains(event.target as Node)) {
+    showDropdownAssignee.value = false;
+  }
+  if (popupEditNumber.value && !popupEditNumber.value.contains(event.target as Node)) {
+    showEditNumber.value = false;
+  }
+  if (popupEditTitle.value && !popupEditTitle.value.contains(event.target as Node)) {
+    showEditTitle.value = false;
+  }
+};
+
+const confirmValue = () => {
+  let value1 = inputValue.value > 5 ? 5 : inputValue.value;
+  displayValue.value = value1.toString();
+  toggleEditNumber(); // Close the input field
+};
+
+const cancelEdit = () => {
+  toggleEditNumber(); // Close the input field without saving changes
+};
+
+const confirmTitle = () => {
+  if (inputTitle.value.length > 0) {
+    displayTitle.value = inputTitle.value;
+  }
+  toggleEditTitle();
+};
+
+const cancelEditTitle = () => {
+  toggleEditTitle();
+};
+
+const validateTitle = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  if (input.value.length > 10) {
+    input.value = input.value.slice(0, 10);
+  }
+};
+
+const validateInput = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  if (Number(input.value) > 5) {
+    input.value = '5'; // Set to 5 if exceeds
+  }
+};
+
+// Lifecycle hook
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
 </script>
 
 <style scoped>
