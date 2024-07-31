@@ -55,10 +55,13 @@
           </a-button>
 
           <!-- Add People -->
-          <button class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+          <button @click="showModal = true" class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
             <i class="fa-solid fa-user-plus"></i>
           </button>
-          
+          <AddPeopleModal 
+            :showModal="showModal" 
+            @close="showModal = false"
+          />
         </div>
       </div>
     </div>
@@ -173,6 +176,7 @@ import { defineComponent, ref } from 'vue';
 import ItemTask from '../shared/ItemTask/index.vue';
 import { VueDraggableNext } from 'vue-draggable-next';
 import {tasks} from '../../constants/itemTask'
+import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 
 interface Task {
   text: string;
@@ -186,10 +190,11 @@ export default defineComponent({
   components: {
     ItemTask,
     draggable: VueDraggableNext,
+    AddPeopleModal,
   },
   setup() {
     const searchQuery = ref<string>('');
-
+    const showModal = ref<boolean>(false);
     const clearSearch = () => {
       searchQuery.value = '';
     };
@@ -222,6 +227,7 @@ export default defineComponent({
       startDrag,
       onDrop,
       getState,
+      showModal,
     };
   },
 });
