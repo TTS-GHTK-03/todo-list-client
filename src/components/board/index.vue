@@ -269,7 +269,7 @@ export default defineComponent({
   },
   setup() {
     const searchQuery = ref<string>("");
-    const data = ref<Map<string, DataType[]>>(new Map());
+    const data = ref<Map<string, any[]>>(new Map());
 
     const clearSearch = () => {
       searchQuery.value = "";
