@@ -20,11 +20,3 @@ export const tasks = [
   },
   
 ];
-
-// export function updateTaskState(keyText:string, newState:number) {
-//   const task = tasks.find(task => task.keyText === keyText);
-//   if (task) {
-//     task.state = newState;
-//   }
-// }
-  

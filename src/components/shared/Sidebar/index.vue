@@ -53,7 +53,9 @@
                         </div>
                         <span class="ml-4 text-text-dark">Backlog</span>
                     </router-link>
+                    
                     <router-link to="/mainpage"
+                
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-chalkboard text-xl text-[#46546f]"></i>

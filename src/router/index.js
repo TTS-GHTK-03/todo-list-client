@@ -19,6 +19,7 @@ import ProjectAccess from '../components/project/projectsetings/ProjectAccess/in
 import ProjectDetail from '../components/project/projectsetings/ProjectDetail/index.vue';
 import Backlog from '../components/backlog/index.vue';
 import CreateProject from '../components/project/CreateProject/index.vue'
+import Task from '../components/task/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
 
@@ -132,6 +133,10 @@ const routes = [
           {
             path: 'backlog',
             component: Backlog,
+          },
+          {
+            path :"/task",
+            component: Task,
           }
           
         ]
