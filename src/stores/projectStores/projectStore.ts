@@ -68,9 +68,9 @@ export const useProjectRoleStore = defineStore('projectRole', {
     error: null,
   }),
   actions: {
-    async loadProjectRole() {
+    async loadProjectRole(id: string) {
       try {
-        const response = await fetchProjectRole();
+        const response = await fetchProjectRole(id);
         this.idProject = response.data.id;
         this.roleUser = response.data.roleUser;
         this.project = response.data; 

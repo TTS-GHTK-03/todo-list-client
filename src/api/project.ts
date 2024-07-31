@@ -132,17 +132,17 @@ export interface ProjectRoleResponse {
     };
 }
   
-export const fetchProjectRole = async (): Promise<ProjectRoleResponse> => {
+export const fetchProjectRole = async (id: string): Promise<ProjectRoleResponse> => {
     try {
   
-        const projectRoleStore = useProjectRoleStore()
-        const idProject = projectRoleStore.idProject
+        // const projectRoleStore = useProjectRoleStore()
+        // const idProject = projectRoleStore.idProject
         
-        if (!idProject) {
-          throw new Error("Project ID is not defined");
-        }
+        // if (!idProject) {
+        //   throw new Error("Project ID is not defined");
+        // }
   
-        const response = await apiClient.get<ProjectRoleResponse>(`/projects/${idProject}`);
+        const response = await apiClient.get<ProjectRoleResponse>(`/projects/${id}`);
         console.log("fetchProjectRole (response): ", response)
         return response.data;
     } catch (error: any) {
