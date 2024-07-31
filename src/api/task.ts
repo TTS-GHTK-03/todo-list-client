@@ -26,6 +26,7 @@ export const fetchAllTaskByAllSprint = async (): Promise<ListTaskResponse> => {
         if (!idProject) {
             throw new Error("Project ID is not defined");
         }
+        console.log("fetchAllTaskByAllSprint (idProject):", idProject)
         const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/tasks`);
         console.log("fetchAllTaskByAllSprint (response): ", response)
         return response.data;

@@ -282,14 +282,14 @@ export default {
       }
     };
 
-    const handleProject = (id: string) => {
+    const handleProject = async (id: string) => {
       try {
         const projectRoleStore = useProjectRoleStore();
-        console.log("projectRoleStore", projectRoleStore.loadProjectRole(id));
+        await projectRoleStore.loadProjectRole(id); // Await the async call
+
         router.push("/mainpage");
       } catch (error) {
         console.error("Error data:", error);
-      } finally {
       }
     };
 
