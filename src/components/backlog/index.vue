@@ -12,11 +12,8 @@
                 <div class="flex items-center">
                     <div class="flex space-x-2 text-text-dark-thin mr-2">
 
-
-                        <i
-                            class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
-                        <i
-                            class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
+                        <i  class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
+                        <i  class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
                     </div>
 
 
@@ -60,7 +57,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col mt-8 bg-gray-100 bg-opacity-60 cursor-pointer rounded">
+        <div class="flex flex-col mt-8 bg-gray-100 bg-opacity-40 cursor-pointer rounded">
             <div class=" rounded flex flex-col mt-4">
                 <div class="flex justify-between font-apple text-text-dark-thin text-sm">
                     <div class="font-semibold flex items-center">

@@ -89,7 +89,7 @@
         </div>
       </div>
       <div>
-        <a-table :columns="columns" :data-source="data" class="mt-6">
+        <a-table :loading="loading" :columns="columns" :data-source="data" class="mt-6">
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
               <div class="flex">
@@ -109,12 +109,12 @@
                 :dropdown-match-select-width="false"
                 @change="handleRoleChange(record)"
               >
-                <a-select-option value="admin">Administrator</a-select-option>
-                <a-select-option value="member">Member</a-select-option>
-                <a-select-option value="view">Viewer</a-select-option>
+                <a-select-option :value="RoleProjectUser.ADMIN">Administrator</a-select-option>
+                <a-select-option :value="RoleProjectUser.EDIT">Member</a-select-option>
+                <a-select-option :value="RoleProjectUser.VIEWER">Viewer</a-select-option>
               </a-select>
             </template>
-           
+
             <template v-if="column.dataIndex === 'actions'">
               <div
                 @click="confirmRemove(record)"
@@ -145,8 +145,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
+import { normalizeName } from "../../../../utils/normalizeName"
 import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
-
+import { RoleProjectUser } from "../../../../utils/constants/enum"
 interface DataType {
   name: string;
   email: string;
@@ -191,19 +192,26 @@ export default defineComponent({
       email: string;
     } | null>(null);
 
+    const loading = ref(false);
     const accessStore = useUserProjectStore();
     const data = ref<DataType[]>([]);
 
     const loadData = async () => {
-      await accessStore.loadUserProjects();
-      const newProjects = accessStore.userProjects.map((project) => ({
-        key: project?.id,
-        name: project?.firstName || "",
-        email: project?.email || "",
-        role: project?.role || "admin",
-      }));
-      data.value = newProjects;
-      console.log("Item:", data);
+      loading.value = true;
+      try {
+        await accessStore.loadUserProjects();
+        const newProjects = accessStore.userProjects.map((project) => ({
+          key: project?.id,
+          name: normalizeName(project?.firstName, project?.middleName, project?.lastName),
+          email: project?.email || "",
+          role: project?.role || "",
+        }));
+        data.value = newProjects;
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        loading.value = false;
+      }
     };
 
     onMounted(() => {
@@ -215,7 +223,6 @@ export default defineComponent({
     };
 
     const handleRoleChange = (record: DataType) => {
-      
       console.log("Role changed for:", record);
     };
 
@@ -243,6 +250,7 @@ export default defineComponent({
     return {
       data,
       columns,
+      loading,
       searchQuery,
       clearSearch,
       handleRoleChange,
@@ -251,6 +259,7 @@ export default defineComponent({
       handleOk,
       handleCancel,
       projectToRemove,
+      RoleProjectUser,
     };
   },
 });
