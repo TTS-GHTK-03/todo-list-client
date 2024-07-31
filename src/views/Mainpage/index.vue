@@ -1,12 +1,12 @@
 <template>
   <div>
     <!-- Loading Spinner -->
-    <div v-if="isLoading" class="loading-container">
+    <!-- <div v-if="isLoading" class="loading-container">
       <div class="loader"></div>
-    </div>
+    </div> -->
 
     <!-- Main Content (visible after loading is done) -->
-    <div v-else>
+    <div >
       <MainNavbar />
       <router-view />
     </div>
@@ -16,30 +16,30 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import MainNavbar from '../../components/shared/MainNavbar/index.vue';
-import { useProjectStore } from '../../stores/projectStores/projectStore';
+// import { useProjectStore } from '../../stores/projectStores/projectStore';
 
 export default defineComponent({
   components: { MainNavbar },
   setup() {
-    const projectStore = useProjectStore();
-    const isLoading = ref(true);
+    // const projectStore = useProjectStore();
+    // const isLoading = ref(true);
 
-    const fetchData = async () => {
-      try {
-        await projectStore.loadProjects();
-        if (projectStore.error) {
-          console.error('Failed to fetch projects:', projectStore.error);
+    // const fetchData = async () => {
+    //   try {
+    //     await projectStore.loadProjects();
+    //     if (projectStore.error) {
+    //       console.error('Failed to fetch projects:', projectStore.error);
       
-        } else {
-          console.log('Successfully fetched projects:', projectStore.projects);
+    //     } else {
+    //       console.log('Successfully fetched projects:', projectStore.projects);
 
-        }
-      } catch (error: any) {
-        console.error('Failed to fetch projects:', error);
-      } finally {
-        isLoading.value = false;
-      }
-    };
+    //     }
+    //   } catch (error: any) {
+    //     console.error('Failed to fetch projects:', error);
+    //   } finally {
+    //     isLoading.value = false;
+    //   }
+    // };
 
     onMounted(() => {
       // fetchData();

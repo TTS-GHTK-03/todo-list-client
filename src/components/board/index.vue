@@ -253,14 +253,16 @@
         </div> -->
       </div>
     </div>
+
   </div>
 </template>
 
 <script lang="ts">
+
 import { defineComponent, ref, onMounted } from "vue";
 import ItemTask from "../shared/ItemTask/index.vue";
 import { VueDraggableNext } from "vue-draggable-next";
-import { tasks } from "../../constants/itemTask";
+// import { tasks } from "../../constants/itemTask";
 import { fetchAllTaskByAllSprint, updateStatusTask } from "../../api/task";
 import { TaskStatus } from "../../utils/constants/enum";
 
@@ -281,6 +283,7 @@ export default defineComponent({
   },
   setup() {
     const searchQuery = ref<string>("");
+
     const data = ref<Map<string, Task[]>>(new Map());
     const isLoading = ref(true);
 
@@ -288,12 +291,7 @@ export default defineComponent({
       searchQuery.value = "";
     };
 
-    // const AllTasks = ref<Task[]>(tasks)
-
-    // const getState = (state: number): Task[] => {
-    //   return AllTasks.value.filter(task => task.state === state);
-    // };
-
+  
     const startDrag = (event: DragEvent, task: Task) => {
       console.log(task);
       event.dataTransfer!.dropEffect = "move";

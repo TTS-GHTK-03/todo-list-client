@@ -22,7 +22,6 @@ export const fetchAllTaskByAllSprint = async (): Promise<ListTaskResponse> => {
     try {
         const projectRoleStore = useProjectRoleStore()
         const idProject = projectRoleStore.idProject
-            
         if (!idProject) {
             throw new Error("Project ID is not defined");
         }
