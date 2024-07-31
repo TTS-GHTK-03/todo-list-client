@@ -46,20 +46,22 @@
                         </div>
                         <span class="ml-4 text-text-dark">Timeline</span>
                     </div>
-                    <div
+                    <router-link to="/mainpage/backlog"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-bars-staggered text-xl text-[#46546f]"></i>
                         </div>
                         <span class="ml-4 text-text-dark">Backlog</span>
-                    </div>
-                    <div
+                    </router-link>
+                    
+                    <router-link to="/mainpage"
+                
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-chalkboard text-xl text-[#46546f]"></i>
                         </div>
                         <span class="ml-4 text-text-dark">Board</span>
-                    </div>
+                    </router-link>
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
@@ -115,21 +117,21 @@
                 <div class="border-b border-gray-600 opacity-30 mb-0"></div>
 
                 <div clas="w-full text-sm font-ui mt-1">
-                    <div
+                    <router-link to="/projects/settings/access"
                         class=" flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer  mr-2 mt-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-regular fa-file-lines text-2xl text-[#46546f] "></i>
                         </div>
                         <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Project pages</span>
-                    </div>
+                    </router-link>
 
-                    <div
+                    <router-link to="/projects/settings/detail"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2 ">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-gear text-xl text-[#46546f] "></i>
                         </div>
                         <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Project settings</span>
-                    </div>
+                    </router-link>
 
                 </div>
             </div>
