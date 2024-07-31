@@ -1,6 +1,6 @@
 // 
 import { defineStore } from 'pinia';
-import { fetchProjectDetail } from '../../../api/getDetailProject';
+import { fetchProjectDetail } from '../../../api/project';
 
 interface ProjectDetailState {
   project: any[] ;

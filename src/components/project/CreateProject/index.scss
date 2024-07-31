@@ -1,14 +1,14 @@
-@font-face {
-  font-family: 'Atlassian';
-  src: url('@/assets/fonts/Atlassian.ttf') format('truetype');
-}
+// @font-face {
+//   font-family: 'Atlassian';
+//   src: url('@/assets/fonts/Atlassian.ttf') format('truetype');
+// }
 
-.custom-font {
-  font-family: 'Atlassian', 'Helvetica Neue', Arial, sans-serif;
-}
+// .custom-font {
+//   font-family: 'Atlassian', 'Helvetica Neue', Arial, sans-serif;
+// }
 .text-custom {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
