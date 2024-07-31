@@ -35,10 +35,10 @@
           class="w-full h-10 bg-white text-sm font-ui font-normal hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           View all projects
         </router-link>
-        <button
+        <router-link to="/project-create"
           class="w-full h-10 bg-white text-sm font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           Create project
-        </button>
+        </router-link>
       </div>
     </div>
   </div>

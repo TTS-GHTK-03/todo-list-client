@@ -74,8 +74,6 @@ export default {
       type: String,
       required: true
     },
- 
-
     keyText: {
       type: String,
       required: true

@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="flex flex-col mt-8 bg-gray-100 bg-opacity-40 cursor-pointer rounded">
+        <div class="flex flex-col mt-8 bg-gray-100 bg-opacity-50 cursor-pointer rounded">
             <div class=" rounded flex flex-col mt-4">
                 <div class="flex justify-between font-apple text-text-dark-thin text-sm">
                     <div class="font-semibold flex items-center">
@@ -84,9 +84,14 @@
 
             </div>
             <div v-show="isSprintVisible" class="m-2">
-                <BacklogTask />
-                <BacklogTask />
-
+                <BacklogTask 
+                    v-for="task in AllSprintTasks2"
+                    :key="task.id"
+                    :title="task.title"
+                    :point="task.point"
+                    :userId="task.userId"
+                    :keyProjectTask="task.keyProjectTask"
+                />
 
             </div>
         </div>
@@ -116,8 +121,14 @@
             </div>
 
             <div v-show="isBacklogVisible" class="mt-2 mx-2">
-                <BacklogTask />
-                <BacklogTask />
+                <BacklogTask 
+                    v-for="task in AllSprintTasks2"
+                    :key="task.id"
+                    :title="task.title"
+                    :point="task.point"
+                    :userId="task.userId"
+                    :keyProjectTask="task.keyProjectTask"
+                />
 
                 <button
                     class="w-full h-8 hover:bg-gray-200 mt-1 mb-3 rounded text-sm font-apple text-text-dark-thin flex items-center justify-start">
@@ -134,45 +145,55 @@
 </template>
 
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import BacklogTask from '../shared/backlogTask/index.vue';
+import { sprint1Tasks } from '../../constants/backlogTask';
 
+interface BacklogTask {
+    id: string;
+    title: string;
+    point: number;
+    keyProjectTask: string;
+    userId: string;
+}
 
-export default defineComponent({
-    name: 'Backlog',
-    components: {
-        BacklogTask,
-    },
-    setup() {
-        const isSprintVisible = ref(true);
-        const isBacklogVisible = ref(true);
-        const searchQuery = ref<string>('');
-        const isCreatingIssue = ref(false);
+const AllSprintTasks1 = ref<BacklogTask[]>(sprint1Tasks);
+const AllSprintTasks2 = ref<BacklogTask[]>(sprint1Tasks);
+const isSprintVisible = ref(true);
+const isBacklogVisible = ref(true);
+const searchQuery = ref<string>('');
+const isCreatingIssue = ref(false);
 
+// Functions
+function startDrag(event: DragEvent, task: BacklogTask) {
+    event.dataTransfer!.dropEffect = 'move';
+    event.dataTransfer!.effectAllowed = 'move';
+    event.dataTransfer!.setData('taskId', task.keyProjectTask);
+}
 
-        function toggleSprint() {
-            isSprintVisible.value = !isSprintVisible.value;
-        }
+function onDrop(event: DragEvent, state: number) {
+    const taskId = event.dataTransfer!.getData('taskId');
+    const task = AllSprintTasks1.value.find(task => task.keyProjectTask === taskId);
+    if (task) {
+        // Assuming you have logic to update the state of the task
+        // task.state = state;
+    }
+}
 
-        function toggleBacklog() {
-            isBacklogVisible.value = !isBacklogVisible.value;
-        }
+function toggleSprint() {
+    isSprintVisible.value = !isSprintVisible.value;
+}
 
-        const clearSearch = () => {
-            searchQuery.value = '';
-        };
+function toggleBacklog() {
+    isBacklogVisible.value = !isBacklogVisible.value;
+}
 
-        return {
-            searchQuery,
-            isSprintVisible,
-            isBacklogVisible,
-            clearSearch,
-            toggleSprint,
-            toggleBacklog,
-        };
-    },
-});
+const clearSearch = () => {
+    searchQuery.value = '';
+}
+
+// Exporting variables and functions to be used in the template
 </script>
 
 
