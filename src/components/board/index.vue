@@ -53,6 +53,12 @@
             <img class="w-8 h-8 rounded-full mx-auto cursor-pointer" src="../../assets/img/logo_no_text.png" alt=""
               width="36" height="36" />
           </a-button>
+
+          <!-- Add People -->
+          <button class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+            <i class="fa-solid fa-user-plus"></i>
+          </button>
+          
         </div>
       </div>
     </div>
