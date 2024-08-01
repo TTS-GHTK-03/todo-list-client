@@ -3,12 +3,12 @@
     <div class="add-people-content">
       <div class="flex justify-between">
         <h3 class="text-xl leading-6 font-medium text-gray-900">Add People</h3>
-        <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+        <!-- <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
           <i class="fa-solid fa-ellipsis text-xl"></i>
-        </button>
+        </button> -->
       </div>
       <div class="mt-2 flex flex-col items-start">
-        <label for="email" class="text-xs text-slate-400">Names or emails</label>
+        <label for="email" class="text-xs text-slate-400 mb-1">Names or emails</label>
         <input
           id="email"
           type="text"
@@ -17,7 +17,7 @@
         />
       </div>
       <div class="mt-4 flex flex-col items-start">
-        <label class="text-xs text-slate-400">Role</label>
+        <label class="text-xs text-slate-400 mb-1">Role</label>
         <select
           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
         >
