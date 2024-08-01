@@ -43,3 +43,30 @@ export const updateRoleProjectUser = async (credentials: RoleProjectUserRequest)
         }
     }
 };
+
+// Accept invitation
+export interface AcceptInviteResponse {
+    status: number;
+    timestamp: string;
+    data: string
+}
+
+export const acceptInvite = async (emailEncode: string, projectId: string): Promise<AcceptInviteResponse> => {
+    try {
+        const response = await apiClient.get<AcceptInviteResponse>(`/accept?emailEncode=${emailEncode}&projectId=${projectId}`);
+        return response.data;
+    } catch (error: any) {
+        // catch chưa xử lý
+        if (error.response) {
+            if (error.response.status === 404) {
+            throw new Error("Project does not exist");
+            } else if (error.response.status === 400) {
+            throw new Error("Invalid password");
+            } else {
+            throw new Error("An error occurred while trying to log in");
+            }
+        } else {
+            throw new Error("An error occurred while trying to log in");
+        }
+    }
+};

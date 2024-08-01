@@ -89,11 +89,18 @@
         </div>
       </div>
       <div>
-        <a-table :loading="loading" :columns="columns" :data-source="data" class="mt-6">
+        <a-table
+          :loading="loading"
+          :columns="columns"
+          :data-source="data"
+          class="mt-6"
+        >
           <template #bodyCell="{ column, text, record }">
             <template v-if="column.dataIndex === 'name'">
               <div class="flex">
-                <div class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2">
+                <div
+                  class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2"
+                >
                   {{ text.charAt(0) }}
                 </div>
                 <span class="text-slate-950 ml-2">{{ text }}</span>
@@ -107,14 +114,21 @@
                 :dropdown-match-select-width="false"
                 @change="(value) => handleRoleChange(value, record)"
               >
-                <a-select-option :value="RoleProjectUser.ADMIN">Administrator</a-select-option>
-                <a-select-option :value="RoleProjectUser.EDIT">Edit</a-select-option>
-                <a-select-option :value="RoleProjectUser.VIEWER">Viewer</a-select-option>
+                <a-select-option :value="RoleProjectUser.ADMIN"
+                  >Administrator</a-select-option
+                >
+                <a-select-option :value="RoleProjectUser.EDIT"
+                  >Member</a-select-option
+                >
+                <a-select-option :value="RoleProjectUser.VIEWER"
+                  >Viewer</a-select-option
+                >
               </a-select>
             </template>
 
             <template v-if="column.dataIndex === 'actions'">
-              <div v-if="roleUser === RoleProjectUser.ADMIN"
+              <div
+                v-if="roleUser === RoleProjectUser.ADMIN"
                 @click="confirmRemove(record)"
                 class="text-button-color flex items-center justify-center cursor-pointer bg-white rounded hover:bg-gray-100 ml-8"
               >
@@ -143,10 +157,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted } from "vue";
-import { normalizeName } from "../../../../utils/normalizeName"
+import { normalizeName } from "../../../../utils/normalizeName";
 import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
 import { updateRoleProjectUser } from "../../../../api/projectUser";
-import { RoleProjectUser } from "../../../../utils/constants/enum"
+import { RoleProjectUser } from "../../../../utils/constants/enum";
 interface DataType {
   name: string;
   email: string;
@@ -183,8 +197,7 @@ const columns: TableColumnType<DataType>[] = [
 
 export default defineComponent({
   setup() {
-    
-    const roleUser = ref(localStorage.getItem('roleUser') || null);
+    const roleUser = ref(localStorage.getItem("roleUser") || null);
 
     const searchQuery = ref("");
     const isModalVisible = ref(false);
@@ -204,7 +217,11 @@ export default defineComponent({
         await accessStore.loadUserProjects();
         const newProjects = accessStore.userProjects.map((project) => ({
           key: project?.id,
-          name: normalizeName(project?.firstName, project?.middleName, project?.lastName),
+          name: normalizeName(
+            project?.firstName,
+            project?.middleName,
+            project?.lastName
+          ),
           email: project?.email || "",
           role: project?.role || "",
         }));
@@ -226,7 +243,7 @@ export default defineComponent({
 
     const handleRoleChange = async (newRole: string, record: DataType) => {
       const oldRole = record.role;
-      
+
       try {
         const response = await updateRoleProjectUser({
           memberId: record.key,
