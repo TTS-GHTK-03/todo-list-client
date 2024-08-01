@@ -106,13 +106,10 @@
                 height="36"
               />
             </a-button>
-            <button @click="showModal = true" class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+            <a-button shape="circle" @click="openModal" class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
               <i class="fa-solid fa-user-plus"></i>
-            </button>
-            <AddPeopleModal 
-              :showModal="showModal" 
-              @close="showModal = false"
-            />
+            </a-button>
+              <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />    
           </div>
         </div>
       </div>
@@ -291,14 +288,18 @@ export default defineComponent({
     AddPeopleModal,
   },
   setup() {
-    const searchQuery = ref<string>("");
-      const showModal = ref<boolean>(false);
+    const isModalVisible = ref(false);
 
+    const searchQuery = ref<string>("");
     const data = ref<Map<string, Task[]>>(new Map());
     const isLoading = ref(true);
 
     const clearSearch = () => {
       searchQuery.value = "";
+    };
+
+    const openModal = () => {
+      isModalVisible.value = true;
     };
 
   
@@ -365,7 +366,8 @@ export default defineComponent({
       // getState,
       isLoading,
       TaskStatus,
-      showModal,
+      isModalVisible,
+      openModal,
     };
   },
 });
