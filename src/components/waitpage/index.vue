@@ -1,7 +1,8 @@
 <template>
   <!-- Loading Spinner -->
   <div v-if="isLoading" class="loading-container">
-    <div class="loader"></div>
+    <!-- <div class="loader-button"></div> -->
+    <a-spin size="large" />
   </div>
   <div v-else>
     <div class="flex mt-10 justify-center h-screen w-full relative">
@@ -72,7 +73,7 @@
             @click="handleGoProject()"
             class="select-none bg-[#2d66e6] text-white rounded px-4 py-1 mt-4 w-3/5 hover:bg-[#1c4cb8] h-11 font-medium flex items-center justify-center cursor-pointer"
           >
-            <span v-if="loading" class="loader-button"></span>
+            <span v-if="loading" class="loader"></span>
             <span v-else>Go to "name project"</span>
           </button>
           <button

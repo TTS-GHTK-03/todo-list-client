@@ -1,7 +1,8 @@
 <template>
   <!-- Loading Spinner -->
   <div v-if="isLoading" class="loading-container">
-    <div class="loader"></div>
+    <!-- <div class="loader"></div> -->
+    <a-spin size="large" />
   </div>
   <div v-else>
     <div class="mt-24 px-8 py-0">
@@ -343,10 +344,12 @@ export default defineComponent({
         console.log("response: ", response);
         const map = new Map<string, Task[]>();
         response.data.forEach((task) => {
-          if (!map.has(task.status)) {
-            map.set(task.status, []);
+          if(task.sprintId != null ){
+            if (!map.has(task.status)) {
+              map.set(task.status, []);
+            }
+            map.get(task.status)!.push(task);
           }
-          map.get(task.status)!.push(task);
         });
         data.value = map;
         console.log("data: ", data.value);

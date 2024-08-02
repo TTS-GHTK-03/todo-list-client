@@ -142,14 +142,13 @@
     <!-- Dialog -->
     <a-modal
       v-model:visible="isModalVisible"
-      title="Confirm Deletion"
+      title="Remove user in project"
       @ok="handleOk"
       @cancel="handleCancel"
       :maskClosable="false"
     >
       <p>
-        Are you sure you want to delete the project "{{ projectToRemove.name }}"
-        with email "{{ projectToRemove.email }}"?
+        {{ projectToRemove.name }} won't be able to work on this project anymore.
       </p>
     </a-modal>
   </div>
@@ -159,8 +158,9 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { normalizeName } from "../../../../utils/normalizeName";
 import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
-import { updateRoleProjectUser } from "../../../../api/projectUser";
+import { updateRoleProjectUser, deleteUser } from "../../../../api/projectUser";
 import { RoleProjectUser } from "../../../../utils/constants/enum";
+import { message } from 'ant-design-vue';
 interface DataType {
   name: string;
   email: string;
@@ -250,9 +250,12 @@ export default defineComponent({
           role: newRole,
         });
         console.log("Role changed successfully:", response);
+        message.success(`Changed role ${newRole} of user ${record.name} successfully!`);
+
       } catch (error) {
         record.role = oldRole;
         console.error("Failed to change role:", error.message);
+        message.error(`Changed role ${newRole} of user ${record.name} failed!`);
       }
     };
 
@@ -267,10 +270,18 @@ export default defineComponent({
 
     const handleOk = async () => {
       if (projectToRemove.value) {
-        await accessStore.removeUserProject(projectToRemove.value.id);
-        await loadData();
+        try{
+          await deleteUser(projectToRemove.value.id);
+          data.value = data.value.filter(item => item.key !== projectToRemove.value.id);
+          // await loadData();
+          message.success('This is a success message');
+        }catch{
+          message.error('This is an error message');
+        }
+
       }
       isModalVisible.value = false;
+
     };
 
     const handleCancel = () => {
