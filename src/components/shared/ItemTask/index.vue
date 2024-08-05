@@ -65,46 +65,27 @@
   </div>
 </template>
 
-<script>
-import { ref} from 'vue';
-export default {
-  name: 'MyComponent',
-  props: {
-    text: {
-      type: String,
-      required: true
-    },
-    keyText: {
-      type: String,
-      required: true
-    },
-    tooltipTitle: {
-      type: String,
-      required: true
-    },
-  
-  },
-  setup() {
-    const showDropdown = ref(false);
-    const dropdownMenu = ref<HTMLElement | null>(null);
+<script setup lang="ts">
+import { ref } from 'vue';
 
-    function toggleDropdown() {
-            showDropdown.value = !showDropdown.value;
-    };
+const props = defineProps<{
+  text: string;
+  keyText: string;
+  tooltipTitle: string;
+}>();
 
-    function hideMenu() {
-      showDropdown.value = false;
-    }
-      
-    return {
-      toggleDropdown,
-      dropdownMenu,
-      showDropdown,
-      hideMenu,
-    }
-  }
+const showDropdown = ref(false);
+const dropdownMenu = ref<HTMLElement | null>(null);
+
+function toggleDropdown() {
+  showDropdown.value = !showDropdown.value;
+}
+
+function hideMenu() {
+  showDropdown.value = false;
 }
 </script>
+
 
 <style scoped>
 @import 'index.scss'

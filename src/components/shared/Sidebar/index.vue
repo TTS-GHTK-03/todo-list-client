@@ -20,7 +20,8 @@
             <div class="flex px-4 py-2 h-[52px] bg-white items-center mr-8 mb-4">
                 <img src="../../../assets/img/project_logo.svg" class="h-6 w-6">
                 <span class="flex flex-col ml-4 items-start">
-                    <span class="text-sm font-ui font-semibold text-text-dark-thin min-w-[120px]">My Scrum project</span>
+                    <span class="text-sm font-ui font-semibold text-text-dark-thin min-w-[120px]">My Scrum
+                        project</span>
                     <span class="text-xs text-[#626F86] font-ui">Software project</span>
                 </span>
             </div>
@@ -29,10 +30,9 @@
             <div class="w-full">
                 <button @click="togglePlanning"
                     class="w-full text-left px-2 py-2 text-gray-700 hover:bg-transparent flex items-center relative group">
-                    <!-- Icon for expanded state -->
+                   
                     <i v-if="isPlanningVisible"
                         class="fa-solid fa-angle-down select-none text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
-                    <!-- Icon for collapsed state -->
                     <i v-else
                         class="fa-solid fa-chevron-right select-none text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
                     <span class="text-xs font-[500] text-text-dark font-ui ml-2">PLANNING</span>
@@ -53,9 +53,8 @@
                         </div>
                         <span class="ml-4 text-text-dark">Backlog</span>
                     </router-link>
-                    
+
                     <router-link to="/mainpage"
-                
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 flex items-center justify-center">
                             <i class="fa-solid fa-chalkboard text-xl text-[#46546f]"></i>
@@ -102,8 +101,8 @@
                     <i v-else
                         class="fa-solid fa-chevron-right text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
                     <span class="text-xs font-[500] text-text-dark font-ui ml-2">DEVELOPMENT</span>
-
                 </button>
+
                 <div v-show="isDevelopmentVisible" class="w-full text-sm font-ui">
                     <div
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
@@ -146,32 +145,30 @@
     </div>
 </template>
 
-
 <script lang="ts">
-import { ref, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'Sidebar',
-    props: {
-        isCollapsed: Boolean
-    },
-    setup(props) {
-        const isPlanningVisible = ref(true);
-        const isDevelopmentVisible = ref(true);
+  name: 'Sidebar',
 
-        function togglePlanning() {
-            isPlanningVisible.value = !isPlanningVisible.value;
-        }
-        function toggleDevelopment() {
-            isDevelopmentVisible.value = !isDevelopmentVisible.value;
-        }
-
-        return {
-            isPlanningVisible,
-            isDevelopmentVisible,
-            togglePlanning,
-            toggleDevelopment
-        };
-    }
 });
+</script>
+
+<script setup lang="ts">
+import { ref, defineProps } from 'vue';
+
+const props = defineProps<{
+  isCollapsed: boolean;
+}>();
+
+const isPlanningVisible = ref(true);
+const isDevelopmentVisible = ref(true);
+
+function togglePlanning() {
+  isPlanningVisible.value = !isPlanningVisible.value;
+}
+
+function toggleDevelopment() {
+  isDevelopmentVisible.value = !isDevelopmentVisible.value;
+}
 </script>

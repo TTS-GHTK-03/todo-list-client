@@ -17,7 +17,6 @@ apiClient.interceptors.request.use(
 
     if (token) {
       request.headers['Authorization'] = `Bearer ${token}`;
-      console.log("Token:", token);
     }
 
     console.log("Starting Request", request);

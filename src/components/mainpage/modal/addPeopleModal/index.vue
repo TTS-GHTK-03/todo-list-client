@@ -46,44 +46,32 @@
   </a-modal>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch, toRefs } from 'vue';
+<script setup lang="ts">
+import { toRefs, defineEmits, defineProps } from 'vue';
 
-export default defineComponent({
-  props: {
-    visible: {
-      type: Boolean,
-      required: true,
-    },
-  },
-  emits: ['update:visible'],
-  setup(props, { emit }) {
-    const { visible } = toRefs(props);
+const props = defineProps<{
+  visible: boolean;
+}>();
 
-    const closeModal = () => {
-      emit('update:visible', false);
-    };
+const emit = defineEmits<{
+  (e: 'update:visible', value: boolean): void;
+}>();
 
-    const addPeople = () => {
-      closeModal();
-    };
+const { visible } = toRefs(props);
 
-    const handleOk = () => {
-      addPeople();
-    };
+const closeModal = () => {
+  emit('update:visible', false);
+};
 
-    return {
-      visible,
-      closeModal,
-      addPeople,
-      handleOk,
-    };
-  },
-});
+const addPeople = () => {
+  closeModal();
+};
+
+const handleOk = () => {
+  addPeople();
+};
 </script>
 
 <style scoped>
-.add-people-content {
-  padding: 16px;
-}
+@import 'index.scss';
 </style>
