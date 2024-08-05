@@ -31,8 +31,11 @@
         </div>
 
         <div class="flex flex-col items-center w-full font-apple select-text">
-          <span class="text-gray-800 text-center strong text-3xl font-semibold">
+          <span v-if="isAccess" class="text-gray-800 text-center strong text-3xl font-semibold">
             Authenticated User
+          </span>
+          <span v-else class="text-gray-800 text-center strong text-3xl font-semibold">
+            UnAuthenticated User
           </span>
           <div>
             <div class="w-full flex items-center justify-center">

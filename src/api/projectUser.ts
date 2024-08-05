@@ -48,7 +48,11 @@ export const updateRoleProjectUser = async (credentials: RoleProjectUserRequest)
 export interface AcceptInviteResponse {
     status: number;
     timestamp: string;
-    data: string
+    data: {
+        email: string,
+        status: string,
+        projectId: string
+    }
 }
 
 export const acceptInvite = async (emailEncode: string, projectId: string): Promise<AcceptInviteResponse> => {
