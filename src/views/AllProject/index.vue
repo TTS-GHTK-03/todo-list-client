@@ -22,6 +22,7 @@
         <i v-else
           class="fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"></i>
       </div>
+
       <div class="relative inline-block">
         <input type="text" @focus="toggleDropdown(true)" @blur="toggleDropdown(false)" placeholder="Filter by product"
           class="custom-input w-[200px] min-h-[40px] border border-gray-500 rounded py-3 font-light pl-2 pr-10 placeholder-gray-400" />
@@ -43,6 +44,7 @@
             </label>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -88,6 +90,7 @@
                     View profile
                   </button>
                 </div>
+
               </div>
             </div>
           </template>
@@ -98,6 +101,7 @@
               <i class="fa-solid fa-ellipsis text-2xl text-gray-500"></i>
             </div>
           </template>
+          
         </template>
       </a-table>
     </div>
@@ -105,18 +109,20 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
+export default defineComponent({
+  name: 'AllProjects',
+})
+</script>
+
+
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
-
 import { type TableProps, type TableColumnType } from "ant-design-vue/es";
 import type { Key } from "ant-design-vue/es/table/interface";
-
-import {
-  useProjectStore,
-  useProjectRoleStore,
-} from "../../stores/projectStores/projectStore";
+import { useProjectStore, useProjectRoleStore } from "../../stores/projectStores/projectStore";
 import { normalizeName } from "../../utils/normalizeName";
-
 import "@fortawesome/fontawesome-free/css/all.css";
 
 interface DataType {
@@ -181,93 +187,69 @@ const rowSelection: TableProps<DataType>["rowSelection"] = {
   }),
 };
 
-export default {
-  setup() {
-    const router = useRouter();
+const router = useRouter();
+const projectStore = useProjectStore();
+const searchQuery = ref("");
+const isDropdownVisible = ref(false);
+const selectedFilters = ref<string[]>([]);
+const activeLead = ref<string | null>(null);
+const data = ref<any[]>([]);
+const loading = ref(false);
 
-    const searchQuery = ref("");
-    const isDropdownVisible = ref(false);
-    const selectedFilters = ref<string[]>([]);
-    const activeLead = ref<string | null>(null);
-    const data = ref<DataType[]>([]);
-    const loading = ref(false);
-    const projectStore = useProjectStore();
-
-    const loadData = async () => {
-      loading.value = true;
-      try {
-        await projectStore.loadProjects();
-        const newProjects = projectStore.projects.map((project) => ({
-          key: project?.id,
-          name: project?.title || "",
-          project: project?.keyProject || "",
-          role: project?.roleUser || "",
-          lead: normalizeName(
-            project?.userNameResponseList[0]?.firstName,
-            project?.userNameResponseList[0]?.middleName,
-            project?.userNameResponseList[0]?.lastName
-          ), // sau set list lead
-        }));
-        data.value = newProjects;
-      } catch (error) {
-        console.error("Error loading data:", error);
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    const handleProject = async (id: string) => {
-      try {
-        const projectRoleStore = useProjectRoleStore();
-        await projectRoleStore.loadProjectRole(id); // Await the async call
-
-        router.push("/mainpage");
-      } catch (error) {
-        console.error("Error data:", error);
-      }
-    };
-
-    const handleCreateProject = () => {
-      router.push("/project-create");
-    };
-
-    const clearSearch = () => {
-      searchQuery.value = "";
-    };
-
-    const toggleDropdown = (show: boolean) => {
-      isDropdownVisible.value = show;
-    };
-
-    const toggleHover = (lead: string) => {
-      if (activeLead.value === lead) {
-        activeLead.value = null;
-      } else {
-        activeLead.value = lead;
-      }
-    };
-
-    onMounted(() => {
-      loadData();
-    });
-
-    return {
-      searchQuery,
-      isDropdownVisible,
-      selectedFilters,
-      data,
-      columns,
-      loading,
-      rowSelection,
-      activeLead,
-      clearSearch,
-      toggleHover,
-      toggleDropdown,
-      handleProject,
-      handleCreateProject,
-    };
-  },
+const loadData = async () => {
+  loading.value = true;
+  try {
+    await projectStore.loadProjects();
+    const newProjects = projectStore.projects.map((project) => ({
+      key: project?.id,
+      name: project?.title || "",
+      project: project?.keyProject || "",
+      role: project?.roleUser || "",
+      lead: normalizeName(
+        project?.userNameResponseList[0]?.firstName,
+        project?.userNameResponseList[0]?.middleName,
+        project?.userNameResponseList[0]?.lastName
+      ), // sau set list lead
+    }));
+    data.value = newProjects;
+  } catch (error) {
+    console.error("Error loading data:", error);
+  } finally {
+    loading.value = false;
+  }
 };
+
+const handleProject = async (id: string) => {
+  try {
+    const projectRoleStore = useProjectRoleStore();
+    await projectRoleStore.loadProjectRole(id); // Await the async call
+    router.push("/mainpage");
+  } catch (error) {
+    console.error("Error data:", error);
+  }
+};
+
+
+
+const clearSearch = () => {
+  searchQuery.value = "";
+};
+
+const toggleDropdown = (show: boolean) => {
+  isDropdownVisible.value = show;
+};
+
+const toggleHover = (lead: string) => {
+  if (activeLead.value === lead) {
+    activeLead.value = null;
+  } else {
+    activeLead.value = lead;
+  }
+};
+
+onMounted(() => {
+  loadData();
+});
 </script>
 
 <style scoped>

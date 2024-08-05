@@ -58,53 +58,44 @@
   </div>
 </template>
 
-<script lang="ts">
-import { useRegisAccountStore } from '../../../../stores/authStores/regisStore';
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useRegisAccountStore } from '../../../../stores/authStores/regisStore';
 
-export default defineComponent({
-  name: 'Register',
-  setup() {
-    const router = useRouter();
-    const regisStore = useRegisAccountStore();
-    const email = ref('');
-    const errorMessage = ref('');
-    const loading = ref(false);
+// Reactive state
+const router = useRouter();
+const regisStore = useRegisAccountStore();
+const email = ref('');
+const errorMessage = ref('');
+const loading = ref(false);
 
-    const handleRegis = async () => {
-      loading.value = true;
-      errorMessage.value = '';
-      try {
-        await regisStore.regisAccount(email.value);
-        if (regisStore.error) {
-          if (regisStore.error === 'Account has already been registered') {
-            console.log('Account has already been registered, redirecting to login.');
-            router.push('/author'); 
-          } else {
-            errorMessage.value = regisStore.error;
-          }
-        } else {
-          console.log('Email sent successfully.');
-          router.push('/author/validate');
-        }
-      } catch (error: any) {
-        console.log('Error message:', error.message);
-        errorMessage.value = 'An error occurred.';
-      } finally {
-        loading.value = false;
+// Handle registration
+const handleRegis = async () => {
+  loading.value = true;
+  errorMessage.value = '';
+  try {
+    await regisStore.regisAccount(email.value);
+    if (regisStore.error) {
+      if (regisStore.error === 'Account has already been registered') {
+        console.log('Account has already been registered, redirecting to login.');
+        router.push('/author');
+      } else {
+        errorMessage.value = regisStore.error;
       }
-    };
-
-    return {
-      email,
-      errorMessage,
-      loading,
-      handleRegis,
-    };
-  },
-});
+    } else {
+      console.log('Email sent successfully.');
+      router.push('/author/validate');
+    }
+  } catch (error: any) {
+    console.log('Error message:', error.message);
+    errorMessage.value = 'An error occurred.';
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
+
 
 <style scoped>
 @import 'index.scss';

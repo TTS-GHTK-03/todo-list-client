@@ -24,8 +24,8 @@
             class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-300"
             style="margin-top: 4px">
             <i :class="showPassword1
-                ? 'fas fa-eye text-sm'
-                : 'fas fa-eye-slash text-sm'
+              ? 'fas fa-eye text-sm'
+              : 'fas fa-eye-slash text-sm'
               " style="font-size: 1rem"></i>
           </span>
         </div>
@@ -40,8 +40,8 @@
             class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-300"
             style="margin-top: 4px">
             <i :class="showPassword2
-                ? 'fas fa-eye text-sm'
-                : 'fas fa-eye-slash text-sm'
+              ? 'fas fa-eye text-sm'
+              : 'fas fa-eye-slash text-sm'
               " style="font-size: 1rem"></i>
           </span>
         </div>
@@ -68,7 +68,7 @@
             Still having trouble logging in?
           </button>
         </div>
-        
+
       </form>
 
       <footer class="w-full flex flex-col items-center mt-4 space-y-2">
@@ -100,82 +100,71 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useForgotPasswordStore, useValidateOtpStore } from "../../../../stores/authStores/forgotStore";
-import { resetPassWord } from "../../../../api/forgotPassword";
-import "@fortawesome/fontawesome-free/css/all.css";
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useForgotPasswordStore, useValidateOtpStore } from '../../../../stores/authStores/forgotStore';
+import { resetPassWord } from '../../../../api/forgotPassword';
+import '@fortawesome/fontawesome-free/css/all.css';
 
-export default defineComponent({
-  name: "forgotform",
+// Reactive state
+const router = useRouter();
+const password = ref('');
+const confirmPassword = ref('');
+const errorMessage = ref('');
+const loading = ref(false);
+const successMessage = ref('');
 
-  setup() {
-    const router = useRouter();
-    const password = ref("");
-    const confirmPassword = ref("");
-    const errorMessage = ref("");
-    const loading = ref(false);
-    const successMessage = ref("");
-    const email = useForgotPasswordStore().email?.toString() || "";
-    const registerKey = useValidateOtpStore().resetPasswordKey?.toString() || "";
+// Get email and register key from stores
+const forgotPasswordStore = useForgotPasswordStore();
+const validateOtpStore = useValidateOtpStore();
+const email = forgotPasswordStore.email?.toString() || '';
+const registerKey = validateOtpStore.resetPasswordKey?.toString() || '';
 
-    const handleSubmit = async () => {
-      loading.value = true;
-      errorMessage.value = "";
-      try {
-        console.log("Register key:", registerKey);
-        console.log("Email:", email);
-        console.log("Password:", password.value);
-        console.log("Confirm password:", confirmPassword.value);
-        const response = await resetPassWord({
-          email: email,
-          resetPasswordKey: registerKey,
-          password: password.value,
-          confirmPassword: confirmPassword.value,
-        });
-        console.log("Password reset successful:", response);
-        successMessage.value = "Password reset successful.";
-        useForgotPasswordStore().email = null;
-        useValidateOtpStore().resetPasswordKey = null;
-        router.push("/author");
-      } catch (error: any) {
-        console.error("Password reset failed:", error);
-        console.log("Error message:", error.message);
-        errorMessage.value = error.message || "Invalid reset attempt.";
-      } finally {
-        loading.value = false;
-      }
-    };
+// Handle form submission
+const handleSubmit = async () => {
+  loading.value = true;
+  errorMessage.value = '';
+  try {
+    console.log('Register key:', registerKey);
+    console.log('Email:', email);
+    console.log('Password:', password.value);
+    console.log('Confirm password:', confirmPassword.value);
 
-    return {
-      password,
-      confirmPassword,
-      errorMessage,
-      loading,
-      successMessage,
-      router,
-      handleSubmit,
-    };
-  },
+    const response = await resetPassWord({
+      email,
+      resetPasswordKey: registerKey,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
+    });
 
-  data() {
-    return {
-      showPassword1: false,
-      showPassword2: false,
-    };
-  },
+    console.log('Password reset successful:', response);
+    successMessage.value = 'Password reset successful.';
 
-  methods: {
-    togglePassword(field: number) {
-      if (field === 1) {
-        this.showPassword1 = !this.showPassword1;
-      } else if (field === 2) {
-        this.showPassword2 = !this.showPassword2;
-      }
-    },
-  },
-});
+    // Clear stores and redirect
+    forgotPasswordStore.email = null;
+    validateOtpStore.resetPasswordKey = null;
+    router.push('/author');
+  } catch (error: any) {
+    console.error('Password reset failed:', error);
+    console.log('Error message:', error.message);
+    errorMessage.value = error.message || 'Invalid reset attempt.';
+  } finally {
+    loading.value = false;
+  }
+};
+
+// Reactive state for password visibility
+const showPassword1 = ref(false);
+const showPassword2 = ref(false);
+
+const togglePassword = (field: number) => {
+  if (field === 1) {
+    showPassword1.value = !showPassword1.value;
+  } else if (field === 2) {
+    showPassword2.value = !showPassword2.value;
+  }
+};
 </script>
 
 <style scoped>

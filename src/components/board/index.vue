@@ -141,7 +141,7 @@
               v-for="task in data.get(TaskStatus.TODO)"
               :key="task?.id"
               :text="task?.title"
-              :key-text="task?.keyProjectTask"
+              :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
               @dragstart="startDrag($event, task)"
@@ -174,7 +174,7 @@
               v-for="task in data.get(TaskStatus.IN_PROGRESS)"
               :key="task?.id"
               :text="task?.title"
-              :key-text="task?.keyProjectTask"
+              :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
               @dragstart="startDrag($event, task)"
@@ -207,7 +207,7 @@
               v-for="task in data.get(TaskStatus.READY_FOR_TEST)"
               :key="task?.id"
               :text="task?.title"
-              :key-text="task?.keyProjectTask"
+              :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
               @dragstart="startDrag($event, task)"
@@ -240,7 +240,7 @@
               v-for="task in data.get(TaskStatus.DONE)"
               :key="task?.id"
               :text="task?.title"
-              :key-text="task?.keyProjectTask"
+              :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
               @dragstart="startDrag($event, task)"
@@ -267,7 +267,6 @@
 import { defineComponent, ref, onMounted } from "vue";
 import ItemTask from "../shared/ItemTask/index.vue";
 import { VueDraggableNext } from "vue-draggable-next";
-// import { tasks } from "../../constants/itemTask";
 import { fetchAllTaskByAllSprint, updateStatusTask } from "../../api/task";
 import { TaskStatus } from "../../utils/constants/enum";
 import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";

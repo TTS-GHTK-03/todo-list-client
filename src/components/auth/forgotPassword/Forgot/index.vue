@@ -34,7 +34,7 @@
       <footer class="w-full flex flex-col items-center mt-4 space-y-2">
         <hr class="border-t-2 border-gray-300 w-3/4 mb-5" />
         <img src="../../../../assets/img/atlassian.png" alt="atlassian" class="max-h-6 select-none grayscale" />
-        
+
         <span class="text-center text-xs pt-4">
           One account for Jira, Confluence, Trello and
           <span class="text-[#2f66e6] hover:underline cursor-pointer">
@@ -58,48 +58,40 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from "vue";
-import { useRouter } from "vue-router";
-import { useForgotPasswordStore } from "../../../../stores/authStores/forgotStore";
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { useForgotPasswordStore } from '../../../../stores/authStores/forgotStore';
 
-export default defineComponent({
-  name: "Forgot",
-  setup() {
-    const router = useRouter();
-    const forgotPasswordStore = useForgotPasswordStore();
-    const email = ref("");
-    const errorMessage = ref("");
-    const loading = ref(false);
+// Initialize router and store
+const router = useRouter();
+const forgotPasswordStore = useForgotPasswordStore();
 
-    const handleForgotPassword = async () => {
-      loading.value = true;
-      errorMessage.value = "";
-      try {
-        console.log("Attempting to login with:", { email: email.value });
-        await forgotPasswordStore.forgotPassword(email.value);
-        if (forgotPasswordStore.error) {
-          errorMessage.value = forgotPasswordStore.error;
-        } else {
-          console.log("Password reset email sent successfully.");
-          router.push("/author/validforgot");
-        }
-      } catch (error: any) {
-        errorMessage.value =
-          "An error occurred while requesting password reset.";
-      } finally {
-        loading.value = false;
-      }
-    };
+// Define reactive state
+const email = ref('');
+const errorMessage = ref('');
+const loading = ref(false);
 
-    return {
-      email,
-      errorMessage,
-      loading,
-      handleForgotPassword,
-    };
-  },
-});
+// Handle forgot password
+const handleForgotPassword = async () => {
+  loading.value = true;
+  errorMessage.value = '';
+  try {
+    console.log('Attempting to login with:', { email: email.value });
+    await forgotPasswordStore.forgotPassword(email.value);
+    if (forgotPasswordStore.error) {
+      errorMessage.value = forgotPasswordStore.error;
+    } else {
+      console.log('Password reset email sent successfully.');
+      router.push('/author/validforgot');
+    }
+  } catch (error: any) {
+    errorMessage.value =
+      'An error occurred while requesting password reset.';
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <style scoped>

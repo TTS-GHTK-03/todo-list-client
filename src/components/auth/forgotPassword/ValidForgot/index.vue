@@ -50,88 +50,76 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+<script setup lang="ts">
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { useValidateOtpStore } from '../../../../stores/authStores/forgotStore';
-import { useForgotPasswordStore } from '../../../../stores/authStores/forgotStore';
+import { useValidateOtpStore, useForgotPasswordStore } from '../../../../stores/authStores/forgotStore';
 
-export default defineComponent({
-  name: 'ValidForgot',
-  setup() {
-    const code = reactive([
-      { value: '' },
-      { value: '' },
-      { value: '' },
-      { value: '' },
-      { value: '' },
-      { value: '' },
-    ]);
+// Reactive state
+const code = reactive([
+  { value: '' },
+  { value: '' },
+  { value: '' },
+  { value: '' },
+  { value: '' },
+  { value: '' },
+]);
 
-    const forgotPasswordStore = useForgotPasswordStore();
-    const email = forgotPasswordStore.email?.toString() || '';
-    const router = useRouter();
-    const validforgotStore = useValidateOtpStore();
-    const errorMessage = ref('');
-    const loading = ref(false);
+const forgotPasswordStore = useForgotPasswordStore();
+const email = forgotPasswordStore.email?.toString() || '';
+const router = useRouter();
+const validforgotStore = useValidateOtpStore();
+const errorMessage = ref('');
+const loading = ref(false);
 
-    const handleValidate = async () => {
-      const otp = code.map((digit) => digit.value).join('');
-      loading.value = true;
-      errorMessage.value = '';
-      try {
-        console.log(email, otp);
-        await validforgotStore.validateOtpForgot(email, otp);
-        if (validforgotStore.error) {
-          errorMessage.value = validforgotStore.error;
-        } else {
-          console.log('Otp successful.');
-          router.push('/author/forgotform');
-        }
-      } catch (error: any) {
-        errorMessage.value = 'An error occurred while requesting password reset.';
-      } finally {
-        loading.value = false;
-      }
-    };
+// Validate OTP
+const handleValidate = async () => {
+  const otp = code.map((digit) => digit.value).join('');
+  loading.value = true;
+  errorMessage.value = '';
+  try {
+    console.log(email, otp);
+    await validforgotStore.validateOtpForgot(email, otp);
+    if (validforgotStore.error) {
+      errorMessage.value = validforgotStore.error;
+    } else {
+      console.log('Otp successful.');
+      router.push('/author/forgotform');
+    }
+  } catch (error: any) {
+    errorMessage.value = 'An error occurred while requesting password reset.';
+  } finally {
+    loading.value = false;
+  }
+};
 
-    const moveToNext = (event: Event, index: number) => {
-      const input = event.target as HTMLInputElement;
-      if (input.value.length > 1) {
-        input.value = input.value.slice(0, 1);
-      }
-      code[index].value = input.value;
-      if (input.value.length === 1 && index < code.length - 1) {
-        const nextInput = input.nextElementSibling as HTMLInputElement;
-        if (nextInput && nextInput.tagName === 'INPUT') {
-          nextInput.focus();
-        }
-      }
-    };
+// Move to next input
+const moveToNext = (event: Event, index: number) => {
+  const input = event.target as HTMLInputElement;
+  if (input.value.length > 1) {
+    input.value = input.value.slice(0, 1);
+  }
+  code[index].value = input.value;
+  if (input.value.length === 1 && index < code.length - 1) {
+    const nextInput = input.nextElementSibling as HTMLInputElement;
+    if (nextInput && nextInput.tagName === 'INPUT') {
+      nextInput.focus();
+    }
+  }
+};
 
-    const moveToPrev = (event: KeyboardEvent, index: number) => {
-      const input = event.target as HTMLInputElement;
-      if (input.value.length === 0 && event.key === 'Backspace') {
-        const prevInput = input.previousElementSibling as HTMLInputElement;
-        if (prevInput && prevInput.tagName === 'INPUT') {
-          code[index].value = '';
-          prevInput.focus();
-          prevInput.value = '';
-        }
-      }
-    };
-
-    return {
-      email,
-      errorMessage,
-      loading,
-      code,
-      handleValidate,
-      moveToNext,
-      moveToPrev,
-    };
-  },
-});
+// Move to previous input
+const moveToPrev = (event: KeyboardEvent, index: number) => {
+  const input = event.target as HTMLInputElement;
+  if (input.value.length === 0 && event.key === 'Backspace') {
+    const prevInput = input.previousElementSibling as HTMLInputElement;
+    if (prevInput && prevInput.tagName === 'INPUT') {
+      code[index].value = '';
+      prevInput.focus();
+      prevInput.value = '';
+    }
+  }
+};
 </script>
 
 <style scoped>
