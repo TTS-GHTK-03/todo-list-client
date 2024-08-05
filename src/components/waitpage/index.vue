@@ -125,70 +125,60 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { acceptInvite } from "../../api/projectUser";
-import { useProjectRoleStore } from "../../stores/projectStores/projectStore";
-import "@fortawesome/fontawesome-free/css/all.css";
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { acceptInvite } from '../../api/projectUser';
+import { useProjectRoleStore } from '../../stores/projectStores/projectStore';
+import '@fortawesome/fontawesome-free/css/all.css';
 
-export default defineComponent({
-  name: "WaitPage",
+// Khai báo các biến
+const route = useRoute();
+const router = useRouter();
+const isLoading = ref(true);
+const isAccess = ref(false);
+const loading = ref(true);
 
-  setup() {
-    const route = useRoute();
-    const router = useRouter();
-    const isLoading = ref(true);
-    const isAccess = ref(false);
-    const loading = ref(true);
+const email = route.query.email as string;
+const id = route.query.id as string;
+console.log('email', email);
 
-    const email = route.query.email;
-    const id = route.query.id;
-    console.log("email", email);
+// Hàm chuyển hướng đến trang login
+const handleGoLogin = () => {
+  router.replace('/author');
+};
 
-    const handleGoLogin = () => {
-      router.replace("/author");
-    };
+// Hàm chuyển hướng đến trang dự án
+const handleGoProject = async () => {
+  loading.value = false;
+  try {
+    const projectRoleStore = useProjectRoleStore();
+    await projectRoleStore.loadProjectRole(id);
 
-    const handleGoProject = async () => {
-      loading.value = false;
-      try {
-        const projectRoleStore = useProjectRoleStore();
-        await projectRoleStore.loadProjectRole(id);
+    router.replace('/mainpage');
+  } catch (error) {
+    console.log('error');
+  } finally {
+    loading.value = true;
+  }
+};
 
-        router.replace("/mainpage");
-      } catch (error) {
-        console.log("error");
-      } finally {
-        loading.value = true;
-      }
-    };
-
-    onMounted(async () => {
-      isLoading.value = true;
-      try {
-        const response = await acceptInvite(email, id);
-        console.log("response: ", response);
-        isAccess.value = true;
-      } catch (error) {
-        isAccess.value = false;
-        console.error("Failed to fetch tasks", error);
-      } finally {
-        isLoading.value = false;
-      }
-    });
-
-    return {
-      isLoading,
-      isAccess,
-      loading,
-      handleGoLogin,
-      handleGoProject,
-    };
-  },
+// Thực hiện khi component được gắn vào DOM
+onMounted(async () => {
+  isLoading.value = true;
+  try {
+    const response = await acceptInvite(email, id);
+    console.log('response: ', response);
+    isAccess.value = true;
+  } catch (error) {
+    isAccess.value = false;
+    console.error('Failed to fetch tasks', error);
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
 <style>
-@import "index.scss";
+@import 'index.scss';
 </style>

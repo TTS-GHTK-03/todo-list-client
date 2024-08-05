@@ -262,14 +262,13 @@
   </div>
 </template>
 
-<script lang="ts">
-
-import { defineComponent, ref, onMounted } from "vue";
-import ItemTask from "../shared/ItemTask/index.vue";
-import { VueDraggableNext } from "vue-draggable-next";
-import { fetchAllTaskByAllSprint, updateStatusTask } from "../../api/task";
-import { TaskStatus } from "../../utils/constants/enum";
-import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import ItemTask from '../shared/ItemTask/index.vue';
+import { VueDraggableNext } from 'vue-draggable-next';
+import { fetchAllTaskByAllSprint, updateStatusTask } from '../../api/task';
+import { TaskStatus } from '../../utils/constants/enum';
+import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 
 export interface Task {
   id: string;
@@ -280,101 +279,82 @@ export interface Task {
   userId: string;
 }
 
-export default defineComponent({
-  name: "Board",
-  components: {
-    ItemTask,
-    draggable: VueDraggableNext,
-    AddPeopleModal,
-  },
-  setup() {
-    const isModalVisible = ref(false);
+// Khai báo các biến
+const isModalVisible = ref(false);
+const searchQuery = ref<string>('');
+const data = ref<Map<string, Task[]>>(new Map());
+const isLoading = ref(true);
 
-    const searchQuery = ref<string>("");
-    const data = ref<Map<string, Task[]>>(new Map());
-    const isLoading = ref(true);
+// Hàm xóa truy vấn tìm kiếm
+const clearSearch = () => {
+  searchQuery.value = '';
+};
 
-    const clearSearch = () => {
-      searchQuery.value = "";
-    };
+// Hàm mở modal
+const openModal = () => {
+  isModalVisible.value = true;
+};
 
-    const openModal = () => {
-      isModalVisible.value = true;
-    };
+// Hàm xử lý kéo nhiệm vụ
+const startDrag = (event: DragEvent, task: Task) => {
+  console.log(task);
+  event.dataTransfer!.dropEffect = 'move';
+  event.dataTransfer!.effectAllowed = 'move';
+  event.dataTransfer!.setData('taskId', task.id);
+  event.dataTransfer!.setData('status', task.status);
+};
 
-  
-    const startDrag = (event: DragEvent, task: Task) => {
-      console.log(task);
-      event.dataTransfer!.dropEffect = "move";
-      event.dataTransfer!.effectAllowed = "move";
-      event.dataTransfer!.setData("taskId", task.id);
-      event.dataTransfer!.setData("status", task.status);
-    };
+// Hàm xử lý thả nhiệm vụ
+const onDrop = (event: DragEvent, newStatus: string) => {
+  const taskId = event.dataTransfer!.getData('taskId');
+  const oldStatus = event.dataTransfer!.getData('status');
+  console.log(taskId);
+  console.log(oldStatus);
 
-    const onDrop = (event: DragEvent, newStatus: string) => {
-      const taskId = event.dataTransfer!.getData("taskId");
-      const oldStatus = event.dataTransfer!.getData("status");
-      console.log(taskId);
-      console.log(oldStatus);
+  const oldTasks = data.value.get(oldStatus) || [];
+  const newTasks = data.value.get(newStatus) || [];
 
-      // Lấy danh sách nhiệm vụ từ trạng thái cũ và mới
-      const oldTasks = data.value.get(oldStatus) || [];
-      const newTasks = data.value.get(newStatus) || [];
-
-      // Tìm nhiệm vụ trong danh sách trạng thái cũ
-      const taskIndex = oldTasks.findIndex((task) => task.id === taskId);
-      if (taskIndex !== -1) {
-        try {
-          updateStatusTask(taskId, newStatus);
-          const [task] = oldTasks.splice(taskIndex, 1); // Xóa nhiệm vụ khỏi trạng thái cũ
-          if (task) {
-            task.status = newStatus; // Cập nhật trạng thái của nhiệm vụ
-            newTasks.push(task); // Thêm nhiệm vụ vào trạng thái mới
-            data.value.set(oldStatus, oldTasks); // Cập nhật danh sách trạng thái cũ
-            data.value.set(newStatus, newTasks); // Cập nhật danh sách trạng thái mới
-          }
-        } catch (error) {}
+  const taskIndex = oldTasks.findIndex((task) => task.id === taskId);
+  if (taskIndex !== -1) {
+    try {
+      updateStatusTask(taskId, newStatus);
+      const [task] = oldTasks.splice(taskIndex, 1); // Xóa nhiệm vụ khỏi trạng thái cũ
+      if (task) {
+        task.status = newStatus; // Cập nhật trạng thái của nhiệm vụ
+        newTasks.push(task); // Thêm nhiệm vụ vào trạng thái mới
+        data.value.set(oldStatus, oldTasks); // Cập nhật danh sách trạng thái cũ
+        data.value.set(newStatus, newTasks); // Cập nhật danh sách trạng thái mới
       }
-    };
+    } catch (error) {
+      console.error('Failed to update task status', error);
+    }
+  }
+};
 
-    onMounted(async () => {
-      try {
-        const response = await fetchAllTaskByAllSprint();
-        console.log("response: ", response);
-        const map = new Map<string, Task[]>();
-        response.data.forEach((task) => {
-          if(task.sprintId != null ){
-            if (!map.has(task.status)) {
-              map.set(task.status, []);
-            }
-            map.get(task.status)!.push(task);
-          }
-        });
-        data.value = map;
-        console.log("data: ", data.value);
-      } catch (error) {
-        console.error("Failed to fetch tasks", error);
-      }finally {
-        isLoading.value = false;
+// Thực hiện khi component được gắn vào DOM
+onMounted(async () => {
+  try {
+    const response = await fetchAllTaskByAllSprint();
+    console.log('response: ', response);
+    const map = new Map<string, Task[]>();
+    response.data.forEach((task) => {
+      if (task.sprintId != null) {
+        if (!map.has(task.status)) {
+          map.set(task.status, []);
+        }
+        map.get(task.status)!.push(task);
       }
     });
-
-    return {
-      searchQuery,
-      data,
-      clearSearch,
-      startDrag,
-      onDrop,
-      // getState,
-      isLoading,
-      TaskStatus,
-      isModalVisible,
-      openModal,
-    };
-  },
+    data.value = map;
+    console.log('data: ', data.value);
+  } catch (error) {
+    console.error('Failed to fetch tasks', error);
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
 <style scoped>
-@import "index.scss";
+@import 'index.scss';
 </style>
