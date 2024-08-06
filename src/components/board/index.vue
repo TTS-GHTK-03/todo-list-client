@@ -265,7 +265,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import ItemTask from '../shared/ItemTask/index.vue';
-import { VueDraggableNext } from 'vue-draggable-next';
 import { fetchAllTask, updateStatusTask } from '../../api/task';
 import { TaskStatus } from '../../utils/constants/enum';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
@@ -331,26 +330,25 @@ const onDrop = (event: DragEvent, newStatus: string) => {
   }
 };
 
-onMounted(async () => {
-  try {
-    const response = await fetchAllTask();
-    console.log('response: ', response);
-    const map = new Map<string, Task[]>();
-    response.data.forEach((task) => {
-      if (task.sprintId != null) {
-        if (!map.has(task.status)) {
-          map.set(task.status, []);
-        }
-        map.get(task.status)!.push(task);
+    onMounted(async () => {
+      try {
+        const response = await fetchAllTask();
+        const filteredTasks = response.data.filter(task => task.sprintId !== null);
+        const map = new Map<string, Task[]>();
+          filteredTasks.forEach((task) => {
+          if (!map.has(task.status)) {
+            map.set(task.status, []);
+          }
+          map.get(task.status)!.push(task);
+        });
+        data.value = map;
+        console.log("data: ", data.value);
+      } catch (error) {
+        console.error("Failed to fetch tasks", error);
+      } finally {
+        isLoading.value = false;
       }
-    });
-    data.value = map;
-    console.log('data: ', data.value);
-  } catch (error) {
-    console.error('Failed to fetch tasks', error);
-  } finally {
-    isLoading.value = false;
-  }
+    
 });
 </script>
 

@@ -41,8 +41,8 @@
     <div class="flex justify-between items-center min-w-[350px] text-text-dark-thin relative">
       <button @click.stop="toggleDropdown" :class="buttonClasses"
         class="text-xs font-bold font-ui bg-opacity-50 px-1 rounded">
-        <span :class="statusClasses">{{ replaceUnderscores(selectedStatus) }}</span>
-        <i class="fa-solid fa-chevron-down ml-1 text-xs w-4"></i>
+        <span :class="statusClasses">{{ replaceUnderscores(selectedStatus) }}
+        <i class="fa-solid fa-chevron-down ml-1 text-xs w-4"></i></span>
       </button>
 
       <!-- Dropdown Menu -->
