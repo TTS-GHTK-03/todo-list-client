@@ -20,8 +20,10 @@ import ProjectDetail from '../components/project/projectsetings/ProjectDetail/in
 import Backlog from '../components/backlog/index.vue';
 import CreateProject from '../components/project/CreateProject/index.vue'
 import Task from '../components/task/index.vue';
+import Profile from '../views/Profile/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
+import path from 'path';
 
 
 const routes = [
@@ -149,8 +151,10 @@ const routes = [
     ],
     // meta: { requiresAuth: true },
   },
- 
-
+  {
+    path: '/profile',
+    component: Profile, 
+  },
   {
     path: '/:pathMatch(.*)*', 
     redirect: '/',
