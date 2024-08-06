@@ -29,7 +29,7 @@
           <a href="#" class="text-[#0052CC]">Upgrade your plan </a> to customize
           project permissions.
         </p>
-        <div class="form-group mb-6">
+        <!-- <div class="form-group mb-6">
           <label for="key" class="block text-sm font-medium text-text-dark-thin">
             Key
             <span class="icon">
@@ -43,7 +43,7 @@
           </label>
           <input type="text" id="key" v-model="key" required
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[#0052CC] focus:border-[#0052CC] sm:text-sm" />
-        </div>
+        </div> -->
         <div class="flex justify-end space-x-2">
           <button type="button" @click="cancel"
             class="px-4 py-2 bg-gray-100 text-text-dark-thin rounded hover:bg-gray-200">
@@ -69,7 +69,6 @@ export default defineComponent({
     const router = useRouter();
 
     const name = ref("");
-    const key = ref("");
     const loading = ref(false);
     const createProjectStore = useCreateProjectStore();
 
@@ -97,7 +96,6 @@ export default defineComponent({
 
     return {
       name,
-      key,
       submitForm,
       cancel,
     };

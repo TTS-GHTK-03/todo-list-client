@@ -60,13 +60,17 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { useRegisAccountStore } from '../../../../stores/authStores/regisStore';
 
 // Reactive state
 const router = useRouter();
+const route = useRoute();
+
+const emailInvite = route.query.email as string;;
+console.log("emailInvite", emailInvite)
 const regisStore = useRegisAccountStore();
-const email = ref('');
+const email = ref(emailInvite || '');
 const errorMessage = ref('');
 const loading = ref(false);
 
