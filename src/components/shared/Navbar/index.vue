@@ -3,8 +3,6 @@
     <img src="../../../assets/img/logo_no_text.png" alt="" class="h-full w-20">
     <div class="container mx-auto flex items-center h-full justify-between ml-20">
       <a href="" class="flex items-center space-x-1 select-none">
-        <!-- <img src="../../assets/img/Jira_Logo.png" alt="Logo" class="block" width="75" height="75"> -->
-        <!-- <span class="text-custom-dark text-2xl font-medium">Jira</span> -->
         <div class="my-4 flex items-center">
           <svg fill="none" height="28" viewBox="0 0 26 32" focusable="false" aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg">
@@ -26,26 +24,27 @@
           Sign in
         </button>
       </div>
-      
+
     </div>
   </div>
 </template>
 
-<script>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'navbar',
+
+});
+</script>
+
+<script setup lang="ts">
 import { useRouter } from 'vue-router';
 
-export default {
-  name: 'Navbar',
-  setup() {
-    const router = useRouter();
+const router = useRouter();
 
-    const goToAuthorPage = () => {
-      router.push('/author');
-    };
-
-    return {
-      goToAuthorPage
-    };
-  }
-};
+function goToAuthorPage() {
+  router.push('/author');
+}
 </script>

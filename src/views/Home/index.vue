@@ -4,6 +4,7 @@
   <!-- section 1 -->
   <section class="min-h-screen bg-gradient-to-b from-[#273758] to-[#0e1e42]">
     <section class="flex items-center justify-between h-[100vh] pt-[10vh] gap-4">
+
       <div class="pl-20 flex flex-col space-y-3 font-charlie-display text-white ml-">
         <h1 class="text-5xl font-medium">
           Move fast, stay aligned, and build better - together
@@ -16,7 +17,8 @@
           Get it free
         </button>
       </div>
-      <img class="w-[55%]" src="../../assets/img/Hero.png" alt="Hero">   
+
+      <img class="w-[55%]" src="../../assets/img/Hero.png" alt="Hero">
     </section>
   </section>
 
@@ -36,6 +38,7 @@
           class="absolute inset-0 border-2 border-transparent rounded-full hover:border-white transition-colors duration-300"></span>
       </button>
     </div>
+
     <transition name="slide-fade" mode="out-in" class="z-10">
       <div class="flex justify-between gap-6 mt-10" :key="activeTab">
         <div class="w-[450px] text-white font-charlie-display ml-8 mt-10">
@@ -100,50 +103,39 @@
           <img src="../../assets/img/workflow_img.png" alt="" class='w-2/3'>
         </div>
       </div>
+
     </div>
 
-    <h1 class="text-4xl font-semibold text-center absolute inset-0 mt-10 font-charlie-display justify-center text-white">
+    <h1
+      class="text-4xl font-semibold text-center absolute inset-0 mt-10 font-charlie-display justify-center text-white">
       Easier than ever
     </h1>
-    
+
     <div class="h-2/5 flex items-center justify-center w-[55%] mx-auto mt-0 absolute inset-0">
       <img src="../../assets/img/document.svg" alt="document">
       <div class="flex-1 h-2 bg-gradient-to-r from-blue-600 to-green-300 mx-0"></div>
       <img src="../../assets/img/icon-workflow.svg" alt="workflow">
     </div>
+
   </section>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script setup lang="ts">
+import { ref } from 'vue';
 import Navbar from '../../components/shared/Navbar/index.vue';
 import { tabs_content, templates } from '../../constants/homeInfo';
 
-export default defineComponent({
-  name: 'HomeSection',
-  components: { Navbar },
-  setup() {
-    const activeTab = ref(0);
-    const tabs = tabs_content;
-    const templateList = templates;
+const activeTab = ref(0);
+const tabs = tabs_content;
+const templateList = templates;
 
-    const changeTab = (index: number) => {
-      activeTab.value = index;
-    };
+const changeTab = (index: number) => {
+  activeTab.value = index;
+};
 
-    const resolveImagePath = (image: string) => {
-      return new URL(image, import.meta.url).href;
-    };
-
-    return {
-      activeTab,
-      tabs,
-      templateList,
-      changeTab,
-      resolveImagePath,
-    };
-  }
-});
+const resolveImagePath = (image: string) => {
+  return new URL(image, import.meta.url).href;
+};
 </script>
 
 

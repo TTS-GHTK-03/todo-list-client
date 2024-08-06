@@ -4,7 +4,6 @@ import App from './App.vue'
 import router from './router'
 import pinia from './stores'
 
-// import './assets/style.css' 
 import './assets/main.scss'; 
 
 import 'ant-design-vue/dist/reset.css'

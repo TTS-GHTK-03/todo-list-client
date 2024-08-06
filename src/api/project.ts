@@ -65,7 +65,6 @@ export interface ProjectInformationResponse {
 export const fetchAllProjects = async (): Promise<ProjectInformationResponse> => {
   try {
     const response = await apiClient.get<ProjectInformationResponse>("/projects");
-    console.log("fetchAllProjects (response): ", response)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -183,3 +182,51 @@ export const fetchProjectDetail = async (): Promise<ProjectInformationResponse> 
     }
 };
   
+
+
+export interface Sprint{
+    "id": string,
+    "title": string,
+    "status": string,
+    "startDate": string,
+    "endDate": string,
+    "createdAt": string,
+    "lastUpdatedAt": string,
+}
+
+export interface SprintProjectRequest {
+  status: string;
+}
+
+export interface SprintProjectResponse {
+  status: number;
+  timestamp: string;
+  data: Sprint[];
+}
+
+
+export const fetchSprintProject = async (credentials: SprintProjectRequest): Promise<SprintProjectResponse> => {
+  try {
+      const projectRoleStore = useProjectRoleStore()
+      const idProject = projectRoleStore.idProject
+      if (!idProject) {
+          throw new Error("Project ID is not defined");
+      }
+      
+      const response = await apiClient.get<SprintProjectResponse>(
+        `/projects/${idProject}/sprints`,
+        credentials
+      );
+      return response.data;
+  } catch (error: any) {
+      if (error.response) {
+          if (error.response.status === 401) {
+          throw new Error("Unauthorized: Invalid or expired access token");
+          } else {
+          throw new Error("An error occurred while fetching projects");
+          }
+      } else {
+          throw new Error("An error occurred while fetching projects");
+      }
+  }
+};
