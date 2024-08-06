@@ -42,3 +42,13 @@ $border-width: 2px; // Độ dày của vạch kẻ
   border-width: 1px;
   box-shadow: inset 0 0 0 1px #2563eb;
 }
+
+.input-create-task {
+  
+  border: 1px solid transparent; 
+  
+  &:focus {
+    outline: none; 
+    border: none; 
+  }
+}

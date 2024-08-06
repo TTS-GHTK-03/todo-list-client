@@ -13,6 +13,7 @@
           {{ props.keyProjectTask }}
         </span>
       </div>
+    
 
       <div v-if="!showEditTitle" class="flex items-center text-sm font-ui text-text-dark-thin ml-4 mb-1 cursor-pointer">
         <span class="hover:underline">{{ displayTitle }}</span>
@@ -40,7 +41,7 @@
     <div class="flex justify-between items-center min-w-[350px] text-text-dark-thin relative">
       <button @click.stop="toggleDropdown" :class="buttonClasses"
         class="text-xs font-bold font-ui bg-opacity-50 px-1 rounded">
-        <span :class="statusClasses">{{ selectedStatus }}</span>
+        <span :class="statusClasses">{{ replaceUnderscores(selectedStatus) }}</span>
         <i class="fa-solid fa-chevron-down ml-1 text-xs w-4"></i>
       </button>
 
@@ -50,11 +51,15 @@
         <div class="my-2 text-[11px] font-semibold font-apple">
           <div @click="selectStatus('TODO')" :class="itemClasses(TaskStatus.TODO)"
             class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
-            <span class="text-gray-500 font-bold bg-gray-100 px-1 rounded">TO DO</span>
+            <span class="text-gray-500 font-bold bg-gray-100 px-1 rounded">TODO</span>
           </div>
           <div @click="selectStatus('IN_PROGRESS')" :class="itemClasses(TaskStatus.IN_PROGRESS)"
-            class="h-[28px] flex items-center pl-4 cursor-pointer borsder-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
+            class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
             <span class="text-blue-500 font-bold bg-blue-100 px-1 rounded">IN PROGRESS</span>
+          </div>
+          <div @click="selectStatus('READY_FOR_TEST')" :class="itemClasses(TaskStatus.DONE)"
+            class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
+            <span class="text-purple-600 font-bold bg-purple-100 px-1 rounded">READY FOR TEST</span>
           </div>
           <div @click="selectStatus('DONE')" :class="itemClasses(TaskStatus.DONE)"
             class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
@@ -171,8 +176,9 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
-import { updateStatusTask, updatePointTask } from '../../../api/task';
+import { updateStatusTask, updatePointTask, updateTitleTask} from '../../../api/task';
 import { TaskStatus } from '../../../utils/constants/enum';
+import {replaceUnderscores} from '../../../utils/normalizeName';
 
 // Props definition
 const props = defineProps<{
@@ -200,6 +206,7 @@ const dropdownMenuAssignee = ref<HTMLElement | null>(null);
 const popupEditNumber = ref<HTMLElement | null>(null);
 const popupEditTitle = ref<HTMLElement | null>(null);
 const isLoading = ref(false);
+
 // Computed classes
 const buttonClasses = computed(() => {
   switch (selectedStatus.value) {
@@ -207,6 +214,8 @@ const buttonClasses = computed(() => {
       return 'bg-blue-100 hover:bg-blue-200';
     case TaskStatus.DONE:
       return 'bg-green-100 hover:bg-green-200';
+    case TaskStatus.READY_FOR_TEST:
+      return 'bg-purple-100 hover:bg-purple-200';
     default:
       return 'bg-gray-200 hover:bg-gray-300';
   }
@@ -218,6 +227,8 @@ const statusClasses = computed(() => {
       return 'text-blue-500';
     case TaskStatus.DONE:
       return 'text-green-600';
+    case TaskStatus.READY_FOR_TEST:
+      return 'text-purple-600';
     default:
       return 'text-gray-500';
   }
@@ -229,6 +240,8 @@ const itemClasses = (status: string) => {
       case TaskStatus.IN_PROGRESS:
         return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-blue-500';
       case TaskStatus.DONE:
+        return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-green-500';
+      case TaskStatus.READY_FOR_TEST:
         return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-green-500';
       default:
         return 'hover:bg-gray-100 transition border-l-4 border-white hover:border-l-4 hover:border-gray-500';
@@ -293,11 +306,22 @@ const cancelEdit = () => {
   toggleEditNumber(); // Close the input field without saving changes
 };
 
-const confirmTitle = () => {
-  if (inputTitle.value.length > 0) {
-    displayTitle.value = inputTitle.value;
+async function confirmTitle(   ){
+  try {
+
+    if (inputTitle.value.length > 0) {
+      await updateTitleTask(props.id, inputTitle.value);
+      displayTitle.value = inputTitle.value;
+    }
+    toggleEditTitle();
+  } catch (error: any) {
+    if (error.message) {
+      console.log(error.message);
+    }
+  } finally {
+   
   }
-  toggleEditTitle();
+  
 };
 
 const cancelEditTitle = () => {
@@ -318,6 +342,10 @@ const validateInput = (event: Event) => {
   }
 };
 
+
+function loadUserInfo() {
+  // Load user info
+}
 // Lifecycle hook
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
