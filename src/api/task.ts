@@ -53,28 +53,28 @@ export const createNewTask = async (newtitle : string): Promise<TaskResponse> =>
 };
 
 
-export const fetchAllTaskByAllSprint = async (): Promise<ListTaskResponse> => {
-    try {
-        const projectRoleStore = useProjectRoleStore()
-        const idProject = projectRoleStore.idProject
-        if (!idProject) {
-            throw new Error("Project ID is not defined");
-        }
+// export const fetchAllTaskByAllSprint = async (): Promise<ListTaskResponse> => {
+//     try {
+//         const projectRoleStore = useProjectRoleStore()
+//         const idProject = projectRoleStore.idProject
+//         if (!idProject) {
+//             throw new Error("Project ID is not defined");
+//         }
        
-        const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/tasks`);
-        return response.data;
-    } catch (error: any) {
-        if (error.response) {
-            if (error.response.status === 401) {
-            throw new Error("Unauthorized: Invalid or expired access token");
-            } else {
-            throw new Error("An error occurred while fetching projects");
-            }
-        } else {
-            throw new Error("An error occurred while fetching projects");
-        }
-    }
-};
+//         const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/tasks`);
+//         return response.data;
+//     } catch (error: any) {
+//         if (error.response) {
+//             if (error.response.status === 401) {
+//             throw new Error("Unauthorized: Invalid or expired access token");
+//             } else {
+//             throw new Error("An error occurred while fetching projects");
+//             }
+//         } else {
+//             throw new Error("An error occurred while fetching projects");
+//         }
+//     }
+// };
   
 export const updateStatusTask = async (taskId:string, status:string): Promise<TaskResponse> => {
     try {
@@ -188,7 +188,7 @@ export const fetchAllTask = async (): Promise<ListTaskResponse> => {
             throw new Error("Project ID is not defined");
         }
         const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/tasks`);
-        console.log("fetchAllTaskByAllSprint (response): ", response)
+        console.log("fetchAllTaskByProject (response): ", response)
         return response.data;
     } catch (error: any) {
         if (error.response) {

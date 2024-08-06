@@ -266,7 +266,7 @@
 import { ref, onMounted } from 'vue';
 import ItemTask from '../shared/ItemTask/index.vue';
 import { VueDraggableNext } from 'vue-draggable-next';
-import { fetchAllTaskByAllSprint, updateStatusTask } from '../../api/task';
+import { fetchAllTask, updateStatusTask } from '../../api/task';
 import { TaskStatus } from '../../utils/constants/enum';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 
@@ -333,7 +333,7 @@ const onDrop = (event: DragEvent, newStatus: string) => {
 
 onMounted(async () => {
   try {
-    const response = await fetchAllTaskByAllSprint();
+    const response = await fetchAllTask();
     console.log('response: ', response);
     const map = new Map<string, Task[]>();
     response.data.forEach((task) => {

@@ -52,6 +52,7 @@
 import { ref, toRefs, defineEmits, defineProps } from 'vue';
 import { fetchInviteUser } from "../../../../api/projectUser";
 import { RoleProjectUser } from "../../../../utils/constants/enum"
+import { message } from 'ant-design-vue';
 
 const props = defineProps<{
   visible: boolean;
@@ -77,10 +78,13 @@ const addPeople = async () => {
       role: role.value
     })
     console.log("addPeople", response)
+    message.success('Add people success!');
+    closeModal();
   } catch (error) {
     console.error("addPeople", error)
+    message.error('Add people fail!');
   } finally {
-    closeModal();
+    
   }
   
 };

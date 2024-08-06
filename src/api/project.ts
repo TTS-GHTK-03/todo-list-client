@@ -205,18 +205,20 @@ export interface SprintProjectResponse {
 }
 
 
-export const fetchSprintProject = async (credentials: SprintProjectRequest): Promise<SprintProjectResponse> => {
+export const fetchSprintProject = async (status: string | null): Promise<SprintProjectResponse> => {
   try {
       const projectRoleStore = useProjectRoleStore()
       const idProject = projectRoleStore.idProject
       if (!idProject) {
           throw new Error("Project ID is not defined");
       }
-      
+      const part = `/projects/${idProject}/sprints?status=${"TODO"}` 
+      //: `/projects/${idProject}/sprints?status=${status}
+      console.log("(fetchSprintProject)", part)
       const response = await apiClient.get<SprintProjectResponse>(
-        `/projects/${idProject}/sprints`,
-        credentials
+        `/projects/${idProject}/sprints?status=${"TODO"}`,
       );
+      console.log("(fetchSprintProject)", response)
       return response.data;
   } catch (error: any) {
       if (error.response) {
