@@ -14,16 +14,18 @@
           type="text"
           placeholder="e.g., Maria, maria@company.com"
           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          v-model="email"
         />
       </div>
       <div class="mt-4 flex flex-col items-start">
         <label class="text-xs text-slate-400 mb-1">Role</label>
         <select
           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          v-model="role"
         >
-          <option>Administrator</option>
-          <option>Member</option>
-          <option>Viewer</option>
+          <option :value="RoleProjectUser.ADMIN">Administrator</option>
+          <option :value="RoleProjectUser.EDIT">Member</option>
+          <option :value="RoleProjectUser.VIEWER">Viewer</option>
         </select>
       </div>
     </div>
@@ -47,7 +49,9 @@
 </template>
 
 <script setup lang="ts">
-import { toRefs, defineEmits, defineProps } from 'vue';
+import { ref, toRefs, defineEmits, defineProps } from 'vue';
+import { fetchInviteUser } from "../../../../api/projectUser";
+import { RoleProjectUser } from "../../../../utils/constants/enum"
 
 const props = defineProps<{
   visible: boolean;
@@ -59,17 +63,32 @@ const emit = defineEmits<{
 
 const { visible } = toRefs(props);
 
+const email = ref('');
+const role = ref(RoleProjectUser.ADMIN); 
+
 const closeModal = () => {
   emit('update:visible', false);
 };
 
-const addPeople = () => {
-  closeModal();
+const addPeople = async () => {
+  try {
+    const response = await fetchInviteUser({
+      email: email.value,
+      role: role.value
+    })
+    console.log("addPeople", response)
+  } catch (error) {
+    console.error("addPeople", error)
+  } finally {
+    closeModal();
+  }
+  
 };
 
 const handleOk = () => {
   addPeople();
 };
+
 </script>
 
 <style scoped>

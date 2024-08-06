@@ -31,12 +31,16 @@
         </div>
 
         <div class="flex flex-col items-center w-full font-apple select-text">
-          <span v-if="isAccess" class="text-gray-800 text-center strong text-3xl font-semibold">
-            Authenticated User
+          <span v-if="isAccess === UserActionStatus.LOGGED_ACCEPTED" class="text-gray-800 text-center strong text-3xl font-semibold">
+            Join Your Group
           </span>
-          <span v-else class="text-gray-800 text-center strong text-3xl font-semibold">
-            UnAuthenticated User
+          <span v-else-if="isAccess === UserActionStatus.ACCEPTED" class="text-gray-800 text-center strong text-3xl font-semibold">
+            Login To Join Your Group
           </span>
+          <span v-else-if="isAccess === UserActionStatus.UNREGISTERED" class="text-gray-800 text-center strong text-3xl font-semibold">
+            Sign Up To Join Your Group
+          </span>
+          
           <div>
             <div class="w-full flex items-center justify-center">
               <span class="w-3/4 mt-5 text-center text-gray-600">
@@ -47,44 +51,58 @@
               <span class="w-3/4 mt-5 text-center text-gray-600">
                 Email address:
                 <span class="font-semibold text-slate-950 ml-2">
-                  *****@gmail.com
+                  {{data?.email}}
                 </span>
               </span>
             </div>
 
             <div class="w-full flex items-center justify-center">
               <span
-                v-if="isAccess"
+                v-if="isAccess === UserActionStatus.LOGGED_ACCEPTED"
                 class="w-3/4 mt-8 mb-3 text-center text-gray-500 text-sm"
               >
                 You have logged in to the todo list with the account with the
                 above email, please click the button below to enter the project
               </span>
               <span
-                v-else
+                v-else-if="isAccess === UserActionStatus.ACCEPTED"
                 class="w-3/4 mt-8 mb-3 text-center text-gray-500 text-sm"
               >
                 You need to log in to todo list with the account with the above
                 email to access the project
               </span>
+              <span
+                v-else-if="isAccess === UserActionStatus.UNREGISTERED"
+                class="w-3/4 mt-8 mb-3 text-center text-gray-500 text-sm"
+              >
+                You need to register to the todo list with the account with the above email. And you need to access the previous email again!
+              </span>
             </div>
           </div>
 
           <button
-            v-if="isAccess"
+            v-if="isAccess === UserActionStatus.LOGGED_ACCEPTED"
             :disabled="loading"
             @click="handleGoProject()"
             class="select-none bg-[#2d66e6] text-white rounded px-4 py-1 mt-4 w-3/5 hover:bg-[#1c4cb8] h-11 font-medium flex items-center justify-center cursor-pointer"
           >
             <span v-if="loading" class="loader"></span>
-            <span v-else>Go to "name project"</span>
+            <span v-else>Go to Group</span>
           </button>
           <button
-            v-else
+            v-else-if="isAccess === UserActionStatus.ACCEPTED"
             @click="handleGoLogin()"
             class="select-none bg-[#2d66e6] text-white rounded px-4 py-1 mt-4 w-3/5 hover:bg-[#1c4cb8] h-11 font-medium flex items-center justify-center cursor-pointer"
           >
             <span>Go to Login</span>
+          </button>
+
+          <button
+            v-else-if="isAccess === UserActionStatus.UNREGISTERED"
+            @click="handleGoRegister()"
+            class="select-none bg-[#2d66e6] text-white rounded px-4 py-1 mt-4 w-3/5 hover:bg-[#1c4cb8] h-11 font-medium flex items-center justify-center cursor-pointer"
+          >
+            <span>Go to register</span>
           </button>
 
           <footer class="w-full flex flex-col items-center mt-8 space-y-2">
@@ -130,49 +148,63 @@ import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { acceptInvite } from '../../api/projectUser';
 import { useProjectRoleStore } from '../../stores/projectStores/projectStore';
+import { UserActionStatus } from '../../utils/constants/enum';
 import '@fortawesome/fontawesome-free/css/all.css';
+
+interface DataType {
+  email: string;
+  status: string;
+  projectId: string;
+}
 
 // Khai báo các biến
 const route = useRoute();
 const router = useRouter();
 const isLoading = ref(true);
-const isAccess = ref(false);
-const loading = ref(true);
+const isAccess = ref<string>();
+const loading = ref(false);
+const data = ref<DataType | undefined>(undefined);
 
 const email = route.query.email as string;
 const id = route.query.id as string;
-console.log('email', email);
 
-// Hàm chuyển hướng đến trang login
 const handleGoLogin = () => {
   router.replace('/author');
 };
 
-// Hàm chuyển hướng đến trang dự án
-const handleGoProject = async () => {
-  loading.value = false;
-  try {
-    const projectRoleStore = useProjectRoleStore();
-    await projectRoleStore.loadProjectRole(id);
-
-    router.replace('/mainpage');
-  } catch (error) {
-    console.log('error');
-  } finally {
-    loading.value = true;
+const handleGoRegister = () => {
+  if (data.value && data.value.email) {
+    router.replace({ 
+      path: '/author/register', 
+      query: { email: data.value.email } 
+    });
+  } else {
+    console.error('Email is not defined');
   }
 };
 
-// Thực hiện khi component được gắn vào DOM
+const handleGoProject = async () => {
+  loading.value = true;
+  try {
+    const projectRoleStore = useProjectRoleStore();
+    await projectRoleStore.loadProjectRole(id);
+    router.replace('/mainpage');
+  } catch (error) {
+    console.error('Error loading project role:', error);
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(async () => {
   isLoading.value = true;
   try {
     const response = await acceptInvite(email, id);
-    console.log('response: ', response);
-    isAccess.value = true;
+    data.value = response.data;
+    isAccess.value = response.data.status;
   } catch (error) {
-    isAccess.value = false;
-    console.error('Failed to fetch tasks', error);
+    isAccess.value = UserActionStatus.UNREGISTERED;
+    console.error('Failed to fetch invite:', error);
   } finally {
     isLoading.value = false;
   }

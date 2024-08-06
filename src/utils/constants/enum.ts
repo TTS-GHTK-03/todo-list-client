@@ -16,3 +16,9 @@ export const SprintStatus = {
     START: "START",
     COMPLETE: "COMPLETE"
 }
+
+export const UserActionStatus = {
+    LOGGED_ACCEPTED: "LOGGED_ACCEPTED", 
+    ACCEPTED: "ACCEPTED", 
+    UNREGISTERED: "UNREGISTERED"
+}

@@ -331,7 +331,6 @@ const onDrop = (event: DragEvent, newStatus: string) => {
   }
 };
 
-// Thực hiện khi component được gắn vào DOM
 onMounted(async () => {
   try {
     const response = await fetchAllTaskByAllSprint();

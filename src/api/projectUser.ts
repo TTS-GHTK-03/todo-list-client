@@ -44,6 +44,41 @@ export const updateRoleProjectUser = async (credentials: RoleProjectUserRequest)
     }
 };
 
+// InviteUser
+export interface InviteUserRequest {
+    email: string;
+    role: string;
+}
+
+export interface InviteUserResponse {
+    status: number;
+    timestamp: string;
+    data: string;
+}
+
+export const fetchInviteUser = async (credentials: InviteUserRequest): Promise<InviteUserResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore();
+        const idProject = projectRoleStore.idProject;
+        
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+        const reSend = true
+        const response = await apiClient.post<InviteUserResponse>(`/projects/${idProject}/invite?reSend=${reSend}`, credentials);
+        
+        console.log("fetchInviteUser (response): ", response);
+        return response.data;
+    } catch (error: any) {
+        if (error.response && error.response.data) {
+            throw new Error(`Error: ${error.response.data.message || error.response.data}`);
+        } else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+};
+
+
 // Accept invitation
 export interface AcceptInviteResponse {
     status: number;
@@ -56,8 +91,10 @@ export interface AcceptInviteResponse {
 }
 
 export const acceptInvite = async (emailEncode: string, projectId: string): Promise<AcceptInviteResponse> => {
+
     try {
         const response = await apiClient.get<AcceptInviteResponse>(`/accept?emailEncode=${emailEncode}&projectId=${projectId}`);
+        console.log("acceptInvite (response): ", response);
         return response.data;
     } catch (error: any) {
         // catch chưa xử lý
@@ -109,3 +146,4 @@ export const deleteUser = async(memberId: string): Promise<DeleteUserResponse> =
         }
     }
 }
+
