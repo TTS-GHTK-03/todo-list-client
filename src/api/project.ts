@@ -216,7 +216,7 @@ export const fetchSprintProject = async (status: string | null): Promise<SprintP
       //: `/projects/${idProject}/sprints?status=${status}
       console.log("(fetchSprintProject)", part)
       const response = await apiClient.get<SprintProjectResponse>(
-        `/projects/${idProject}/sprints?status=${"TODO"}`,
+        `/projects/${idProject}/sprints` ,
       );
       console.log("(fetchSprintProject)", response)
       return response.data;
