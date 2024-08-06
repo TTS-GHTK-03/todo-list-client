@@ -20,7 +20,8 @@ import ProjectDetail from '../components/project/projectsetings/ProjectDetail/in
 import Backlog from '../components/backlog/index.vue';
 import CreateProject from '../components/project/CreateProject/index.vue'
 import Task from '../components/task/index.vue';
-import WaitPage from '../components/waitpage/index.vue';
+
+import WaitPage from '../components/waitpage/index.vue'
 
 import { useAuthStore } from '../stores/authStores/authStore';
 
@@ -150,11 +151,11 @@ const routes = [
     ],
     // meta: { requiresAuth: true },
   },
+  
   {
-    path: '/wait',  
+    path: '/invite',  
     component: WaitPage,
   },
-
   {
     path: '/:pathMatch(.*)*', 
     redirect: '/',
