@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useAuthStore } from '../stores/authStores/authStore'; // Cập nhật đường dẫn đúng tới store
-  
+// import { useRouter } from 'vue-router';
+
+
 const apiClient = axios.create({
   // baseURL: "https://moose-helping-dog.ngrok-free.app/api/v1",
   baseURL: "http://localhost:8080/api/v1",
@@ -36,9 +38,11 @@ apiClient.interceptors.response.use(
     console.error("Error Response:", error.response);
 
     const authStore = useAuthStore();
-    // if (error.response && error.response.status === 401) {
-    //   authStore.logout();
-    // }
+    if (error.response && error.response.status === 401) {
+      // const router = useRouter();
+      authStore.logout();
+      // router.push("/author");
+    }
 
     return Promise.reject(error);
   }

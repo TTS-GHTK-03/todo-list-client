@@ -183,7 +183,7 @@ export const fetchProjectDetail = async (): Promise<ProjectInformationResponse> 
 };
   
 
-// getAllUserByProjects
+
 export interface Sprint{
     "id": string,
     "title": string,

@@ -46,8 +46,9 @@
   </a-modal>
 </template>
 
+
 <script setup lang="ts">
-import { toRefs, defineEmits, defineProps } from 'vue';
+import { toRefs } from 'vue';
 
 const props = defineProps<{
   visible: boolean;

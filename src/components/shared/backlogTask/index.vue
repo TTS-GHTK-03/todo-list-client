@@ -13,6 +13,7 @@
           {{ props.keyProjectTask }}
         </span>
       </div>
+    
 
       <div v-if="!showEditTitle" class="flex items-center text-sm font-ui text-text-dark-thin ml-4 mb-1 cursor-pointer">
         <span class="hover:underline">{{ displayTitle }}</span>
@@ -171,7 +172,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
-import { updateStatusTask, updatePointTask } from '../../../api/task';
+import { updateStatusTask, updatePointTask, updateTitleTask} from '../../../api/task';
 import { TaskStatus } from '../../../utils/constants/enum';
 
 // Props definition
@@ -293,11 +294,22 @@ const cancelEdit = () => {
   toggleEditNumber(); // Close the input field without saving changes
 };
 
-const confirmTitle = () => {
-  if (inputTitle.value.length > 0) {
-    displayTitle.value = inputTitle.value;
+async function confirmTitle(   ){
+  try {
+
+    if (inputTitle.value.length > 0) {
+      await updateTitleTask(props.id, inputTitle.value);
+      displayTitle.value = inputTitle.value;
+    }
+    toggleEditTitle();
+  } catch (error: any) {
+    if (error.message) {
+      console.log(error.message);
+    }
+  } finally {
+   
   }
-  toggleEditTitle();
+  
 };
 
 const cancelEditTitle = () => {
@@ -318,6 +330,10 @@ const validateInput = (event: Event) => {
   }
 };
 
+
+function loadUserInfo() {
+  // Load user info
+}
 // Lifecycle hook
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
