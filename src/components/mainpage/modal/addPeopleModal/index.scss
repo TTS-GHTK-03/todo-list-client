@@ -6,3 +6,6 @@
 .add-people-content {
     padding: 16px;
   }
+  .custom-modal .ant-modal-mask {
+    @apply bg-blue-600; /* Màu xanh nền của lớp phủ */
+  }
