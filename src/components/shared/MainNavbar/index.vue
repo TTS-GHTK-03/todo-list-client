@@ -31,14 +31,46 @@
           </li>
         </ul>
       </div>
-
       <div class="flex items-center">
         <button class="mx-2 text-gray-600 hover:text-gray-900">
           <i class="fas fa-bell"></i>
         </button>
-        <button class="mx-2 text-gray-600 hover:text-gray-900">
+        <a-dropdown :trigger="['click']">
+          <button class="mx-2 text-gray-600 hover:text-gray-900">
           <i class="fas fa-user"></i>
         </button>
+        <template #overlay>
+          <a-menu>
+            <div class="w-72 pl-3">
+                <div class="w-72 h-4 text-xs text-gray-600 my-1.5 "><p>ACCOUNT</p></div>
+                <div class="flex flex-row my-2">
+                  <div class="basis-1/6">
+                  <Avatar class="bg-slate-700 text-white inset-x-0 rounded-full " style="font-size: 25px" :size="100">MH</Avatar>
+                  </div>
+                  <div class="basis-5/6 flex flex-col">
+                    <p class="text-base text-gray-600 mb-px">Mai Thanh Hà</p>
+                    <p class="text-base text-gray-600 text-xs">thanhhaxinhdep@gmail.com</p>
+                  </div> 
+                </div>
+              </div>
+            <a-menu-item key="0">
+                <div class="flex justify-between items-center">
+                  <a href="/mainpage" class="hover:text-current">Manage account</a>
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </div>
+            </a-menu-item>
+            <hr>
+            <a-menu-item key="1">
+              <a href="/profile">Profile</a>
+            </a-menu-item>
+            <a-menu-item key="2">
+              <a href="/mainpage">Notification</a>
+            </a-menu-item>
+            <a-menu-divider />
+            <a-menu-item key="4">Log out</a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
       </div>
       
     </div>
