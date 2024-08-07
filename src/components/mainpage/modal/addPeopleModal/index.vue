@@ -12,16 +12,18 @@
           type="text"
           placeholder="e.g., Maria, maria@company.com"
           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          v-model="email"
         />
       </div>
       <div class="mt-4 flex flex-col items-start">
         <label class="text-xs text-slate-900 font-medium">Role</label>
         <select
           class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          v-model="role"
         >
-          <option>Administrator</option>
-          <option>Member</option>
-          <option>Viewer</option>
+          <option :value="RoleProjectUser.ADMIN">Administrator</option>
+          <option :value="RoleProjectUser.EDIT">Member</option>
+          <option :value="RoleProjectUser.VIEWER">Viewer</option>
         </select>
       </div>
     </div>
@@ -44,9 +46,11 @@
   </a-modal>
 </template>
 
-
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { ref, toRefs, defineEmits, defineProps } from 'vue';
+import { fetchInviteUser } from "../../../../api/projectUser";
+import { RoleProjectUser } from "../../../../utils/constants/enum"
+import { message } from 'ant-design-vue';
 
 const props = defineProps<{
   visible: boolean;
@@ -58,17 +62,35 @@ const emit = defineEmits<{
 
 const { visible } = toRefs(props);
 
+const email = ref('');
+const role = ref(RoleProjectUser.ADMIN); 
+
 const closeModal = () => {
   emit('update:visible', false);
 };
 
-const addPeople = () => {
-  closeModal();
+const addPeople = async () => {
+  try {
+    const response = await fetchInviteUser({
+      email: email.value,
+      role: role.value
+    })
+    console.log("addPeople", response)
+    message.success('Add people success!');
+    closeModal();
+  } catch (error) {
+    console.error("addPeople", error)
+    message.error('Add people fail!');
+  } finally {
+    
+  }
+  
 };
 
 const handleOk = () => {
   addPeople();
 };
+
 </script>
 
 <style scoped>

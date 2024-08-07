@@ -77,7 +77,10 @@
                                     <i v-else class="fa-solid fa-chevron-right ml-1 text-xs mr-2"></i>
                                 </button>
                                 <span>{{ sprint.title }}</span>
-                                <span class="font-apple text-xs text-[#626F86] font-normal ml-2">(1 issues)</span>
+                                <span class="font-apple text-xs text-[#626F86] font-normal ml-2">
+                                    ( {{ countTasksForSprint(sprint.id) }}
+                                    issues)
+                                </span>
                             </div>
                             <div class="flex">
                                 <button v-if="sprint.status === SprintStatus.TODO"
@@ -86,7 +89,7 @@
                                 </button>
                                 <button v-else-if="sprint.status === SprintStatus.START"
                                     class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
-                                    Complete sprint
+                                    <completeSprintModal />
 
                                 </button>
                                 <button
@@ -99,12 +102,21 @@
                     </div>
 
                     <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
-                        <div class="min-h-[30px]" @drop="onDrop($event, sprint.id)" @dragenter.prevent
-                            @dragover.prevent>
+                        <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
                             <BacklogTask v-for="task in getTasksForSprint(sprint.id)" :key="task.id" :id="task.id"
                                 :title="task.title || ''" :status="task.status || ''" :point="task.point || 0"
                                 :userId="task.userId || ''" :keyProjectTask="task.keyProjectTask || ''" draggable="true"
                                 @dragstart="startDrag($event, task)" />
+
+                            <div v-if="countTasksForSprint(sprint.id) == 0">
+                                <div
+                                    class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
+
+                                    <span class="text-xs text-gray-500 ">Plant a sprint by dragging issues here</span>
+
+
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -124,10 +136,12 @@
                                     <i v-else class="fa-solid fa-chevron-right ml-1 text-xs mr-2"></i>
                                 </button>
                                 <span>Backlog</span>
-                                <span class="font-apple text-xs text-[#626F86] font-normal ml-2">(1 issues)</span>
+                                <span class="font-apple text-xs text-[#626F86] font-normal ml-2">
+                                    ( {{ countTasksForSprint(null) }}
+                                    issues)</span>
                             </div>
                             <div class="flex">
-                                <button
+                                <button @click="createSprint"
                                     class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
                                     Create sprint
                                 </button>
@@ -176,20 +190,122 @@
 
             </div>
         </div>
-        <div class="min-h-10"></div>
-    </div>
-</template>
 
+    
+    </div>
+    <!-- <div class="h-[480px] overflow-y-auto mt-4">
+        <div v-for="sprint in sprints" :key="sprint.id"
+            class="flex flex-col my-8 bg-gray-100 bg-opacity-70 cursor-pointer rounded">
+            <div class="rounded flex flex-col mt-4">
+                <div class="flex justify-between font-apple text-text-dark-thin text-sm">
+                    <div class="font-semibold flex items-center">
+                        <div class="w-5 h-5 p-1 flex items-center ml-4">
+                            <input type="checkbox" id="checkbox" class="h-3 w-3 border-gray-300 rounded" />
+                        </div>
+                        <button @click="toggleSprint(sprint.id)">
+                            <i v-if="!isSprintNotVisible[sprint.id]"
+                                class="fa-solid fa-chevron-down ml-1 text-xs mr-2"></i>
+                            <i v-else class="fa-solid fa-chevron-right ml-1 text-xs mr-2"></i>
+                        </button>
+                        <span>{{ sprint.title }}</span>
+                        <span class="font-apple text-xs text-[#626F86] font-normal ml-2">(1 issues)</span>
+                    </div>
+                    <div class="flex">
+                        <button v-if="sprint.status === SprintStatus.TODO"
+                            class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
+                            Start sprint
+                        </button>
+                        <button v-else-if="sprint.status === SprintStatus.START"
+                            class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
+                            Complete sprint
+                        </button>
+                        <button
+                            class="bg-gray-200 bg-opacity-70 hover:bg-gray-300 transition-opacity rounded h-8 w-8 mr-2">
+                            <i class="fa-solid fa-ellipsis text-xl pt-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
+                <div class="min-h-[30px]" @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
+                    <BacklogTask v-for="task in getTasksForSprint(sprint.id)" :key="task.id" :id="task.id"
+                        :title="task.title || ''" :status="task.status || ''" :point="task.point || 0"
+                        :userId="task.userId || ''" :keyProjectTask="task.keyProjectTask || ''" draggable="true"
+                        @dragstart="startDrag($event, task)" />
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col cursor-pointer rounded mt-2">
+            <div class="rounded flex flex-col mt-4">
+                <div class="flex justify-between font-apple text-text-dark-thin text-sm">
+                    <div class="font-semibold flex items-center">
+                        <div class="w-5 h-5 p-1 flex items-center ml-4">
+                            <input type="checkbox" id="checkbox" class="h-3 w-3 border-gray-300 rounded" />
+                        </div>
+                        <button @click="toggleBacklog">
+                            <i v-if="isBacklogVisible" class="fa-solid fa-chevron-down ml-1 text-xs mr-2"></i>
+                            <i v-else class="fa-solid fa-chevron-right ml-1 text-xs mr-2"></i>
+                        </button>
+                        <span>Backlog</span>
+                        <span class="font-apple text-xs text-[#626F86] font-normal ml-2">(1 issues)</span>
+                    </div>
+                    <div class="flex">
+                        <button class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
+                            Create sprint
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div v-show="isBacklogVisible" class="mt-2 mx-2">
+                <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" @dragenter.prevent @dragover.prevent>
+                    <BacklogTask v-for="task in getTaskBacklog()" :key="task.id" :id="task.id"
+                        :status="task.status || ''" :title="task.title || ''" :point="task.point || 0"
+                        :userId="task.userId || ''" :keyProjectTask="task.keyProjectTask || ''" draggable="true"
+                        @dragstart="startDrag($event, task)" />
+                </div>
+
+                <button v-if="!isCreateTask" @click.stop="toggleTask(true)"
+                    class="w-full h-10 hover:bg-gray-200 py-1 mb-3 rounded text-sm font-apple text-text-dark-thin flex items-center justify-start">
+                    <div>
+                        <i class="fa-solid fa-plus font-semibold p-2"></i>
+                        <span class="ml font-medium">Create issue</span>
+                    </div>
+                </button>
+
+                <div v-else ref="taskDiv"
+                    class="w-full min-h-10 flex justify-between items-center cursor-pointer border-2 border-blue-500">
+                    <div class="flex ml-4 items-center w-full">
+                        <div class="w-6 h-6 p-1 flex items-center"></div>
+                        <div class="flex items-center cursor-pointer ml-1 min-w-10 py-1 rounded hover:bg-gray-200">
+                            <i class="fa-solid fa-square-check text-blue-400 ml-1"></i>
+                            <i class="fa-solid fa-chevron-down text-xs ml-2"></i>
+                        </div>
+                        <input type="text" placeholder="What needs to be done?" v-model="inputCreateTask"
+                            @keydown.enter="handleEnterKey"
+                            class="flex-grow ml-4 p-1 border-none font-ui text-text-dark-thin input-create-task placeholder:font-ui" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    
+    <div class="min-h-10"></div>
+
+</template>
 
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import BacklogTask from '../shared/backlogTask/index.vue';
 import { Sprint, fetchSprintProject, SprintProjectRequest } from '../../api/project';
+import { createNewSprint } from '../../api/sprint';
 import { fetchAllTask, Task, createNewTask } from '../../api/task';
 import { updateSprintTask } from '../../api/task';
 import { SprintStatus, sortSprints } from '../../utils/constants/enum';
 import { useUserProjectStore } from '../../stores/projectSettingStores/accessStores/accessStore';
-
+import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue';
 
 // interface BacklogTask {
 //     id: string;
@@ -203,10 +319,10 @@ import { useUserProjectStore } from '../../stores/projectSettingStores/accessSto
 const isSprintNotVisible = ref<Record<string, boolean>>({});
 const isCreateTask = ref(false);
 const isBacklogVisible = ref(true);
-const searchQuery = ref<string>('');
+const searchQuery = ref<string>("");
 const isLoading = ref(true);
-const inputCreateTask = ref('');
-const statusSprintSearch = ref<string>('');
+const inputCreateTask = ref("");
+const statusSprintSearch = ref<string>("");
 const sprints = ref<Sprint[]>([]);
 const allUser = ref<any[]>([]);
 const data = ref<Map<string | null, Task[]>>(new Map());
@@ -221,11 +337,11 @@ function startDrag(event: DragEvent, task: Task) {
     event.dataTransfer!.effectAllowed = "move";
     event.dataTransfer!.setData("taskId", task.id);
     event.dataTransfer!.setData("sprint", task.sprintId);
-};
+}
 
 async function createNewBacklogTask(title: string) {
     try {
-        console.log("title:", title)
+        console.log("title:", title);
         const response = await createNewTask(title);
 
         const newTask = response.data;
@@ -240,7 +356,7 @@ async function createNewBacklogTask(title: string) {
 const handleEnterKey = () => {
     if (inputCreateTask.value.trim()) {
         createNewBacklogTask(inputCreateTask.value);
-        inputCreateTask.value = '';
+        inputCreateTask.value = "";
     }
 };
 
@@ -248,8 +364,10 @@ async function onDrop(event: DragEvent, newSprint: string) {
     const taskId = event.dataTransfer!.getData("taskId");
     const oldSprint = event.dataTransfer!.getData("sprint");
 
-    const oldTasks = oldSprint != "null" ?
-        data.value.get(oldSprint) || [] : data.value.get(null) || [];
+    const oldTasks =
+        oldSprint != "null"
+            ? data.value.get(oldSprint) || []
+            : data.value.get(null) || [];
     const newTasks = data.value.get(newSprint) || [];
     console.log("old sprint:", oldTasks);
     console.log("new sprint:", newTasks);
@@ -264,7 +382,6 @@ async function onDrop(event: DragEvent, newSprint: string) {
         data.value.set(newSprint, newTasks);
         data.value.set(oldSprint, oldTasks);
     }
-
 }
 
 const toggleTask = (state: boolean) => {
@@ -280,8 +397,8 @@ function toggleBacklog() {
 }
 
 const clearSearch = () => {
-    searchQuery.value = '';
-}
+    searchQuery.value = "";
+};
 
 const getTasksForSprint = (sprintId: string) => {
     return data.value.get(sprintId) || [];
@@ -290,7 +407,17 @@ const getTaskBacklog = () => {
     return data.value.get(null) || [];
 };
 
+async function createSprint() {
+    try {
+        const createSprintResponse = await createNewSprint();
+        const newSprint = createSprintResponse.data;
+        sprints.value.push(newSprint);
+        data.value.set(newSprint.id, []);
 
+    } catch (error) {
+        console.error("Failed to create new sprint", error);
+    }
+}
 
 const handleClickOutside = (event: MouseEvent) => {
     if (taskDiv.value && !taskDiv.value.contains(event.target as Node)) {
@@ -306,24 +433,26 @@ async function loadAllUserProject() {
     } catch (error) {
         console.error("Failed to load user projects", error);
     }
-
 }
 
+function countTasksForSprint(sprintId: string) {
+    return (data.value.get(sprintId) || []).length;
+}
 
 onMounted(() => {
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 });
 
 onUnmounted(() => {
-    document.removeEventListener('click', handleClickOutside);
+    document.removeEventListener("click", handleClickOutside);
 });
-
 
 onMounted(async () => {
     try {
-        loadAllUserProject();
+        //loadAllUserProject();
 
         const tasksResponse = await fetchAllTask();
+        console.log("(tasksResponse)", tasksResponse);
         const map = new Map<string, Task[]>();
         tasksResponse.data.forEach((task) => {
             if (!map.has(task.sprintId)) {
@@ -334,8 +463,9 @@ onMounted(async () => {
 
         data.value = map;
 
-        const requestPayload: SprintProjectRequest = { status: statusSprintSearch.value };
-        const sprintResponse = await fetchSprintProject(requestPayload);
+        // const requestPayload: SprintProjectRequest = { status: statusSprintSearch.value };
+        // const sprintResponse = await fetchSprintProject(requestPayload);
+        const sprintResponse = await fetchSprintProject();
         const filteredSprints = (sprintResponse.data as Sprint[]).filter(sprint => sprint.status !== SprintStatus.COMPLETE);
         const sortedSprints = sortSprints(filteredSprints);
         sprints.value = sortedSprints;
@@ -348,7 +478,6 @@ onMounted(async () => {
 
 // Exporting variables and functions to be used in the template
 </script>
-
 
 <style scoped>
 @import "index.scss";

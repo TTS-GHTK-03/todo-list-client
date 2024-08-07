@@ -18,6 +18,11 @@ export const SprintStatus = {
     COMPLETE: "COMPLETE"
 }
 
+export const UserActionStatus = {
+    LOGGED_ACCEPTED: "LOGGED_ACCEPTED", 
+    ACCEPTED: "ACCEPTED", 
+    UNREGISTERED: "UNREGISTERED"
+}
 const statusOrder: { [key: string]: number } = {
     [SprintStatus.COMPLETE]: 0,
     [SprintStatus.START]: 1,
