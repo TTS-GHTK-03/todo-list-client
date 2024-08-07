@@ -132,7 +132,7 @@
               :point="task?.point"
               :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="task?.userResponse?.lastName"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -167,7 +167,7 @@
               :point="task?.point"
               :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="task?.userResponse?.lastName"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -202,7 +202,7 @@
               :point="task?.point"
               :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="task?.userResponse?.lastName"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -237,7 +237,7 @@
               :point="task?.point"
               :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="normalizeName(task?.userResponse?.firstName, task?.userResponse?.middleName, task?.userResponse?.lastName)"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -263,6 +263,7 @@ import { ref, onMounted } from 'vue';
 import ItemTask from '../shared/ItemTask/index.vue';
 import { fetchAllTask, updateStatusTask } from '../../api/task';
 import { TaskStatus } from '../../utils/constants/enum';
+import { normalizeName } from '../../utils/normalizeName'
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 
 export interface Task {
@@ -271,7 +272,13 @@ export interface Task {
   point: number;
   status: string;
   keyProjectTask: string;
-  userId: string;
+  userResponse: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
 }
 
 // Khai báo các biến

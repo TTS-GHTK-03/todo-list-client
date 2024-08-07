@@ -85,8 +85,7 @@
               </template>
               <div
                 class="w-6 h-6 p-0 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold  rounded-full text-sm cursor-pointer">
-                <!-- {{ text.charAt(0).toUpperCase() }} -->
-                A
+                {{ tooltipTitle?.charAt(0).toUpperCase() }}
               </div>
             </a-tooltip>
           </div>
@@ -114,7 +113,7 @@ const props = defineProps<{
   id: string;
   title: string;
   keyText: string;
-  tooltipTitle: string;
+  tooltipTitle: string | "Unassigned";
   point: number;
 }>();
 
