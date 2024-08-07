@@ -109,6 +109,7 @@
             <template v-if="column.dataIndex === 'role'">
               <!-- :disabled="record.role === RoleProjectUser.ADMIN" -->
               <a-select
+                :disabled="record.role === RoleProjectUser.ADMIN"
                 v-model:value="record.role"
                 style="width: 160px"
                 :dropdown-match-select-width="false"
@@ -154,13 +155,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted } from "vue";
-import { normalizeName } from "../../../../utils/normalizeName";
-import { useUserProjectStore } from "../../../../stores/projectSettingStores/accessStores/accessStore";
-import { updateRoleProjectUser, deleteUser } from "../../../../api/projectUser";
-import { RoleProjectUser } from "../../../../utils/constants/enum";
+<script lang="ts" setup>
+import { ref, onMounted } from 'vue';
+import { normalizeName } from '../../../../utils/normalizeName';
+import { useUserProjectStore } from '../../../../stores/projectSettingStores/accessStores/accessStore';
+import { updateRoleProjectUser, deleteUser } from '../../../../api/projectUser';
+import { RoleProjectUser } from '../../../../utils/constants/enum';
 import { message } from 'ant-design-vue';
+
 interface DataType {
   name: string;
   email: string;
@@ -168,145 +170,115 @@ interface DataType {
   action: string;
 }
 
-const columns: TableColumnType<DataType>[] = [
+const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
     width: 250,
   },
   {
-    title: "Email",
-    dataIndex: "email",
-    key: "email",
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
     width: 350,
   },
   {
-    title: "Role",
-    dataIndex: "role",
-    key: "role",
+    title: 'Role',
+    dataIndex: 'role',
+    key: 'role',
     width: 200,
   },
   {
-    title: "Actions",
-    dataIndex: "actions",
-    key: "actions",
+    title: 'Actions',
+    dataIndex: 'actions',
+    key: 'actions',
     width: 120,
   },
-];
+] as TableColumnType<DataType>[];
 
-export default defineComponent({
-  setup() {
-    const roleUser = ref(localStorage.getItem("roleUser") || null);
+const roleUser = ref(localStorage.getItem('roleUser') || null);
+const searchQuery = ref('');
+const isModalVisible = ref(false);
+const projectToRemove = ref<{ id: string; name: string; email: string } | null>(null);
+const loading = ref(false);
+const accessStore = useUserProjectStore();
+const data = ref<DataType[]>([]);
 
-    const searchQuery = ref("");
-    const isModalVisible = ref(false);
-    const projectToRemove = ref<{
-      id: string;
-      name: string;
-      email: string;
-    } | null>(null);
+const loadData = async () => {
+  loading.value = true;
+  try {
+    await accessStore.loadUserProjects();
+    const newProjects = accessStore.userProjects.map((project) => ({
+      key: project?.id,
+      name: normalizeName(
+        project?.firstName,
+        project?.middleName,
+        project?.lastName
+      ),
+      email: project?.email || '',
+      role: project?.role || '',
+    }));
+    data.value = newProjects;
+  } catch (error) {
+    console.error('Error loading data:', error);
+  } finally {
+    loading.value = false;
+  }
+};
 
-    const loading = ref(false);
-    const accessStore = useUserProjectStore();
-    const data = ref<DataType[]>([]);
-
-    const loadData = async () => {
-      loading.value = true;
-      try {
-        await accessStore.loadUserProjects();
-        const newProjects = accessStore.userProjects.map((project) => ({
-          key: project?.id,
-          name: normalizeName(
-            project?.firstName,
-            project?.middleName,
-            project?.lastName
-          ),
-          email: project?.email || "",
-          role: project?.role || "",
-        }));
-        data.value = newProjects;
-      } catch (error) {
-        console.error("Error loading data:", error);
-      } finally {
-        loading.value = false;
-      }
-    };
-
-    onMounted(() => {
-      loadData();
-    });
-
-    const clearSearch = () => {
-      searchQuery.value = "";
-    };
-
-    const handleRoleChange = async (newRole: string, record: DataType) => {
-      const oldRole = record.role;
-
-      try {
-        const response = await updateRoleProjectUser({
-          memberId: record.key,
-          role: newRole,
-        });
-        console.log("Role changed successfully:", response);
-        message.success(`Changed role ${newRole} of user ${record.name} successfully!`);
-
-      } catch (error) {
-        record.role = oldRole;
-        console.error("Failed to change role:", error.message);
-        message.error(`Changed role ${newRole} of user ${record.name} failed!`);
-      }
-    };
-
-    const confirmRemove = (record: DataType) => {
-      projectToRemove.value = {
-        id: record.key,
-        name: record.name,
-        email: record.email,
-      };
-      isModalVisible.value = true;
-    };
-
-    const handleOk = async () => {
-      if (projectToRemove.value) {
-        try{
-          await deleteUser(projectToRemove.value.id);
-          data.value = data.value.filter(item => item.key !== projectToRemove.value.id);
-          // await loadData();
-          message.success('This is a success message');
-        }catch{
-          message.error('This is an error message');
-        }
-
-      }
-      isModalVisible.value = false;
-
-    };
-
-    const handleCancel = () => {
-      isModalVisible.value = false;
-    };
-
-    return {
-      data,
-      roleUser,
-      columns,
-      loading,
-      searchQuery,
-      clearSearch,
-      handleRoleChange,
-      confirmRemove,
-      isModalVisible,
-      handleOk,
-      handleCancel,
-      projectToRemove,
-      RoleProjectUser,
-    };
-  },
+onMounted(() => {
+  loadData();
 });
+
+const clearSearch = () => {
+  searchQuery.value = '';
+};
+
+const handleRoleChange = async (newRole: string, record: DataType) => {
+  const oldRole = record.role;
+
+  try {
+    const response = await updateRoleProjectUser({
+      memberId: record.key,
+      role: newRole,
+    });
+    console.log('Role changed successfully:', response);
+    message.success(`Changed role ${newRole} of user ${record.name} successfully!`);
+  } catch (error) {
+    record.role = oldRole;
+    console.error('Failed to change role:', error.message);
+    message.error(`Changed role ${newRole} of user ${record.name} failed!`);
+  }
+};
+
+const confirmRemove = (record: DataType) => {
+  projectToRemove.value = {
+    id: record.key,
+    name: record.name,
+    email: record.email,
+  };
+  isModalVisible.value = true;
+};
+
+const handleOk = async () => {
+  if (projectToRemove.value) {
+    try {
+      await deleteUser(projectToRemove.value.id);
+      data.value = data.value.filter(item => item.key !== projectToRemove.value.id);
+      message.success('User removed successfully');
+    } catch {
+      message.error('Failed to remove user');
+    }
+  }
+  isModalVisible.value = false;
+};
+
+const handleCancel = () => {
+  isModalVisible.value = false;
+};
 </script>
 
 <style>
-@import "index.scss";
+@import 'index.scss';
 </style>
