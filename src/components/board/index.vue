@@ -128,7 +128,9 @@
             <item-task
               v-for="task in data.get(TaskStatus.TODO)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
@@ -161,7 +163,9 @@
             <item-task
               v-for="task in data.get(TaskStatus.IN_PROGRESS)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
@@ -194,7 +198,9 @@
             <item-task
               v-for="task in data.get(TaskStatus.READY_FOR_TEST)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
@@ -227,7 +233,9 @@
             <item-task
               v-for="task in data.get(TaskStatus.DONE)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
               :tooltip-title="task?.title"
               draggable="true"
