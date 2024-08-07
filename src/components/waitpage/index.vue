@@ -1,5 +1,5 @@
 <template>
-  <!-- Loading Spinner -->
+
   <div v-if="isLoading" class="loading-container">
     <!-- <div class="loader-button"></div> -->
     <a-spin size="large" />

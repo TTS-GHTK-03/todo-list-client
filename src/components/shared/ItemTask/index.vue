@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col justify-center items-center group w-[254px] h-[90px] bg-white hover:bg-gray-200 cursor-grab my-1 border border-b-2 border-b-gray-300 rounded">
+    class="flex flex-col justify-center items-center group w-[254px] h-[90px] bg-white hover:bg-gray-200 cursor-pointer my-1 border border-b-2 border-b-gray-300 rounded">
     <div class="p-3  w-full h-full ">
       <div class="w-full flex flex-col justify-between ">
         <div class="flex justify-between relative">

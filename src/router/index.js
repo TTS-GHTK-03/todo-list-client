@@ -22,7 +22,7 @@ import CreateProject from '../components/project/CreateProject/index.vue'
 import Task from '../components/task/index.vue';
 import Profile from '../views/Profile/index.vue';
 
-import WaitPage from '../components/waitpage/index.vue'
+import WaitPage from '../views/waitPage/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
 import path from 'path';

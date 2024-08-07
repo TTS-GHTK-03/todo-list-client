@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, toRefs, defineEmits, defineProps } from 'vue';
+import { ref, toRefs} from 'vue';
 import { fetchInviteUser } from "../../../../api/projectUser";
 import { RoleProjectUser } from "../../../../utils/constants/enum"
 import { message } from 'ant-design-vue';
