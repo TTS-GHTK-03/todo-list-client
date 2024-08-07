@@ -57,7 +57,9 @@
                 />
               </a-form-item>
 
-              <a-form-item label="Project lead" name="projectLead">
+              <a-form-item label="Project lead (can't change)" 
+                name="projectLead"
+              >
                 <a-select
                   v-model:value="selectedProjectLead"
                   :disabled="isEdit"

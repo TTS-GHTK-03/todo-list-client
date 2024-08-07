@@ -18,17 +18,17 @@
             <template #overlay>
               <a-menu>
                 <a-menu-item key="0">
-                  <a href="http://www.alipay.com/">Copy issue key</a>
+                  <a href="">Copy issue key</a>
                 </a-menu-item>
                 <hr>
                 <a-menu-item key="1">
-                  <a href="http://www.taobao.com/">Add flag</a>
+                  <a href="">Add flag</a>
                 </a-menu-item>
                 <a-menu-item key="2">
-                  <a href="http://www.taobao.com/">Add label</a>
+                  <a href="">Add label</a>
                 </a-menu-item>
                 <a-menu-item key="3">
-                  <a href="http://www.taobao.com/">Link issue</a>
+                  <a href="">Link issue</a>
                 </a-menu-item>
                 <a-menu-divider />
                 <a-menu-item key="5">Delete</a-menu-item>

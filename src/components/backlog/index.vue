@@ -1,6 +1,7 @@
 <template>
     <div v-if="isLoading" class="loading-container">
-        <div class="loader"></div>
+        <!-- <div class="loader"></div> -->
+        <a-spin size="large" />
     </div>
     <div v-else>
         <div class="mt-24 px-8 py-0 ">
