@@ -107,10 +107,11 @@
                 height="36"
               />
             </a-button>
-            <a-button shape="circle" @click="openModal" class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
-              <i class="fa-solid fa-user-plus"></i>
-            </a-button>
-              <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />    
+            <button @click="openModal"
+              class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+              <i class="fa-solid fa-user-plus text-gray-500"></i>
+            </button>
+            <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
           </div>
         </div>
       </div>
