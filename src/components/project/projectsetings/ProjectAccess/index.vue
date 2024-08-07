@@ -14,11 +14,12 @@
           >Access</span
         >
         <div class="flex items-center">
-          <button
+          <button @click="openModal"
             class="h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded flex items-center"
           >
             Add people
           </button>
+          <AddPeopleModal :visible="isModalVisibleAddPeople" @update:visible="isModalVisibleAddPeople = $event" />
         </div>
       </div>
 
@@ -161,6 +162,7 @@ import { normalizeName } from '../../../../utils/normalizeName';
 import { useUserProjectStore } from '../../../../stores/projectSettingStores/accessStores/accessStore';
 import { updateRoleProjectUser, deleteUser } from '../../../../api/projectUser';
 import { RoleProjectUser } from '../../../../utils/constants/enum';
+import AddPeopleModal from '../../../mainpage/modal/addPeopleModal/index.vue';
 import { message } from 'ant-design-vue';
 
 interface DataType {
@@ -204,6 +206,12 @@ const projectToRemove = ref<{ id: string; name: string; email: string } | null>(
 const loading = ref(false);
 const accessStore = useUserProjectStore();
 const data = ref<DataType[]>([]);
+const isModalVisibleAddPeople = ref(false);
+
+// Hàm mở modal
+const openModal = () => {
+  isModalVisibleAddPeople.value = true;
+};
 
 const loadData = async () => {
   loading.value = true;

@@ -94,19 +94,6 @@
               />
             </a-button>
 
-            <a-button
-              shape="circle"
-              class="ml-3 w-9 h-9 flex items-center justify-center"
-              style="border: none; padding: 0"
-            >
-              <img
-                class="w-8 h-8 rounded-full mx-auto cursor-pointer"
-                src="../../assets/img/logo_no_text.png"
-                alt=""
-                width="36"
-                height="36"
-              />
-            </a-button>
             <button @click="openModal"
               class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
               <i class="fa-solid fa-user-plus text-gray-500"></i>
