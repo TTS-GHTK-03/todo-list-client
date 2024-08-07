@@ -49,7 +49,7 @@
                   </div>
                   <div class="basis-5/6 flex flex-col">
                     <p class="text-base text-gray-600 mb-px">Mai Thanh Hà</p>
-                    <p class="text-base text-gray-600 text-xs">thanhhaxinhdep@gmail.com</p>
+                    <p class="text-base text-gray-600 ">thanhhaxinhdep@gmail.com</p>
                   </div> 
                 </div>
               </div>

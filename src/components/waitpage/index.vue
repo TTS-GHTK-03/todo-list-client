@@ -1,5 +1,5 @@
 <template>
-  <!-- Loading Spinner -->
+
   <div v-if="isLoading" class="loading-container">
     <!-- <div class="loader-button"></div> -->
     <a-spin size="large" />
@@ -143,10 +143,6 @@
   </div>
 </template>
 
-
-<script lang ='ts'>
-
-</script>
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
