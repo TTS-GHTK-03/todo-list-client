@@ -5,6 +5,7 @@ import Mainpage from '../views/Mainpage/index.vue';
 
 import Login from '../components/auth/Login/index.vue';
 import Register from '../components/auth/regis/Register/index.vue';
+import RedirectLogin from '../components/auth/redirectLogin/index.vue';
 import Valid from '../components/auth/regis/Valid/index.vue';
 import Regisform from '../components/auth/regis/Regisform/index.vue';
 import Forgot from '../components/auth/forgotPassword/Forgot/index.vue';
@@ -104,6 +105,11 @@ const routes = [
         //   }
         // },
         component: ForgotForm,
+      },
+      {
+        path: 'redirect-login',
+        name: 'redirect-login',
+        component: RedirectLogin,
       },
     ],
   },

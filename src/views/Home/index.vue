@@ -149,12 +149,12 @@ const loadProject = async () => {
     return
   }
   try {
-    const projectRoleStore = useProjectRoleStore();
-    await projectRoleStore.loadProjectRole(idProject.value);
-    isProject.value = true
+    // const projectRoleStore = await useProjectRoleStore();
+    // await projectRoleStore.loadProjectRole(idProject.value);
   
-    project.value = projectRoleStore.project
-    console.log("projectRoleStore", project)
+    // project.value = projectRoleStore.project
+    // console.log("projectRoleStore", project)
+    isProject.value = false
   } catch (error) {
     console.error("Error data:", error);
     isProject.value = false
