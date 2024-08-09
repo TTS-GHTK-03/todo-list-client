@@ -1,6 +1,7 @@
 <template>
     <div v-if="isLoading" class="loading-container">
-        <div class="loader"></div>
+        <!-- <div class="loader"></div> -->
+        <a-spin size="large" />
     </div>
     <div v-else>
         <div class="mt-24 px-8 py-0 ">
@@ -54,11 +55,13 @@
                                 src="../../assets/img/logo_no_text.png" alt="" width="36" height="36" />
                         </a-button>
 
-                        <a-button shape="circle" class="ml-3 w-9 h-9 flex items-center justify-center"
-                            style="border: none; padding: 0">
-                            <img class="w-8 h-8 rounded-full mx-auto cursor-pointer"
-                                src="../../assets/img/logo_no_text.png" alt="" width="36" height="36" />
-                        </a-button>
+                       
+                        <button @click="openModal"
+                            class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+                            <i class="fa-solid fa-user-plus text-gray-500"></i>
+                        </button>
+                        <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
+
                     </div>
                 </div>
             </div>
@@ -257,6 +260,8 @@ import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue
 import startSprintModal from '../mainpage/modal/startSprintModal/index.vue';
 import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
 // import { cloneDeep } from 'lodash';
+import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
+
 // interface BacklogTask {
 //     id: string;
 //     title: string;
@@ -272,6 +277,7 @@ const activeDropdown = ref<string | null>(null);
 const isBacklogVisible = ref(true);
 const searchQuery = ref<string>("");
 const isLoading = ref(true);
+const isModalVisible = ref(false);
 const inputCreateTask = ref("");
 
 // const statusSprintSearch = ref<string>("");
@@ -305,6 +311,12 @@ const getTasksForSprint = (sprintId: string) => {
 const getTaskBacklog = () => {
     return data.value.get(null) || [];
 };
+// hàm mở model
+const openModal = () => {
+  isModalVisible.value = true;
+};
+
+// Functions
 
 function startDrag(event: DragEvent, task: Task) {
     console.log(task);

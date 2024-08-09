@@ -18,10 +18,10 @@ export const regisAccount = async (credentials: RegisterRequest): Promise<Regist
       credentials
     );
 
-    if (response.data.data === "Account has been registered") {
-      console.log(response.data.data);
-      throw new Error("Account has already been registered");
-    }
+    // if (response.data.data === "Account has been registered") {
+    //   console.log(response.data.data);
+    //   throw new Error("Account has already been registered");
+    // }
     console.log(response.data.data);
     return response.data;
   } catch (error: any) {

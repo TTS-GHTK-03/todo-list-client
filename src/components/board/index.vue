@@ -94,24 +94,16 @@
               />
             </a-button>
 
-            <a-button
-              shape="circle"
-              class="ml-3 w-9 h-9 flex items-center justify-center"
-              style="border: none; padding: 0"
+            <button
+              @click="openModal"
+              class="bg-gray-100 text-sm rounded-full hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2"
             >
-              <img
-                class="w-8 h-8 rounded-full mx-auto cursor-pointer"
-                src="../../assets/img/logo_no_text.png"
-                alt=""
-                width="36"
-                height="36"
-              />
-            </a-button>
-            <button @click="openModal"
-              class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
               <i class="fa-solid fa-user-plus text-gray-500"></i>
             </button>
-            <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
+            <AddPeopleModal
+              :visible="isModalVisible"
+              @update:visible="isModalVisible = $event"
+            />
           </div>
         </div>
       </div>
@@ -141,9 +133,11 @@
             <item-task
               v-for="task in data.get(TaskStatus.TODO)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="task?.userResponse?.lastName"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -174,9 +168,11 @@
             <item-task
               v-for="task in data.get(TaskStatus.IN_PROGRESS)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="task?.userResponse?.lastName"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -207,9 +203,11 @@
             <item-task
               v-for="task in data.get(TaskStatus.READY_FOR_TEST)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="task?.userResponse?.lastName"
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -240,9 +238,17 @@
             <item-task
               v-for="task in data.get(TaskStatus.DONE)"
               :key="task?.id"
-              :text="task?.title"
+              :id="task?.id"
+              :point="task?.point"
+              :title="task?.title"
               :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.title"
+              :tooltip-title="
+                normalizeName(
+                  task?.userResponse?.firstName,
+                  task?.userResponse?.middleName,
+                  task?.userResponse?.lastName
+                )
+              "
               draggable="true"
               @dragstart="startDrag($event, task)"
             />
@@ -257,18 +263,81 @@
             </button>
           </div>
         </div> -->
+        <!-- <UpdateDateTaskModal
+          :task="updateTask"
+          :visible="isModalDateTaskVisible"
+          @update:visible="isModalDateTaskVisible = $event"
+        /> -->
+
+        <a-modal
+          title="Start another task"
+          v-model:open="open"
+          @ok="handleOk"
+          @cancel="handleCancel"
+        >
+          <div class="w-full">
+            <div>
+              <span class="text-[#5E6C84] mb-4 text-sm">
+                1 issue will be included in this task.</span
+              >
+            </div>
+            <div class="mt-1">
+              <span class="text-slate-900 mb-4 text-left w-full">
+                Required fields are marked with an asterisk.
+                <span class="text-red-500">*</span></span
+              >
+            </div>
+            <div class="mb-2 mt-4">
+              <span class="text-slate-900 mb-4 text-left w-full"
+                >Task name <span class="text-red-500">*</span></span
+              >
+            </div>
+            <a-input
+              disabled
+              class="w-[300px]"
+              v-model:value="titleModel"
+              placeholder="Name"
+            />
+            <div class="mb-2 mt-4">
+              <span class="text-slate-900 mb-4 text-left w-full"
+                >Due date task <span class="text-red-500">*</span></span
+              >
+            </div>
+            <a-date-picker
+              class="mb-4 w-[300px]"
+              v-model:value="valueDate"
+              :disabled-date="disabledDate"
+            />
+          </div>
+          <template #footer>
+            <a-button key="back" @click="handleCancel">Cancel</a-button>
+            <a-button
+              key="submit"
+              type="primary"
+              :loading="loadingModel"
+              @click="handleOk"
+              >Submit</a-button
+            >
+          </template>
+        </a-modal>
       </div>
     </div>
-
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import ItemTask from '../shared/ItemTask/index.vue';
-import { fetchAllTask, updateStatusTask } from '../../api/task';
-import { TaskStatus } from '../../utils/constants/enum';
-import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
+import { ref, onMounted } from "vue";
+import ItemTask from "../shared/ItemTask/index.vue";
+import {
+  fetchAllTask,
+  updateStatusTask,
+  updateStartDateDueDateTask,
+} from "../../api/task";
+import { TaskStatus } from "../../utils/constants/enum";
+import { normalizeName } from "../../utils/normalizeName";
+import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";
+import { message } from "ant-design-vue";
+import dayjs, { Dayjs } from "dayjs";
 
 export interface Task {
   id: string;
@@ -276,18 +345,37 @@ export interface Task {
   point: number;
   status: string;
   keyProjectTask: string;
-  userId: string;
+  sprintId: string;
+  userResponse: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
+  };
 }
 
 // Khai báo các biến
 const isModalVisible = ref(false);
-const searchQuery = ref<string>('');
+const searchQuery = ref<string>("");
+const titleModel = ref<string>("");
+const open = ref<boolean>(false);
 const data = ref<Map<string, Task[]>>(new Map());
 const isLoading = ref(true);
+const updateTask = ref<{
+  title: string;
+  taskId: string;
+  sprintId: string;
+  oldStatus: string;
+  newStatus: string;
+} | null>(null);
 
+const dateFormat = "YYYY-MM-DD";
+const loadingModel = ref<boolean>(false);
+const valueDate = ref<Dayjs>();
 // Hàm xóa truy vấn tìm kiếm
 const clearSearch = () => {
-  searchQuery.value = '';
+  searchQuery.value = "";
 };
 
 // Hàm mở modal
@@ -298,19 +386,37 @@ const openModal = () => {
 // Hàm xử lý kéo nhiệm vụ
 const startDrag = (event: DragEvent, task: Task) => {
   console.log(task);
-  event.dataTransfer!.dropEffect = 'move';
-  event.dataTransfer!.effectAllowed = 'move';
-  event.dataTransfer!.setData('taskId', task.id);
-  event.dataTransfer!.setData('status', task.status);
+  event.dataTransfer!.dropEffect = "move";
+  event.dataTransfer!.effectAllowed = "move";
+  event.dataTransfer!.setData("taskId", task.id);
+  event.dataTransfer!.setData("status", task.status);
+  event.dataTransfer!.setData("title", task.title);
+  event.dataTransfer!.setData("sprintId", task.sprintId);
 };
 
 // Hàm xử lý thả nhiệm vụ
 const onDrop = (event: DragEvent, newStatus: string) => {
-  const taskId = event.dataTransfer!.getData('taskId');
-  const oldStatus = event.dataTransfer!.getData('status');
+  const taskId = event.dataTransfer!.getData("taskId");
+  const oldStatus = event.dataTransfer!.getData("status");
+  const title = event.dataTransfer!.getData("title");
+  const sprintId = event.dataTransfer!.getData("sprintId");
   console.log(taskId);
   console.log(oldStatus);
+  if (oldStatus === TaskStatus.TODO) {
+    if (newStatus != TaskStatus.IN_PROGRESS) {
+      console.log("errror");
+      message.error("You need to change status from Todo to In progress!");
+    } else {
+      updateTask.value = { title, taskId, sprintId, oldStatus, newStatus };
+      titleModel.value = title;
+      open.value = true;
+    }
+  } else {
+    updateStatus(oldStatus, newStatus, taskId);
+  }
+};
 
+function updateStatus(oldStatus: string, newStatus: string, taskId: string) {
   const oldTasks = data.value.get(oldStatus) || [];
   const newTasks = data.value.get(newStatus) || [];
 
@@ -326,33 +432,85 @@ const onDrop = (event: DragEvent, newStatus: string) => {
         data.value.set(newStatus, newTasks); // Cập nhật danh sách trạng thái mới
       }
     } catch (error) {
-      console.error('Failed to update task status', error);
+      console.error("Failed to update task status", error);
     }
+  }
+}
+
+const handleOk = async () => {
+  loadingModel.value = true;
+  
+  try {
+    if (valueDate.value) {
+      const formattedDate = valueDate.value.format(dateFormat);
+      console.log("updateStartDateDueDateTask", updateTask.value);
+      console.log("date", formattedDate);
+
+      // Đợi kết quả từ updateStartDateDueDateTask
+      const updateResponse = await updateStartDateDueDateTask(
+        updateTask.value.sprintId,
+        updateTask.value.taskId,
+        formattedDate
+      );
+
+      console.log("updateResponse", updateResponse);
+
+      // Gọi updateStatus sau khi updateStartDateDueDateTask thành công
+      updateStatus(
+        updateTask.value.oldStatus,
+        updateTask.value.newStatus,
+        updateTask.value.taskId
+      );
+    }
+  } catch (error) {
+    message.error("Update failed "+ error);
+    console.error("Update failed:", error);
+  } finally {
+    // Đảm bảo rằng loadingModel luôn được đặt thành false
+    loadingModel.value = false;
+    open.value = false;
   }
 };
 
-    onMounted(async () => {
-      try {
-        const response = await fetchAllTask();
-        const filteredTasks = response.data.filter(task => task.sprintId !== null);
-        const map = new Map<string, Task[]>();
-          filteredTasks.forEach((task) => {
-          if (!map.has(task.status)) {
-            map.set(task.status, []);
-          }
-          map.get(task.status)!.push(task);
-        });
-        data.value = map;
-        console.log("data: ", data.value);
-      } catch (error) {
-        console.error("Failed to fetch tasks", error);
-      } finally {
-        isLoading.value = false;
+const handleCancel = () => {
+  open.value = false;
+};
+
+
+// Function to disable dates before today
+// const disabledDate = (current: Dayjs) => {
+//   return current && current < dayjs().startOf("day");
+// };
+
+const disabledDate = (current: Dayjs) => {
+  const tomorrow = dayjs().startOf("day").add(2, "day");
+  return current && current < tomorrow;
+};
+
+
+onMounted(async () => {
+  try {
+    const response = await fetchAllTask();
+    const filteredTasks = response.data.filter(
+      (task) => task.sprintId !== null
+    );
+    const map = new Map<string, Task[]>();
+    filteredTasks.forEach((task) => {
+      if (!map.has(task.status)) {
+        map.set(task.status, []);
       }
-    
+      map.get(task.status)!.push(task);
+    });
+    data.value = map;
+    console.log("data: ", data.value);
+  } catch (error) {
+    console.error("Failed to fetch tasks", error);
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
 <style scoped>
-@import 'index.scss';
+@import "index.scss";
 </style>
