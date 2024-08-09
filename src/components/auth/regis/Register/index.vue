@@ -80,17 +80,22 @@ const handleRegis = async () => {
   errorMessage.value = '';
   try {
     await regisStore.regisAccount(email.value);
-    if (regisStore.error) {
-      if (regisStore.error === 'Account has already been registered') {
-        console.log('Account has already been registered, redirecting to login.');
-        router.push('/author');
-      } else {
-        errorMessage.value = regisStore.error;
-      }
-    } else {
-      console.log('Email sent successfully.');
+    const response = regisStore.data
+    console.log("handleRegis", regisStore.data)
+
+    if(response === "UNREGISTERED") {
+      console.log("(handleRegis) UNREGISTERED")
       router.push('/author/validate');
+
+    }else if(response === "INACTIVE") {
+      console.log("(handleRegis) INACTIVE")
+      router.push('/author/regisform')
+
+    }else if(response === "ACTIVE") {
+      console.log("(handleRegis) ACTIVE")
+      router.push('/author/redirect-login')
     }
+    
   } catch (error: any) {
     console.log('Error message:', error.message);
     errorMessage.value = 'An error occurred.';

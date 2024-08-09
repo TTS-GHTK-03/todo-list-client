@@ -31,16 +31,25 @@
         </div>
 
         <div class="flex flex-col items-center w-full font-apple select-text">
-          <span v-if="isAccess === UserActionStatus.LOGGED_ACCEPTED" class="text-gray-800 text-center strong text-3xl font-semibold">
+          <span
+            v-if="isAccess === UserActionStatus.LOGGED_ACCEPTED"
+            class="text-gray-800 text-center strong text-3xl font-semibold"
+          >
             Join Your Group
           </span>
-          <span v-else-if="isAccess === UserActionStatus.ACCEPTED" class="text-gray-800 text-center strong text-3xl font-semibold">
+          <span
+            v-else-if="isAccess === UserActionStatus.ACCEPTED"
+            class="text-gray-800 text-center strong text-3xl font-semibold"
+          >
             Login To Join Your Group
           </span>
-          <span v-else-if="isAccess === UserActionStatus.UNREGISTERED" class="text-gray-800 text-center strong text-3xl font-semibold">
+          <span
+            v-else-if="isAccess === UserActionStatus.UNREGISTERED"
+            class="text-gray-800 text-center strong text-3xl font-semibold"
+          >
             Sign Up To Join Your Group
           </span>
-          
+
           <div>
             <div class="w-full flex items-center justify-center">
               <span class="w-3/4 mt-5 text-center text-gray-600">
@@ -51,7 +60,7 @@
               <span class="w-3/4 mt-5 text-center text-gray-600">
                 Email address:
                 <span class="font-semibold text-slate-950 ml-2">
-                  {{data?.email}}
+                  {{ data?.email }}
                 </span>
               </span>
             </div>
@@ -75,7 +84,8 @@
                 v-else-if="isAccess === UserActionStatus.UNREGISTERED"
                 class="w-3/4 mt-8 mb-3 text-center text-gray-500 text-sm"
               >
-                You need to register to the todo list with the account with the above email. And you need to access the previous email again!
+                You need to register to the todo list with the account with the
+                above email. And you need to access the previous email again!
               </span>
             </div>
           </div>
@@ -144,12 +154,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { acceptInvite } from '../../api/projectUser';
-import { useProjectRoleStore } from '../../stores/projectStores/projectStore';
-import { UserActionStatus } from '../../utils/constants/enum';
-import '@fortawesome/fontawesome-free/css/all.css';
+import { ref, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { acceptInvite } from "../../api/projectUser";
+import { useProjectRoleStore } from "../../stores/projectStores/projectStore";
+import { UserActionStatus } from "../../utils/constants/enum";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 interface DataType {
   email: string;
@@ -169,17 +179,17 @@ const email = route.query.email as string;
 const id = route.query.id as string;
 
 const handleGoLogin = () => {
-  router.replace('/author');
+  router.replace("/author");
 };
 
 const handleGoRegister = () => {
   if (data.value && data.value.email) {
-    router.replace({ 
-      path: '/author/register', 
-      query: { email: data.value.email } 
+    router.replace({
+      path: "/author/register",
+      query: { email: data.value.email },
     });
   } else {
-    console.error('Email is not defined');
+    console.error("Email is not defined");
   }
 };
 
@@ -188,9 +198,9 @@ const handleGoProject = async () => {
   try {
     const projectRoleStore = useProjectRoleStore();
     await projectRoleStore.loadProjectRole(id);
-    router.replace('/mainpage');
+    router.replace("/mainpage");
   } catch (error) {
-    console.error('Error loading project role:', error);
+    console.error("Error loading project role:", error);
   } finally {
     loading.value = false;
   }
@@ -204,7 +214,7 @@ onMounted(async () => {
     isAccess.value = response.data.status;
   } catch (error) {
     isAccess.value = UserActionStatus.UNREGISTERED;
-    console.error('Failed to fetch invite:', error);
+    console.error("Failed to fetch invite:", error);
   } finally {
     isLoading.value = false;
   }
@@ -212,5 +222,5 @@ onMounted(async () => {
 </script>
 
 <style>
-@import 'index.scss';
+@import "index.scss";
 </style>

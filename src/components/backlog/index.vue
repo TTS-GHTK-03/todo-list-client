@@ -1,6 +1,7 @@
 <template>
     <div v-if="isLoading" class="loading-container">
-        <div class="loader"></div>
+        <!-- <div class="loader"></div> -->
+        <a-spin size="large" />
     </div>
     <div v-else>
         <div class="mt-24 px-8 py-0 ">
@@ -54,11 +55,13 @@
                                 src="../../assets/img/logo_no_text.png" alt="" width="36" height="36" />
                         </a-button>
 
-                        <a-button shape="circle" class="ml-3 w-9 h-9 flex items-center justify-center"
-                            style="border: none; padding: 0">
-                            <img class="w-8 h-8 rounded-full mx-auto cursor-pointer"
-                                src="../../assets/img/logo_no_text.png" alt="" width="36" height="36" />
-                        </a-button>
+                       
+                        <button @click="openModal"
+                            class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+                            <i class="fa-solid fa-user-plus text-gray-500"></i>
+                        </button>
+                        <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
+
                     </div>
                 </div>
             </div>
@@ -227,6 +230,7 @@ import { updateSprintTask } from '../../api/task';
 import { SprintStatus, sortSprints } from '../../utils/constants/enum';
 import { useUserProjectStore } from '../../stores/projectSettingStores/accessStores/accessStore';
 import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue';
+import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 
 // interface BacklogTask {
 //     id: string;
@@ -242,6 +246,7 @@ const isCreateTask = ref(false);
 const isBacklogVisible = ref(true);
 const searchQuery = ref<string>("");
 const isLoading = ref(true);
+const isModalVisible = ref(false);
 const inputCreateTask = ref("");
 // const statusSprintSearch = ref<string>("");
 const sprints = ref<Sprint[]>([]);
@@ -251,6 +256,12 @@ const data = ref<Map<string | null, Task[]>>(new Map());
 const taskDiv = ref<HTMLElement | null>(null);
 const userProjectStore = useUserProjectStore();
 
+// hàm mở model
+const openModal = () => {
+  isModalVisible.value = true;
+};
+
+// Functions
 
 function startDrag(event: DragEvent, task: Task) {
     console.log(task);

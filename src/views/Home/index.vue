@@ -12,7 +12,11 @@
         <p class="text-xl opacity-80 font-charlie-display">
           The #1 software development tool used by agile teams
         </p>
-        <button
+        <button v-if="isProject" @click="handelGoProject()"
+          class="px-1 h-12 font-apple text-base font-medium bg-[#ffab00] border rounded border-transparent text-black hover:bg-[#e69a00]">
+          Go to {{project?.title}}
+        </button>
+        <button v-else
           class="w-24 h-12 font-apple text-base font-medium bg-[#ffab00] border rounded border-transparent text-black hover:bg-[#e69a00]">
           Get it free
         </button>
@@ -121,21 +125,52 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from "vue-router";
 import Navbar from '../../components/shared/Navbar/index.vue';
 import { tabs_content, templates } from '../../constants/homeInfo';
+import { useProjectRoleStore } from "../../stores/projectStores/projectStore";
 
 const activeTab = ref(0);
 const tabs = tabs_content;
 const templateList = templates;
+const router = useRouter();
+const idProject = ref(localStorage.getItem('idProject') || null);
+const isProject = ref(false)
+const project = ref<{ id: string; title: string;} | null>(null);
 
 const changeTab = (index: number) => {
   activeTab.value = index;
 };
 
+const loadProject = async () => {
+  if(idProject.value === null) {
+    isProject.value = false
+    return
+  }
+  try {
+    // const projectRoleStore = await useProjectRoleStore();
+    // await projectRoleStore.loadProjectRole(idProject.value);
+  
+    // project.value = projectRoleStore.project
+    // console.log("projectRoleStore", project)
+    isProject.value = false
+  } catch (error) {
+    console.error("Error data:", error);
+    isProject.value = false
+  }
+};
+
+const handelGoProject = () => {
+  router.push("/mainpage");
+}
 const resolveImagePath = (image: string) => {
   return new URL(image, import.meta.url).href;
 };
+
+onMounted(() => {
+  loadProject();
+});
 </script>
 
 
