@@ -45,11 +45,16 @@
                 <div class="w-72 h-4 text-xs text-gray-600 my-1.5 "><p>ACCOUNT</p></div>
                 <div class="flex flex-row my-2">
                   <div class="basis-1/6">
-                  <Avatar class="bg-slate-700 text-white inset-x-0 rounded-full " style="font-size: 25px" :size="100">MH</Avatar>
+                    <div class="flex items-center justify-center mr-1.5">
+    <div class="flex items-center justify-center w-10 h-10 bg-slate-700 rounded-full text-white text-xl font-bold">
+      MH
+    </div>
+  </div>
+                  <!-- <Avat class="bg-slate-700 text-white inset-x-0 rounded-full " style="font-size: 25px" :size="100">MH</Avat> -->
                   </div>
                   <div class="basis-5/6 flex flex-col">
                     <p class="text-base text-gray-600 mb-px">Mai Thanh Hà</p>
-                    <p class="text-base text-gray-600 text-xs">thanhhaxinhdep@gmail.com</p>
+                    <p class=" text-gray-600 text-xs">thanhhaxinhdep@gmail.com</p>
                   </div> 
                 </div>
               </div>
