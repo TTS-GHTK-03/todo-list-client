@@ -19,8 +19,7 @@
             <button :class="['text-text-dark px-2 py-2 mt-4  rounded transition duration-300',
               activeModal === index
                 ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                : 'hover:bg-gray-200',]" 
-                ref="buttonRefs" :data-index="index" @click="openModal(index, $event)">
+                : 'hover:bg-gray-200',]" ref="buttonRefs" :data-index="index" @click="openModal(index, $event)">
               {{ button }}
               <i class="fas fa-chevron-down text-xs"></i>
             </button>
@@ -37,47 +36,50 @@
         </button>
         <a-dropdown :trigger="['click']">
           <button class="mx-2 text-gray-600 hover:text-gray-900">
-          <i class="fas fa-user"></i>
-        </button>
-        <template #overlay>
-          <a-menu>
-            <div class="w-72 pl-3">
-                <div class="w-72 h-4 text-xs text-gray-600 my-1.5 "><p>ACCOUNT</p></div>
+            <i class="fas fa-user"></i>
+          </button>
+          <template #overlay>
+            <a-menu>
+              <div class="w-72 pl-3">
+                <div class="w-72 h-4 text-xs text-gray-600 my-1.5 ">
+                  <p>ACCOUNT</p>
+                </div>
                 <div class="flex flex-row my-2">
                   <div class="basis-1/6">
                     <div class="flex items-center justify-center mr-1.5">
-    <div class="flex items-center justify-center w-10 h-10 bg-slate-700 rounded-full text-white text-xl font-bold">
-      MH
-    </div>
-  </div>
-                  <!-- <Avat class="bg-slate-700 text-white inset-x-0 rounded-full " style="font-size: 25px" :size="100">MH</Avat> -->
+                      <div
+                        class="flex items-center justify-center w-10 h-10 bg-slate-700 rounded-full text-white text-xl font-bold">
+                        MH
+                      </div>
+                    </div>
+                    <!-- <Avat class="bg-slate-700 text-white inset-x-0 rounded-full " style="font-size: 25px" :size="100">MH</Avat> -->
                   </div>
                   <div class="basis-5/6 flex flex-col">
                     <p class="text-base text-gray-600 mb-px">Mai Thanh Hà</p>
                     <p class=" text-gray-600 text-xs">thanhhaxinhdep@gmail.com</p>
-                  </div> 
+                  </div>
                 </div>
               </div>
-            <a-menu-item key="0">
+              <a-menu-item key="0">
                 <div class="flex justify-between items-center">
                   <a href="/mainpage" class="hover:text-current">Manage account</a>
                   <i class="fa-solid fa-arrow-up-right-from-square"></i>
                 </div>
-            </a-menu-item>
-            <hr>
-            <a-menu-item key="1">
-              <a href="/profile">Profile</a>
-            </a-menu-item>
-            <a-menu-item key="2">
-              <a href="/mainpage">Notification</a>
-            </a-menu-item>
-            <a-menu-divider />
-            <a-menu-item key="4">Log out</a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
+              </a-menu-item>
+              <hr>
+              <a-menu-item key="1">
+                <a href="/profile">Profile</a>
+              </a-menu-item>
+              <a-menu-item key="2">
+                <a href="/mainpage">Notification</a>
+              </a-menu-item>
+              <a-menu-divider />
+              <a-menu-item key="4">Log out</a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </div>
-      
+
     </div>
   </div>
 </template>
@@ -133,4 +135,3 @@ onUnmounted(() => {
   document.removeEventListener("click", handleOutsideClick);
 });
 </script>
-

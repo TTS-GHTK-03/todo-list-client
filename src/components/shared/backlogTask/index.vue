@@ -187,6 +187,7 @@ const props = defineProps<{
   title: string;
   point: number;
   status: string;
+  sprintId: string;
   // userId: string;
   keyProjectTask: string;
 }>();
@@ -206,6 +207,8 @@ const dropdownMenuAssignee = ref<HTMLElement | null>(null);
 const popupEditNumber = ref<HTMLElement | null>(null);
 const popupEditTitle = ref<HTMLElement | null>(null);
 const isLoading = ref(false);
+
+const emit = defineEmits<{ (e: 'statusUpdated', id: string,sprintId:string, status: string): void }>();
 
 // Computed classes
 const buttonClasses = computed(() => {
@@ -257,6 +260,7 @@ async function selectStatus(status: string) {
     await updateStatusTask(props.id, status);
     selectedStatus.value = status;
     showDropdown.value = false;
+    emit('statusUpdated', props.id,props.sprintId, status);
   } catch (error: any) {
     if (error.message) {
 
