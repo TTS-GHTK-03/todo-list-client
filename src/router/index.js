@@ -24,10 +24,10 @@ import Task from '../components/task/index.vue';
 import Profile from '../views/Profile/index.vue';
 
 import WaitPage from '../views/waitPage/index.vue';
+import WaitSharePage from '../views/waitSharePage/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
 import path from 'path';
-
 
 const routes = [
   {
@@ -166,6 +166,10 @@ const routes = [
   {
     path: '/wait',  
     component: WaitPage,
+  },
+  {
+    path: '/share',  
+    component: WaitSharePage,
   },
   {
     path: '/:pathMatch(.*)*', 
