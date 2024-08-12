@@ -6,11 +6,10 @@
                 <i class="fa-solid fa-suitcase"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingJobTitle" @click="startEditing('jobTitle')"
-                        class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your job title">
-
+                        v-model="profile.phone" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your job title">
 
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input placeholder="Your job title" spellcheck="false" type="text"
+                        <input v-model="profile.phone" placeholder="Your job title" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('jobTitle')" ref="jobTitleInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -30,9 +29,9 @@
                 <i class="fa-solid fa-code-fork fa-flip-vertical"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingDepartment" @click="startEditing('department')"
-                        class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your department">
+                        v-model="profile.dateOfBirth" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your department">
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input placeholder="Your department" spellcheck="false" type="text"
+                        <input v-model="profile.dateOfBirth" placeholder="Your department" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('department')" ref="departmentInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -52,9 +51,9 @@
                 <i class="fa-regular fa-building"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingOrganization" @click="startEditing('organization')"
-                        class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your organization">
+                        v-model="profile.gender" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your organization">
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input placeholder="Your organization" spellcheck="false" type="text"
+                        <input v-model="profile.gender" placeholder="Your organization" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('organization')" ref="organizationInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -74,9 +73,9 @@
                 <i class="fa-solid fa-location-dot"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingLocation" @click="startEditing('location')"
-                        class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your location">
+                        v-model="profile.address" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your location">
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input placeholder="Your location" spellcheck="false" type="text"
+                        <input v-model="profile.address" placeholder="Your location" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('location')" ref="locationInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -94,50 +93,121 @@
             </li>
         </ul>
 
+        <a-button v-if="isEdit" @click="handleUpdate()" class="mb-4" type="primary">
+            <span v-if="!isUpdateLoading">
+                Save
+            </span>
+            <!-- <div v-if="isUpdateLoading" class="w-5 h-5 border-4 border-white border-t-transparent border-solid rounded-full animate-spin"></div> -->
+        </a-button>
+        <a-button v-else @click="isEdit = true" class="mb-4" danger shape="round">Edit</a-button>
+
         <h3 class="text-xs text-slate-400 mb-4">CONTACT</h3>
         <div class="flex items-center">
             <i class="fa-regular fa-envelope"></i>
-            <span class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2">thanhhaxinhdep@gmail.com</span>
+            <span class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2">{{profile?.email}}</span>
         </div>
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            editingJobTitle: false,
-            editingDepartment: false,
-            editingOrganization: false,
-            editingLocation: false,
-            textJobTitle: 'Your job title',
-            textDepartment: 'Your department',
-            textOrganization: 'Your organization',
-            textLocation: 'Your location'
-        };
-    },
-    methods: {
-        startEditing(field) {
-            this.editingJobTitle = false;
-            this.editingDepartment = false;
-            this.editingOrganization = false;
-            this.editingLocation = false;
-            this[`editing${field.charAt(0).toUpperCase() + field.slice(1)}`] = true;
-            this.$nextTick(() => {
-                this.$refs[`${field}Input`].focus();
-            });
-        },
-        stopEditing(field) {
-            this[`editing${field.charAt(0).toUpperCase() + field.slice(1)}`] = false;
-        },
-        confirmEdit(field) {
-            this[`editing${field.charAt(0).toUpperCase() + field.slice(1)}`] = false;
-        },
-        cancelEdit(field) {
-            this[`editing${field.charAt(0).toUpperCase() + field.slice(1)}`] = false;
-        }
+<script lang="ts" setup>
+import { ref, nextTick, onMounted, watch } from 'vue';
+import { message } from "ant-design-vue";
+import { updateInformation } from "../../../api/profile";
+
+const props = defineProps<{
+  profile: any;
+}>();
+
+const profile = ref<any>({});
+const isEdit = ref(false)
+const isUpdateLoading = ref(false)
+
+watch(() => props.profile, (newProfile) => {
+  if (newProfile) {
+    profile.value = newProfile;
+  }
+}, { immediate: true });
+
+
+const editingJobTitle = ref(false);
+const editingDepartment = ref(false);
+const editingOrganization = ref(false);
+const editingLocation = ref(false);
+
+const startEditing = (field: string) => {
+    editingJobTitle.value = false;
+    editingDepartment.value = false;
+    editingOrganization.value = false;
+    editingLocation.value = false;
+    switch (field) {
+        case 'jobTitle':
+            editingJobTitle.value = true;
+            break;
+        case 'department':
+            editingDepartment.value = true;
+            break;
+        case 'organization':
+            editingOrganization.value = true;
+            break;
+        case 'location':
+            editingLocation.value = true;
+            break;
+    }
+    nextTick(() => {
+        const input = document.querySelector(`[ref="${field}Input"]`) as HTMLInputElement;
+        input?.focus();
+    });
+};
+
+const stopEditing = (field: string) => {
+    switch (field) {
+        case 'jobTitle':
+            editingJobTitle.value = false;
+            break;
+        case 'department':
+            editingDepartment.value = false;
+            break;
+        case 'organization':
+            editingOrganization.value = false;
+            break;
+        case 'location':
+            editingLocation.value = false;
+            break;
     }
 };
+
+const confirmEdit = (field: string) => {
+    stopEditing(field);
+};
+
+const cancelEdit = (field: string) => {
+
+    stopEditing(field);
+};
+
+const handleUpdate = async () => {
+    isUpdateLoading.value = true
+    try {
+        const updateResponse = await updateInformation({
+            firstName: profile.value.firstName,
+            middleName: profile.value.middleName,
+            lastName: profile.value.lastName,
+            phone: profile.value.phone,
+            dateOfBirth: profile.value.dateOfBirth,
+            gender: profile.value.gender,
+            address: profile.value.address,
+        })
+        console.log("(updateResponse)", updateResponse)
+        message.success("Update profile successfully!");
+    } catch (error) {
+        console.error("Failed to update profile", error);
+        message.error("Failed to update profile ");
+    }finally{
+        isUpdateLoading.value = false
+        // isEdit.value = false
+    }
+}
+
 </script>
 
 <style scoped>

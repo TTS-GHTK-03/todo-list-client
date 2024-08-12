@@ -510,7 +510,7 @@ onMounted(async () => {
   try {
     const response = await fetchAllTask();
     const filteredTasks = response.data.filter(
-      (task) => task.sprintId !== null
+      (task) => task.sprintId !== null && task.sprintStatus!="COMPLETE"
     );
     const map = new Map<string, Task[]>();
     filteredTasks.forEach((task) => {
