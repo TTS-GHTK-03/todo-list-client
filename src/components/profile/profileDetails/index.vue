@@ -6,10 +6,10 @@
                 <i class="fa-solid fa-suitcase"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingJobTitle" @click="startEditing('jobTitle')"
-                        v-model="profile.phone" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your job title">
+                        v-model="profile.phone" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your phone">
 
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input v-model="profile.phone" placeholder="Your job title" spellcheck="false" type="text"
+                        <input v-model="profile.phone" placeholder="Your phone" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('jobTitle')" ref="jobTitleInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -29,9 +29,9 @@
                 <i class="fa-solid fa-code-fork fa-flip-vertical"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingDepartment" @click="startEditing('department')"
-                        v-model="profile.dateOfBirth" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your department">
+                        v-model="profile.dateOfBirth" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your date of birth">
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input v-model="profile.dateOfBirth" placeholder="Your department" spellcheck="false" type="text"
+                        <input v-model="profile.dateOfBirth" placeholder="Your date of birth" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('department')" ref="departmentInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -51,9 +51,9 @@
                 <i class="fa-regular fa-building"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingOrganization" @click="startEditing('organization')"
-                        v-model="profile.gender" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your organization">
+                        v-model="profile.gender" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your gender">
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input v-model="profile.gender" placeholder="Your organization" spellcheck="false" type="text"
+                        <input v-model="profile.gender" placeholder="Your gender" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('organization')" ref="organizationInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">
@@ -73,9 +73,9 @@
                 <i class="fa-solid fa-location-dot"></i>
                 <div class="flex items-center justify-between w-full">
                     <input v-if="!editingLocation" @click="startEditing('location')"
-                        v-model="profile.address" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your location">
+                        v-model="profile.address" class="text-sm px-2 pt-2 pb-1.5 text-slate-400 ml-2 info" placeholder="Your address">
                     <div v-else class="relative ml-2 flex items-center w-full">
-                        <input v-model="profile.address" placeholder="Your location" spellcheck="false" type="text"
+                        <input v-model="profile.address" placeholder="Your address" spellcheck="false" type="text"
                             class="w-full border-2 border-blue-400 rounded p-2 h-8 text-sm"
                             @blur="stopEditing('location')" ref="locationInput" />
                         <div class="absolute right-0 top-full mt-1 flex space-x-1">

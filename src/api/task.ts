@@ -231,6 +231,30 @@ export const updateStartDateDueDateTask = async (sprintId: string, taskId: strin
         if (error.response) {
             console.log(error.response.data)
             throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+}
+
+
+export const getAllTaskAssigneesForUser = async (): Promise<TaskResponse> => {
+    try {
+        // const projectRoleStore = useProjectRoleStore()
+        // const idProject = projectRoleStore.idProject
+            
+        // if (!idProject) {
+        //     throw new Error("Project ID is not defined");
+        // }
+        const response = await apiClient.get<TaskResponse>("/users/tasks/assignees");
+        console.log("getAllTaskAssigneesForUser (response): ", response)
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            console.log(error.response.data)
+            throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error occurred while fetching projects");
         }
     }
 }
