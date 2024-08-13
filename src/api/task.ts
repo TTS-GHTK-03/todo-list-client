@@ -258,3 +258,30 @@ export const getAllTaskAssigneesForUser = async (): Promise<TaskResponse> => {
         }
     }
 }
+
+
+export interface DeleteTaskResponse {
+    status: number;
+    timestamp: string;
+    data: string;
+}
+export const deleteTask = async (taskId: string): Promise<DeleteTaskResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore()
+        const idProject = projectRoleStore.idProject
+            
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+        const response = await apiClient.delete<DeleteTaskResponse>(`projects/${idProject}/tasks/${taskId}`);
+        console.log("deleteTask (response): ", response)
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            console.log(error.response.data)
+            throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+}

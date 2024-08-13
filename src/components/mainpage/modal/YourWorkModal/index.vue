@@ -115,12 +115,21 @@ onMounted(async () => {
   //   }
   // }
   try {
-    const response = await getAllTaskAssigneesForUser()
-    console.log(response)
+    const response = await getAllTaskAssigneesForUser();
+    console.log(response);
+    
     const filteredTasks: Task[] = response.data.filter((task: Task) => task.status); // Thay đổi điều kiện lọc nếu cần
+    
+    // Định nghĩa thứ tự trạng thái mong muốn
+    const statusOrder = ['TODO', 'IN_PROGRESS', 'READY_FOR_TEST', 'DONE'];
+    
+    // Sắp xếp các task theo thứ tự trạng thái
+    const sortedTasks = filteredTasks.sort((a, b) => {
+        return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+    });
 
     const map = new Map<string, Task[]>();
-    filteredTasks.forEach((task) => {
+    sortedTasks.forEach((task) => {
       if (!map.has(task.status)) {
         map.set(task.status, []);
       }
