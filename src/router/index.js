@@ -26,9 +26,9 @@ import Filter from '../views/Filter/index.vue';
 
 
 import WaitPage from '../views/waitPage/index.vue';
+import WaitSharePage from '../views/waitSharePage/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
-
 
 
 const routes = [
@@ -173,6 +173,10 @@ const routes = [
   {
     path: '/wait',  
     component: WaitPage,
+  },
+  {
+    path: '/share',  
+    component: WaitSharePage,
   },
   {
     path: '/:pathMatch(.*)*', 

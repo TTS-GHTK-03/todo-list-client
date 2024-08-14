@@ -9,10 +9,10 @@
       <div>
         <MainNavbar />
         <router-view />
-        <ProfileHeader />
+        <ProfileHeader :profile="profile" />
         <div class="flex flex-row container">
             <div class="basis-1/3">
-                <ProfileDetails />
+                <ProfileDetails :profile="profile" />
             </div>
             <div class="basis-2/3 ml-6">
                 <WorkOn />
@@ -34,51 +34,40 @@
     </div>
   </template>
   
-  <script lang="ts">
+<script lang="ts" setup>
   import { defineComponent, ref, onMounted } from 'vue';
   import MainNavbar from '../../components/shared/MainNavbar/index.vue';
   import ProfileHeader from '../../components/profile/profileHeader/index.vue';
   import ProfileDetails from '../../components/profile/profileDetails/index.vue';
   import WorkOn from '../../components/profile/workOn/index.vue';
   // import { useProjectStore } from '../../stores/projectStores/projectStore';
+  import {fetchProfile} from "../../api/profile";
   
-  export default defineComponent({
-    components: {
-         MainNavbar,
-         ProfileHeader,
-         ProfileDetails,
-         WorkOn
-    },
-    setup() {
-      // const projectStore = useProjectStore();
-      // const isLoading = ref(true);
-  
-      // const fetchData = async () => {
-      //   try {
-      //     await projectStore.loadProjects();
-      //     if (projectStore.error) {
-      //       console.error('Failed to fetch projects:', projectStore.error);
-        
-      //     } else {
-      //       console.log('Successfully fetched projects:', projectStore.projects);
-  
-      //     }
-      //   } catch (error: any) {
-      //     console.error('Failed to fetch projects:', error);
-      //   } finally {
-      //     isLoading.value = false;
-      //   }
-      // };
-  
-      onMounted(() => {
-        // fetchData();
-      });
-  
-      return {
-        // isLoading,
-      };
-    },
+  export interface Profile {
+      id: string;
+      firstName: string;
+      middleName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+      dateOfBirth: string;
+      gender: string;
+      address: string;
+  }
+
+  const profile = ref<Profile[]>();
+
+  onMounted(async () => {
+    try {
+      const response = await fetchProfile();
+      profile.value = response.data
+      console.info("profileDetail (response)", profile);
+    } catch (error) {
+      console.error("Failed to fetch tasks", error);
+    } finally {
+    }
   });
+
   </script>
   
   <style scoped>

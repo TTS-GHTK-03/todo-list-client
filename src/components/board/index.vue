@@ -20,12 +20,19 @@
               <i
                 class="fa-solid fa-bolt bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i
-                class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
-              <i
-                class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
+                class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
+              ></i>
+              <i @click="openModalShare"
+                class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
+              ></i>
               <i
                 class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
             </div>
+
+            <ShareModal
+              :visible="isModalShareVisible"
+              @update:visible="isModalShareVisible = $event"
+            />
 
             <button
               class="bg-gray-100 font-medium font-apple text-sm text-text-dark-thin hover:bg-gray-200 px-4 py-2 rounded h-9 flex items-center">
@@ -232,6 +239,7 @@ import { TaskStatus } from "../../utils/constants/enum";
 import { normalizeName } from "../../utils/normalizeName";
 import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";
 import {fetchSprintProject} from "../../api/project";
+import ShareModal from "../mainpage/modal/shareModal/index.vue";
 import { message } from "ant-design-vue";
 import dayjs, { Dayjs } from "dayjs";
 
@@ -239,6 +247,7 @@ import dayjs, { Dayjs } from "dayjs";
 
 // Khai báo các biến
 const isModalVisible = ref(false);
+const isModalShareVisible = ref(false);
 const searchQuery = ref<string>("");
 const titleModel = ref<string>("");
 const open = ref<boolean>(false);
@@ -276,6 +285,10 @@ const selectSprint = (sprint: string) => {
   selectedSprint.value = sprint;
   isDropdownSprint.value = false;
 };
+const openModalShare = () => {
+  isModalShareVisible.value = true;
+}
+
 // Hàm xử lý kéo nhiệm vụ
 const startDrag = (event: DragEvent, task: any) => {
   console.log(task);
@@ -387,6 +400,13 @@ const disabledDate = (current: Dayjs) => {
   return current && current < tomorrow;
 };
 
+// const disabledDate = (current: Dayjs) => {
+//   const tomorrow = dayjs().startOf("day").add(2, "day");
+//   const dueSprint = dayjs().startOf("day").add(20, "day");
+
+//   return current && (current.isBefore(tomorrow) || current.isAfter(dueSprint));
+// };
+
 
 onMounted(async () => {
   isLoading.value = true;
@@ -394,7 +414,7 @@ onMounted(async () => {
     const response = await fetchAllTask();
     loadSPrint();
     const filteredTasks = response.data.filter(
-      (task) => task.sprintId !== null
+      (task) => task.sprintId !== null && task.sprintStatus!="COMPLETE"
     );
     const map = new Map<string, any[]>();
     filteredTasks.forEach((task) => {

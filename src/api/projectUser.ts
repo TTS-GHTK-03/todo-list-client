@@ -93,7 +93,7 @@ export interface AcceptInviteResponse {
 export const acceptInvite = async (emailEncode: string, projectId: string): Promise<AcceptInviteResponse> => {
 
     try {
-        const response = await apiClient.get<AcceptInviteResponse>(`/accept?emailEncode=${emailEncode}&projectId=${projectId}`);
+        const response = await apiClient.post<AcceptInviteResponse>(`/accept?emailEncode=${emailEncode}&projectId=${projectId}`);
         console.log("acceptInvite (response): ", response);
         return response.data;
     } catch (error: any) {
@@ -147,3 +147,70 @@ export const deleteUser = async(memberId: string): Promise<DeleteUserResponse> =
     }
 }
 
+
+
+// shareProject
+export interface ShareProjectRequest {
+    email: string;
+    role: string;
+    expireTime: string;
+}
+
+export interface ShareProjectResponse {
+    status: number;
+    timestamp: string;
+    data: string;
+}
+
+export const shareProject = async (credentials: ShareProjectRequest): Promise<ShareProjectResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore();
+        const idProject = projectRoleStore.idProject;
+        
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+    
+        const response = await apiClient.post<ShareProjectResponse>(`/projects/${idProject}/share`, credentials);
+        
+        console.log("shareProject (response): ", response);
+        return response.data;
+
+    } catch (error: any) {
+        if (error.response) {
+            throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error share project");
+        }
+        
+    }
+};
+
+
+// view Share Project
+export interface ViewShareResponse {
+    status: number;
+    timestamp: string;
+    data: {
+        email: string,
+        status: string,
+        projectId: string,
+        shareToken: string
+    }
+}
+
+export const viewShareProject = async (shareToken: string): Promise<ViewShareResponse> => {
+
+    try {
+        const response = await apiClient.post<ViewShareResponse>(`/view_share?shareToken=${shareToken}`);
+        console.log("viewShareProject (response): ", response);
+        return response.data;
+    } catch (error: any) {
+        // catch chưa xử lý
+        if (error.response) {
+            throw new Error(error.response.data.error.message);
+        } else {
+            throw new Error("An error occurred");
+        }
+    }
+};
