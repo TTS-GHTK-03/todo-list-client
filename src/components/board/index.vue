@@ -14,34 +14,26 @@
         </div>
 
         <div class="flex justify-between mb-12">
-          <span class="font-ui text-2xl font-semibold text-text-dark-thin"
-            >SCRUM Sprint 1</span
-          >
+          <span class="font-ui text-2xl font-semibold text-text-dark-thin">SCRUM Sprint 1</span>
           <div class="flex items-center">
             <div class="flex space-x-2 text-text-dark-thin mr-2">
               <i
-                class="fa-solid fa-bolt bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
-              ></i>
+                class="fa-solid fa-bolt bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i
-                class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
-              ></i>
+                class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i
-                class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
-              ></i>
+                class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i
-                class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
-              ></i>
+                class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
             </div>
 
             <button
-              class="bg-gray-100 font-medium font-apple text-sm text-text-dark-thin hover:bg-gray-200 px-4 py-2 rounded h-9 flex items-center"
-            >
+              class="bg-gray-100 font-medium font-apple text-sm text-text-dark-thin hover:bg-gray-200 px-4 py-2 rounded h-9 flex items-center">
               Complete sprint
             </button>
 
             <button
-              class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2"
-            >
+              class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
               <i class="fa-solid fa-ellipsis text-xl"></i>
             </button>
           </div>
@@ -49,277 +41,180 @@
 
         <div class="flex mb-0">
           <div class="relative inline-block mr-6">
-            <input
-              type="text"
-              v-model="searchQuery"
-              placeholder="Search"
-              class="custom-input w-[224px] min-h-[36px] border border-gray-500 rounded py-2 font-light pl-2 pr-10 placeholder-gray-400 hover:border-blue-600"
-            />
-            <i
-              v-if="searchQuery"
-              @click="clearSearch"
-              class="fa-solid fa-x absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"
-            ></i>
-            <i
-              v-else
-              class="fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"
-            ></i>
+            <input type="text" v-model="searchQuery" placeholder="Search"
+              class="custom-input w-[224px] min-h-[36px] border border-gray-500 rounded py-2 font-light pl-2 pr-10 placeholder-gray-400 hover:border-blue-600" />
+            <i v-if="searchQuery" @click="clearSearch"
+              class="fa-solid fa-x absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"></i>
+            <i v-else
+              class="fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"></i>
           </div>
 
           <div class="flex items-center mr-6">
-            <a-button
-              shape="circle"
-              class="w-9 h-9 flex items-center justify-center -mr-2"
-              style="border: none; padding: 0"
-            >
-              <img
-                class="w-8 h-8 rounded-full mx-auto"
+            <a-button shape="circle" class="w-9 h-9 flex items-center justify-center -mr-2"
+              style="border: none; padding: 0">
+              <img class="w-8 h-8 rounded-full mx-auto"
                 src="https://secure.gravatar.com/avatar/b135b1cb057c7e8230e8d0d5a3eba119?d=https%3A%2F%2Favatar-management--avatars.us-west-2.prod.public.atl-paas.net%2Finitials%2FLH-4.png"
-                alt=""
-                width="36"
-                height="36"
-              />
+                alt="" width="36" height="36" />
             </a-button>
-            <a-button
-              shape="circle"
-              class="w-9 h-9 flex items-center justify-center"
-              style="border: none; padding: 0"
-            >
-              <img
-                class="w-8 h-8 rounded-full mx-auto cursor-pointer"
-                src="../../assets/img/logo_no_text.png"
-                alt=""
-                width="36"
-                height="36"
-              />
+            <a-button shape="circle" class="w-9 h-9 flex items-center justify-center" style="border: none; padding: 0">
+              <img class="w-8 h-8 rounded-full mx-auto cursor-pointer" src="../../assets/img/logo_no_text.png" alt=""
+                width="36" height="36" />
             </a-button>
 
-            <button
-              @click="openModal"
-              class="bg-gray-100 text-sm rounded-full hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2"
-            >
+            <button @click="openModal"
+              class="bg-gray-100 text-sm rounded-full hover:bg-slate-300  h-9 w-9 flex px-2 items-center justify-center ml-2">
               <i class="fa-solid fa-user-plus text-gray-500"></i>
             </button>
-            <AddPeopleModal
-              :visible="isModalVisible"
-              @update:visible="isModalVisible = $event"
-            />
+            <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
+
+            <div class="relative ml-2">
+              <button v-if="selectedSprint && selectedSprint.trim() !== ''" @click.stop="toggleDropdownSprint"
+                class="bg-blue-100 bg-opacity-80 text-blue-600 transition-colors duration-300 ease-in-out h-[32px] rounded px-3 mx-1 flex items-center justify-center">
+                <div class="flex items-center ">
+                  <span class="font-bold">Sprint = </span>
+                  <span class="text-sm ml-1"> {{ selectedSprint }}</span>
+                  <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                </div>
+              </button>
+              <button v-else @click.stop="toggleDropdownSprint"
+                :class="{ 'bg-blue-100 text-blue-600': isDropdownSprint, 'bg-gray-200 bg-opacity-60 hover:bg-gray-300 hover:bg-opacity-80': !isDropdownSprint }"
+                class=" transition-colors duration-300 ease-in-out h-[32px] rounded px-3 mx-1 flex items-center justify-center">
+                <span class="flex items-center font-apple text-sm text-dark-thin font-medium">
+                  Sprint
+                  <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+                </span>
+              </button>
+              <div v-if="isDropdownSprint" ref="dropdownSprint"
+                class="z-30 bg-white absolute w-[200px] left-0 top-[40px] py-2 rounded border shadow-lg border-blur">
+                <div v-for="sprint in sprints" :key="sprint.id " class="w-full h-8 flex items-center">
+                  <div @click="selectSprint(sprint.title)" class="w-full">
+                    <span class="cursor-pointer hover:bg-gray-200 w-full  font-ui text-text-dark-thin text-sm px-4 py-2">{{sprint.title}}</span>
+                  </div>
+                </div>
+
+              
+              </div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="flex w-[70]">
+        <div class="flex  gap-6 mt-10 overflow-x-auto">
+          <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+            @drop="onDrop($event, TaskStatus.TODO)" @dragenter.prevent @dragover.prevent>
+            <div class="h-12 py-4 flex justify-between items-center group">
+              <span
+                class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
+                TO DO
+              </span>
+              <button
+                class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class="fa-solid fa-ellipsis text-xl"></i>
+              </button>
+            </div>
 
-      <div class="flex gap-6 mt-10">
-        <div
-          class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
-          @drop="onDrop($event, TaskStatus.TODO)"
-          @dragenter.prevent
-          @dragover.prevent
-        >
-          <div class="h-12 py-4 flex justify-between items-center group">
-            <span
-              class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow"
-            >
-              TO DO
-            </span>
-            <button
-              class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <i class="fa-solid fa-ellipsis text-xl"></i>
-            </button>
+            <!-- Container for item-task, positioned right under the header -->
+            <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
+              <item-task v-for="task in data.get(TaskStatus.TODO)" :key="task?.id" :id="task?.id" :point="task?.point"
+                :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="task?.userResponse?.lastName"
+                draggable="true" @dragstart="startDrag($event, task)" />
+            </div>
           </div>
 
-          <!-- Container for item-task, positioned right under the header -->
-          <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-            <item-task
-              v-for="task in data.get(TaskStatus.TODO)"
-              :key="task?.id"
-              :id="task?.id"
-              :point="task?.point"
-              :title="task?.title"
-              :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.userResponse?.lastName"
-              draggable="true"
-              @dragstart="startDrag($event, task)"
-            />
-          </div>
-        </div>
+          <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+            @drop="onDrop($event, TaskStatus.IN_PROGRESS)" @dragenter.prevent @dragover.prevent>
+            <div class="h-12 py-4 flex justify-between items-center group">
+              <span
+                class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
+                IN PROGRESS
+              </span>
+              <button
+                class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class="fa-solid fa-ellipsis text-xl"></i>
+              </button>
+            </div>
 
-        <div
-          class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
-          @drop="onDrop($event, TaskStatus.IN_PROGRESS)"
-          @dragenter.prevent
-          @dragover.prevent
-        >
-          <div class="h-12 py-4 flex justify-between items-center group">
-            <span
-              class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow"
-            >
-              IN PROGRESS
-            </span>
-            <button
-              class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <i class="fa-solid fa-ellipsis text-xl"></i>
-            </button>
+            <!-- Container for item-task, positioned right under the header -->
+            <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
+              <item-task v-for="task in data.get(TaskStatus.IN_PROGRESS)" :key="task?.id" :id="task?.id"
+                :point="task?.point" :title="task?.title" :keyText="task?.keyProjectTask"
+                :tooltip-title="task?.userResponse?.lastName" draggable="true" @dragstart="startDrag($event, task)" />
+            </div>
           </div>
 
-          <!-- Container for item-task, positioned right under the header -->
-          <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-            <item-task
-              v-for="task in data.get(TaskStatus.IN_PROGRESS)"
-              :key="task?.id"
-              :id="task?.id"
-              :point="task?.point"
-              :title="task?.title"
-              :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.userResponse?.lastName"
-              draggable="true"
-              @dragstart="startDrag($event, task)"
-            />
-          </div>
-        </div>
+          <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+            @drop="onDrop($event, TaskStatus.READY_FOR_TEST)" @dragenter.prevent @dragover.prevent>
+            <div class="h-12 py-4 flex justify-between items-center group">
+              <span
+                class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
+                READY FOR TEST
+              </span>
+              <button
+                class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class="fa-solid fa-ellipsis text-xl"></i>
+              </button>
+            </div>
 
-        <div
-          class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
-          @drop="onDrop($event, TaskStatus.READY_FOR_TEST)"
-          @dragenter.prevent
-          @dragover.prevent
-        >
-          <div class="h-12 py-4 flex justify-between items-center group">
-            <span
-              class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow"
-            >
-              READY FOR TEST
-            </span>
-            <button
-              class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <i class="fa-solid fa-ellipsis text-xl"></i>
-            </button>
+            <!-- Container for item-task, positioned right under the header -->
+            <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
+              <item-task v-for="task in data.get(TaskStatus.READY_FOR_TEST)" :key="task?.id" :id="task?.id"
+                :point="task?.point" :title="task?.title" :keyText="task?.keyProjectTask"
+                :tooltip-title="task?.userResponse?.lastName" draggable="true" @dragstart="startDrag($event, task)" />
+            </div>
           </div>
 
-          <!-- Container for item-task, positioned right under the header -->
-          <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-            <item-task
-              v-for="task in data.get(TaskStatus.READY_FOR_TEST)"
-              :key="task?.id"
-              :id="task?.id"
-              :point="task?.point"
-              :title="task?.title"
-              :keyText="task?.keyProjectTask"
-              :tooltip-title="task?.userResponse?.lastName"
-              draggable="true"
-              @dragstart="startDrag($event, task)"
-            />
-          </div>
-        </div>
+          <div class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
+            @drop="onDrop($event, TaskStatus.DONE)" @dragenter.prevent @dragover.prevent>
+            <div class="h-12 py-4 flex justify-between items-center group">
+              <span
+                class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow">
+                DONE
+              </span>
+              <button
+                class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <i class="fa-solid fa-ellipsis text-xl"></i>
+              </button>
+            </div>
 
-        <div
-          class="w-[260px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded flex flex-col"
-          @drop="onDrop($event, TaskStatus.DONE)"
-          @dragenter.prevent
-          @dragover.prevent
-        >
-          <div class="h-12 py-4 flex justify-between items-center group">
-            <span
-              class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-pointer flex-grow"
-            >
-              DONE
-            </span>
-            <button
-              class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <i class="fa-solid fa-ellipsis text-xl"></i>
-            </button>
-          </div>
-
-          <!-- Container for item-task, positioned right under the header -->
-          <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-            <item-task
-              v-for="task in data.get(TaskStatus.DONE)"
-              :key="task?.id"
-              :id="task?.id"
-              :point="task?.point"
-              :title="task?.title"
-              :keyText="task?.keyProjectTask"
-              :tooltip-title="
-                normalizeName(
+            <!-- Container for item-task, positioned right under the header -->
+            <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
+              <item-task v-for="task in data.get(TaskStatus.DONE)" :key="task?.id" :id="task?.id" :point="task?.point"
+                :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="normalizeName(
                   task?.userResponse?.firstName,
                   task?.userResponse?.middleName,
                   task?.userResponse?.lastName
                 )
-              "
-              draggable="true"
-              @dragstart="startDrag($event, task)"
-            />
+                  " draggable="true" @dragstart="startDrag($event, task)" />
+            </div>
           </div>
+
+
+          <a-modal title="Start another task" v-model:open="open" @ok="handleOk" @cancel="handleCancel">
+            <div class="w-full">
+              <div>
+                
+              </div>
+              <div class="mt-1">
+                <span class="text-slate-900 mb-4 text-left w-full">
+                  Required fields are marked with an asterisk.
+                  <span class="text-red-500">*</span></span>
+              </div>
+              <div class="mb-2 mt-4">
+                <span class="text-slate-900 mb-4 text-left w-full">Task name <span class="text-red-500">*</span></span>
+              </div>
+              <a-input disabled class="w-[300px]" v-model:value="titleModel" placeholder="Name" />
+              <div class="mb-2 mt-4">
+                <span class="text-slate-900 mb-4 text-left w-full">Due date task <span
+                    class="text-red-500">*</span></span>
+              </div>
+              <a-date-picker class="mb-4 w-[300px]" v-model:value="valueDate" :disabled-date="disabledDate" />
+            </div>
+            <template #footer>
+              <a-button key="back" @click="handleCancel">Cancel</a-button>
+              <a-button key="submit" type="primary" :loading="loadingModel" @click="handleOk">Submit</a-button>
+            </template>
+          </a-modal>
         </div>
-
-        <!-- <div class="w-[270px] min-h-[180px] bg-gray-100 bg-opacity-70 rounded">
-          <div class="h-12 py-4 flex justify-between items-center group">
-            <span class="rounded text-xs text-[#626F86] font-semibold font-apple ml-2 pl-3 py-1 hover:bg-gray-200 hover:cursor-grab flex-grow">IN PROGRESS</span>
-            <button class="text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 mr-2 items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-              <i class="fa-solid fa-ellipsis text-xl"></i>
-            </button>
-          </div>
-        </div> -->
-        <!-- <UpdateDateTaskModal
-          :task="updateTask"
-          :visible="isModalDateTaskVisible"
-          @update:visible="isModalDateTaskVisible = $event"
-        /> -->
-
-        <a-modal
-          title="Start another task"
-          v-model:open="open"
-          @ok="handleOk"
-          @cancel="handleCancel"
-        >
-          <div class="w-full">
-            <div>
-              <span class="text-[#5E6C84] mb-4 text-sm">
-                1 issue will be included in this task.</span
-              >
-            </div>
-            <div class="mt-1">
-              <span class="text-slate-900 mb-4 text-left w-full">
-                Required fields are marked with an asterisk.
-                <span class="text-red-500">*</span></span
-              >
-            </div>
-            <div class="mb-2 mt-4">
-              <span class="text-slate-900 mb-4 text-left w-full"
-                >Task name <span class="text-red-500">*</span></span
-              >
-            </div>
-            <a-input
-              disabled
-              class="w-[300px]"
-              v-model:value="titleModel"
-              placeholder="Name"
-            />
-            <div class="mb-2 mt-4">
-              <span class="text-slate-900 mb-4 text-left w-full"
-                >Due date task <span class="text-red-500">*</span></span
-              >
-            </div>
-            <a-date-picker
-              class="mb-4 w-[300px]"
-              v-model:value="valueDate"
-              :disabled-date="disabledDate"
-            />
-          </div>
-          <template #footer>
-            <a-button key="back" @click="handleCancel">Cancel</a-button>
-            <a-button
-              key="submit"
-              type="primary"
-              :loading="loadingModel"
-              @click="handleOk"
-              >Submit</a-button
-            >
-          </template>
-        </a-modal>
       </div>
     </div>
   </div>
@@ -336,32 +231,22 @@ import {
 import { TaskStatus } from "../../utils/constants/enum";
 import { normalizeName } from "../../utils/normalizeName";
 import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";
+import {fetchSprintProject} from "../../api/project";
 import { message } from "ant-design-vue";
 import dayjs, { Dayjs } from "dayjs";
 
-export interface Task {
-  id: string;
-  title: string;
-  point: number;
-  status: string;
-  keyProjectTask: string;
-  sprintId: string;
-  userResponse: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-  };
-}
+
 
 // Khai báo các biến
 const isModalVisible = ref(false);
 const searchQuery = ref<string>("");
 const titleModel = ref<string>("");
 const open = ref<boolean>(false);
-const data = ref<Map<string, Task[]>>(new Map());
+const data = ref<Map<string, any[]>>(new Map());
+const sprints = ref<any[]>([]);
 const isLoading = ref(true);
+const isDropdownSprint = ref(false);
+const selectedSprint = ref<string>("");
 const updateTask = ref<{
   title: string;
   taskId: string;
@@ -369,6 +254,7 @@ const updateTask = ref<{
   oldStatus: string;
   newStatus: string;
 } | null>(null);
+
 
 const dateFormat = "YYYY-MM-DD";
 const loadingModel = ref<boolean>(false);
@@ -382,9 +268,16 @@ const clearSearch = () => {
 const openModal = () => {
   isModalVisible.value = true;
 };
+function toggleDropdownSprint() {
+  isDropdownSprint.value = !isDropdownSprint.value;
+}
 
+const selectSprint = (sprint: string) => {
+  selectedSprint.value = sprint;
+  isDropdownSprint.value = false;
+};
 // Hàm xử lý kéo nhiệm vụ
-const startDrag = (event: DragEvent, task: Task) => {
+const startDrag = (event: DragEvent, task: any) => {
   console.log(task);
   event.dataTransfer!.dropEffect = "move";
   event.dataTransfer!.effectAllowed = "move";
@@ -439,7 +332,7 @@ function updateStatus(oldStatus: string, newStatus: string, taskId: string) {
 
 const handleOk = async () => {
   loadingModel.value = true;
-  
+
   try {
     if (valueDate.value) {
       const formattedDate = valueDate.value.format(dateFormat);
@@ -463,7 +356,7 @@ const handleOk = async () => {
       );
     }
   } catch (error) {
-    message.error("Update failed "+ error);
+    message.error("Update failed " + error);
     console.error("Update failed:", error);
   } finally {
     // Đảm bảo rằng loadingModel luôn được đặt thành false
@@ -476,11 +369,18 @@ const handleCancel = () => {
   open.value = false;
 };
 
-
-// Function to disable dates before today
-// const disabledDate = (current: Dayjs) => {
-//   return current && current < dayjs().startOf("day");
-// };
+async function loadSPrint() {
+    isLoading.value = true;
+    try {
+      const response = await fetchSprintProject();
+      const sprintFilter = response.data.filter((sprint) => sprint.status !== "COMPLETE");
+      sprints.value = sprintFilter;
+    } catch (error) {
+      console.error("Failed to fetch sprints", error);
+    } finally {
+      isLoading.value = false;
+    } 
+}
 
 const disabledDate = (current: Dayjs) => {
   const tomorrow = dayjs().startOf("day").add(2, "day");
@@ -489,17 +389,21 @@ const disabledDate = (current: Dayjs) => {
 
 
 onMounted(async () => {
+  isLoading.value = true;
   try {
     const response = await fetchAllTask();
+    loadSPrint();
     const filteredTasks = response.data.filter(
       (task) => task.sprintId !== null
     );
-    const map = new Map<string, Task[]>();
+    const map = new Map<string, any[]>();
     filteredTasks.forEach((task) => {
-      if (!map.has(task.status)) {
-        map.set(task.status, []);
+      if (task.sprintStatus !== "COMPLETE") {
+        if (!map.has(task.status)) {
+          map.set(task.status, []);
+        }
+        map.get(task.status)!.push(task);
       }
-      map.get(task.status)!.push(task);
     });
     data.value = map;
     console.log("data: ", data.value);

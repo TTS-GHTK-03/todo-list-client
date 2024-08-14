@@ -20,13 +20,15 @@ import ProjectAccess from '../components/project/projectsetings/ProjectAccess/in
 import ProjectDetail from '../components/project/projectsetings/ProjectDetail/index.vue';
 import Backlog from '../components/backlog/index.vue';
 import CreateProject from '../components/project/CreateProject/index.vue'
-import Task from '../components/task/index.vue';
+import Task from '../components/taskDetail/index.vue';
 import Profile from '../views/Profile/index.vue';
+import Filter from '../views/Filter/index.vue';
+
 
 import WaitPage from '../views/waitPage/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
-import path from 'path';
+
 
 
 const routes = [
@@ -147,13 +149,18 @@ const routes = [
           {
             path :"/task",
             component: Task,
-          }
+          },
+          
           
         ]
       },
       {
         path: '/project-create',
         component: CreateProject,
+      },
+      {
+        path :"/issues",
+        component: Filter,
       },
       
     ],
@@ -171,6 +178,7 @@ const routes = [
     path: '/:pathMatch(.*)*', 
     redirect: '/',
   },
+ 
 ];
 
 const router = createRouter({

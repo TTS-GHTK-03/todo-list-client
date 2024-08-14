@@ -11,6 +11,7 @@ export interface Task {
     userId: string;
     sprintId: string;
     sprintTitle: string;
+    sprintStatus :string;
 }
   
   
@@ -188,7 +189,7 @@ export const fetchAllTask = async (): Promise<ListTaskResponse> => {
             throw new Error("Project ID is not defined");
         }
         const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/tasks`);
-        console.log("fetchAllTaskByProject (response): ", response)
+
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -225,7 +226,7 @@ export const updateStartDateDueDateTask = async (sprintId: string, taskId: strin
         const response = await apiClient.put<UpdateDueDateTaskResponse>(`/projects/${idProject}/sprints/${sprintId}/tasks/${taskId}/update-date`,
             {dueDate: dueDate}
         );
-        console.log("fetchAllTaskByProject (response): ", response)
+
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -234,3 +235,28 @@ export const updateStartDateDueDateTask = async (sprintId: string, taskId: strin
         }
     }
 }
+
+export const fetchAllTaskInAccount = async (): Promise<ListTaskResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore()
+        const idProject = projectRoleStore.idProject
+            
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+        const response = await apiClient.get<ListTaskResponse>(`/projects/tasks`);
+
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            if (error.response.status === 401) {
+            throw new Error("Unauthorized: Invalid or expired access token");
+            } else {
+            throw new Error("An error occurred while fetching projects");
+            }
+        } else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+};
+

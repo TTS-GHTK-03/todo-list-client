@@ -1,5 +1,5 @@
 <template>
-    <div @click="showModal">
+    <div @click="showModal" class="w-full h-full flex justify-start items-center z-50 px-4 bg-white hover:bg-gray-200">
         <span>Edit sprint</span>
         <a-modal v-model:open="open" @ok="handleOk" class="modal-custom relative rounded-none mt-[-40px]"
             :closable="false" :width="500" :footer=null>
@@ -77,7 +77,7 @@
 
 
         </a-modal>
-        <div v-if="open" class="fixed inset-0 bg-blue-500 bg-opacity-30 z-50"></div>
+        <div v-if="open" class="fixed inset-x-0 inset-y-0  h-screen bg-blue-500 bg-opacity-30 z-50"></div>
     </div>
 </template>
 

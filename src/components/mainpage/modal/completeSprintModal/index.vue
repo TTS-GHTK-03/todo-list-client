@@ -1,5 +1,5 @@
 <template>
-    <div @click="showModal" >
+    <div @click="showModal" class="w-full h-full flex justify-start items-center px-3">
         <span >Complete sprint</span>
         <a-modal v-model:open="open" @ok="handleOk" class="modal-custom relative rounded-none" 
         :closable="false" :width="600" :footer=null >

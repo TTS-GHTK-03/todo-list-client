@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full min-h-10 flex justify-between bg-white hover:bg-gray-100 group border border-gray-300 items-center cursor-pointer hover:border-gray-300">
+    class="w-full min-h-10 flex justify-between bg-white hover:bg-gray-100 group border-x border-t border-gray-300 items-center cursor-pointer hover:border-gray-300">
     <div class="flex ml-4 items-center">
       <div class="w-6 h-6 p-1 flex items-center">
         <input type="checkbox" id="checkbox"

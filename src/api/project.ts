@@ -104,7 +104,7 @@ export const fetchAllUserByProjects = async (): Promise<UserProjectResponse> => 
         throw new Error("Project ID is not defined");
       }
       const response = await apiClient.get<UserProjectResponse>(`/users/projects/${idProject}`);
-      console.log("fetchAllUserByProjects (response): ", response)
+     
       return response.data;
     } catch (error: any) {
       if (error.response) {

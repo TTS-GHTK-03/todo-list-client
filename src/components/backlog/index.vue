@@ -57,7 +57,7 @@
 
                        
                         <button @click="openModal"
-                            class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 rounded h-9 w-9 flex px-2 items-center justify-center ml-2">
+                            class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 h-9 w-9 flex px-2 items-center justify-center ml-2">
                             <i class="fa-solid fa-user-plus text-gray-500"></i>
                         </button>
                         <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
@@ -87,7 +87,7 @@
                             </div>
                             <div class="flex">
                                 <button v-if="sprint.status === SprintStatus.TODO"
-                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
+                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300  rounded mr-2">
                                     <startSprintModal
                                     @sprintStarted="handleSprintUpdated"
                                     :sprintId="sprint.id"
@@ -97,7 +97,7 @@
                                     :sprintName="sprint.title "/>
                                 </button>
                                 <button v-else-if="sprint.status === SprintStatus.START"
-                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
+                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300  rounded mr-2">
                                     <completeSprintModal :doneIssue="countTasksForSprint(sprint.id)"
                                         :countIssue="countIssueForSprint(sprint.id)"
                                         :onCompleteSprint="() => completeSprint(sprint.id)"
@@ -108,14 +108,19 @@
                                     @click.stop="toggleSprintDropdown(sprint.id)"
                                     
                                     class="bg-gray-200 bg-opacity-70 hover:bg-gray-300 transition-opacity rounded h-8 w-8  mr-2 relative ">
-                                    <i class="fa-solid fa-ellipsis text-xl  pt-1"></i>
+                                    <i class="fa-solid fa-ellipsis text-xl z-50  pt-1"></i>
                                     <div v-if="activeDropdown === sprint.id"  ref="dropdownSprint" @click.stop
-                                    class="absolute right-0 mt-2 bg-white border border-gray-200 rounded shadow-lg z-10 w-[120px] min-h-[40px]">
+                                        class="ml-[-90px] mt-2  bg-white border border-gray-200 rounded shadow-lg  w-[120px] min-h-[40px]"
+                                        >
                                        
-                                        <button  class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 px-4">
-                                            <span >Delete sprint</span>
+                                        <button class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 relative ">
+                                            <deleteSprintModal   
+                                                @deleteSprintInfo="handleSprintDeleted"                                      
+                                                :sprintId="sprint.id"
+                                                :sprintName="sprint.title "/>
+                                            
                                         </button>
-                                        <div class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 px-4">
+                                        <div class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 relative">
                                             <updateSprintModal
                                                 @updateSprintInfo="handleSprintUpdated"
                                                 :sprintId="sprint.id"
@@ -135,12 +140,13 @@
 
                     <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
                         <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
-                            <BacklogTask v-for="task in getTasksForSprint(sprint.id)" :key="task.id" :id="task.id"
+                            <div class="last:border-b last:border-gray-300" v-for="task in getTasksForSprint(sprint.id)" :key="task.id">
+                            <BacklogTask   :id="task.id"
                                 :title="task.title || ''" :status="task.status || ''" :point="task.point || 0"
                                 :userId="task.userId || ''" :keyProjectTask="task.keyProjectTask || ''"
                                 :sprintId="sprint.id || ''" draggable="true" @statusUpdated="handleStatusUpdated"
                                 @dragstart="startDrag($event, task)" />
-
+                            </div>
                             <div v-if="countTasksForSprint(sprint.id) == 0">
                                 <div
                                     class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
@@ -187,8 +193,10 @@
 
                         <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" @dragenter.prevent
                             @dragover.prevent>
-                            <BacklogTask v-for="task in getTaskBacklog()" 
-                            :key="task.id" 
+                            <div class="last:border-b last:border-gray-300" v-for="task in getTaskBacklog()" :key="task.id">
+                            
+                            
+                            <BacklogTask   
                             :id="task.id"
                             :status="task.status || ''" 
                             :title="task.title || ''" 
@@ -199,7 +207,7 @@
                             draggable="true"
                             @statusUpdated="handleStatusUpdated"
                             @dragstart="startDrag($event, task)" />
-
+                        </div>
                             <div v-if="countTasksForSprint(null) == 0">
                                 <div
                                     class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
@@ -251,7 +259,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import BacklogTask from '../shared/backlogTask/index.vue';
 import { Sprint, fetchSprintProject } from '../../api/project';
-import { createNewSprint, changeStartToCompleteSprint } from '../../api/sprint';
+import { createNewSprint, changeStartToCompleteSprint, deleteSprint } from '../../api/sprint';
 import { fetchAllTask, Task, createNewTask } from '../../api/task';
 import { updateSprintTask } from '../../api/task';
 import { SprintStatus, sortSprints } from '../../utils/constants/enum';
@@ -259,8 +267,10 @@ import { useUserProjectStore } from '../../stores/projectSettingStores/accessSto
 import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue';
 import startSprintModal from '../mainpage/modal/startSprintModal/index.vue';
 import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
-// import { cloneDeep } from 'lodash';
+import deleteSprintModal from '../mainpage/modal/deleteSprintModal/index.vue';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
+
+// import { cloneDeep } from 'lodash';
 
 // interface BacklogTask {
 //     id: string;
@@ -429,7 +439,7 @@ function countIssueForSprint(sprintId: string | null) {
     };
 }
 
-const handleSprintUpdated = (payload: { sprintId: string }) => {
+const handleSprintUpdated = () => {
     // const sprintIndex = sprints.value.findIndex(s => s.id === payload.sprintId);
     // if (sprintIndex !== -1) {
     

@@ -21,9 +21,9 @@
         <button
           class="w-full h-10 bg-white  text-sm  font-ui font-normal hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">View
           all filters</button>
-        <button
+        <router-link to ="/issues"
           class="w-full h-10 bg-white text-sm  font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">View
-          all issues</button>
+          all issues</router-link>
       </div>
 
     </div>

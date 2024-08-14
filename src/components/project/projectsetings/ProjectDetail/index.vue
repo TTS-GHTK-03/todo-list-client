@@ -81,7 +81,7 @@
                       <div
                         class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2"
                       >
-                        {{ lead?.firstName.charAt(0) }}
+                        <!-- {{  lead?.firstName.charAt(0) }} -->
                       </div>
                       <span class="text-slate-950 ml-2">
                         {{
