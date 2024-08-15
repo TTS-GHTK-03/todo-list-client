@@ -24,6 +24,8 @@ import Profile from '../views/Profile/index.vue';
 
 import WaitPage from '../views/waitPage/index.vue';
 
+import Bug from '../views/IssueType/Bug/index.vue';
+
 import { useAuthStore } from '../stores/authStores/authStore';
 import path from 'path';
 
@@ -164,6 +166,10 @@ const routes = [
   {
     path: '/:pathMatch(.*)*', 
     redirect: '/',
+  },
+  {
+    path: '/bug',
+    component: Bug,
   },
 ];
 

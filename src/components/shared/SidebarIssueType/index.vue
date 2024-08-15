@@ -28,60 +28,45 @@
 
             <!-- section2 -->
             <div class="w-full">
-                <button @click="togglePlanning"
+                <!-- <button @click="togglePlanning"
                     class="w-full text-left px-2 py-2 text-gray-700 hover:bg-transparent flex items-center relative group">
 
-                    <i v-if="isPlanningVisible"
-                        class="fa-solid fa-angle-down select-none text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
-                    <i v-else
-                        class="fa-solid fa-chevron-right select-none text-xs text-gray-500 absolute left-[-4px] top-1/2 transform -translate-y-1/2 opacity-100 transition-opacity"></i>
-                    <span class="text-xs font-[500] text-text-dark font-ui ml-2">PLANNING</span>
-                </button>
+                    <i class="fa-solid fa-circle-left "></i>
+                    <span class="text-xs font-[500] text-text-dark font-ui ml-2">ISSUE TYPE</span>
+                </button> -->
+                <div
+                    class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
+                    <div class="w-6 flex items-center justify-center">
+                        <!-- <i class="fa-solid fa-timeline text-xl text-[#46546f]"></i> -->
+                        <i class="fa-solid fa-circle-left text-2xl"></i>
+                    </div>
+                    <span class="ml-4 text-text-dark">Issue Type</span>
+
+                </div>
+                <hr>
 
                 <div v-show="isPlanningVisible" class="w-full text-sm font-ui">
-                    <div
+                    <router-link to="/bug"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
-                        <div class="w-6 flex items-center justify-center">
-                            <i class="fa-solid fa-timeline text-xl text-[#46546f]"></i>
+                        <div class="bg-red-500 w-6 h-6 rounded-lg flex items-center justify-center mt-2">
+                            <i class="fa-regular fa-circle text-white text-base"></i>
                         </div>
-                        <span class="ml-4 text-text-dark">Timeline</span>
-                    </div>
-                    <router-link to="/mainpage/backlog"
-                        class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
-                        <div class="w-6 flex items-center justify-center">
-                            <i class="fa-solid fa-bars-staggered text-xl text-[#46546f]"></i>
-                        </div>
-                        <span class="ml-4 text-text-dark">Backlog</span>
+                        <span class="ml-4 text-text-dark">Bug</span>
                     </router-link>
-
-                    <router-link to="/mainpage"
+                    <router-link to="/bug"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
-                        <div class="w-6 flex items-center justify-center">
-                            <i class="fa-solid fa-chalkboard text-xl text-[#46546f]"></i>
+                        <div class="w-6 h-6 bg-green-500 flex items-center justify-center rounded-md">
+                            <i class="fas fa-bookmark text-white"></i>
                         </div>
-                        <span class="ml-4 text-text-dark">Board</span>
+                        <span class="ml-4 text-text-dark">Story</span>
                     </router-link>
-                    <div
+                    <router-link to="/bug"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
-                        <div class="w-6 flex items-center justify-center">
-                            <i class="fa-regular fa-calendar text-xl text-[#46546f]"></i>
+                        <div class="w-6 h-6 bg-blue-400 flex items-center justify-center rounded-md">
+                            <i class="fa-solid fa-check"></i>
                         </div>
-                        <span class="ml-4 text-text-dark">Calendar</span>
-                    </div>
-                    <div
-                        class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
-                        <div class="w-6 flex items-center justify-center">
-                            <i class="fa-solid fa-list text-xl text-[#46546f] "></i>
-                        </div>
-                        <span class="ml-4 text-text-dark">List</span>
-                    </div>
-                    <div
-                        class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
-                        <div class="w-6 flex items-center justify-center">
-                            <i class="fa-solid fa-chart-line text-xl text-[#46546f]"></i>
-                        </div>
-                        <span class="ml-4 text-text-dark">Reports</span>
-                    </div>
+                        <span class="ml-4 text-text-dark">Task</span>
+                    </router-link>
                 </div>
 
                 <div
@@ -89,7 +74,7 @@
                     <div class="w-6 flex items-center justify-center">
                         <i class="fa-solid fa-plus text-xl text-[#46546f]"></i>
                     </div>
-                    <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Add view</span>
+                    <span class="ml-4 text-text-dark text-sm font-ui min-w-[150px]">Add Issue Type</span>
                 </div>
 
                 <button @click="toggleDevelopment"
