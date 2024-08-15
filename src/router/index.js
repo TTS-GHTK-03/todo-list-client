@@ -29,6 +29,8 @@ import WaitPage from '../views/waitPage/index.vue';
 import WaitSharePage from '../views/waitSharePage/index.vue';
 
 import Bug from '../views/IssueType/Bug/index.vue';
+import TaskIssue from '../views/IssueType/Task/index.vue';
+import StoryIssue from '../views/IssueType/Stori/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
 import path from 'path';
@@ -193,6 +195,14 @@ const routes = [
         path: 'bug',
         component: Bug,
       },
+      {
+        path: 'task',
+        component: TaskIssue,
+      },
+      {
+        path: 'story',
+        component: StoryIssue,
+      }
     ],
   },
 ];

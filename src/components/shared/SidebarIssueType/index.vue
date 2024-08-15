@@ -40,21 +40,21 @@
                 <hr>
 
                 <div  class="w-full text-sm font-ui">
-                    <router-link to="/bug"
+                    <router-link to="/issueType/bug"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="bg-red-500 w-6 h-6 rounded-lg flex items-center justify-center mt-2">
                             <i class="fa-regular fa-circle text-white text-base"></i>
                         </div>
                         <span class="ml-4 text-text-dark">Bug</span>
                     </router-link>
-                    <router-link to="/bug"
+                    <router-link to="/issueType/story"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 h-6 bg-green-500 flex items-center justify-center rounded-md">
                             <i class="fas fa-bookmark text-white"></i>
                         </div>
                         <span class="ml-4 text-text-dark">Story</span>
                     </router-link>
-                    <router-link to="/bug"
+                    <router-link to="/issueType/task"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="w-6 h-6 bg-blue-400 flex items-center justify-center rounded-md">
                             <i class="fa-solid fa-check"></i>
