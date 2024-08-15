@@ -1,6 +1,7 @@
 <template>
     <div v-if="isLoading" class="loading-container">
-        <div class="loader"></div>
+        <!-- <div class="loader"></div> -->
+        <a-spin size="large" />
     </div>
     <div v-else>
         <div class="mt-24 px-8 py-0 ">
@@ -54,16 +55,18 @@
                                 src="../../assets/img/logo_no_text.png" alt="" width="36" height="36" />
                         </a-button>
 
-                        <a-button shape="circle" class="ml-3 w-9 h-9 flex items-center justify-center"
-                            style="border: none; padding: 0">
-                            <img class="w-8 h-8 rounded-full mx-auto cursor-pointer"
-                                src="../../assets/img/logo_no_text.png" alt="" width="36" height="36" />
-                        </a-button>
+                       
+                        <button @click="openModal"
+                            class="bg-gray-100 text-sm rounded-full  hover:bg-slate-300 h-9 w-9 flex px-2 items-center justify-center ml-2">
+                            <i class="fa-solid fa-user-plus text-gray-500"></i>
+                        </button>
+                        <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
+
                     </div>
                 </div>
             </div>
             <div class="h-[480px] overflow-y-auto mt-4">
-                <div v-for="sprint in sprints" :key="sprint.id"
+                <div v-for="sprint in sprints " :key="sprint.id"
                     class="flex flex-col my-6 bg-gray-100 bg-opacity-70 cursor-pointer rounded">
                     <div class=" rounded flex flex-col mt-4 ">
                         <div class="flex justify-between font-apple text-text-dark-thin text-sm">
@@ -84,19 +87,51 @@
                             </div>
                             <div class="flex">
                                 <button v-if="sprint.status === SprintStatus.TODO"
-                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
-                                    Start sprint
+                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300  rounded mr-2">
+                                    <startSprintModal
+                                    @sprintStarted="handleSprintUpdated"
+                                    :sprintId="sprint.id"
+                                    :sprintStartDate="sprint.startDate"
+                                    :sprintEndDate="sprint.endDate"
+                                    :countIssue="countTasksForSprint(sprint.id)"
+                                    :sprintName="sprint.title "/>
                                 </button>
                                 <button v-else-if="sprint.status === SprintStatus.START"
-                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300 px-3 rounded mr-2">
+                                    class="h-8 font-medium bg-gray-200 bg-opacity-70 hover:bg-gray-300  rounded mr-2">
                                     <completeSprintModal :doneIssue="countTasksForSprint(sprint.id)"
                                         :countIssue="countIssueForSprint(sprint.id)"
-                                        :onCompleteSprint="completeSprint" />
+                                        :onCompleteSprint="() => completeSprint(sprint.id)"
+                                        :sprintId="sprint.id" />
 
                                 </button>
                                 <button
-                                    class="bg-gray-200 bg-opacity-70 hover:bg-gray-300 transition-opacity rounded h-8 w-8  mr-2  ">
-                                    <i class="fa-solid fa-ellipsis text-xl  pt-1"></i>
+                                    @click.stop="toggleSprintDropdown(sprint.id)"
+                                    
+                                    class="bg-gray-200 bg-opacity-70 hover:bg-gray-300 transition-opacity rounded h-8 w-8  mr-2 relative ">
+                                    <i class="fa-solid fa-ellipsis text-xl z-50  pt-1"></i>
+                                    <div v-if="activeDropdown === sprint.id"  ref="dropdownSprint" @click.stop
+                                        class="ml-[-90px] mt-2  bg-white border border-gray-200 rounded shadow-lg  w-[120px] min-h-[40px]"
+                                        >
+                                       
+                                        <button class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 relative ">
+                                            <deleteSprintModal   
+                                                @deleteSprintInfo="handleSprintDeleted"                                      
+                                                :sprintId="sprint.id"
+                                                :sprintName="sprint.title "/>
+                                            
+                                        </button>
+                                        <div class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 relative">
+                                            <updateSprintModal
+                                                @updateSprintInfo="handleSprintUpdated"
+                                                :sprintId="sprint.id"
+                                                :sprintStartDate="sprint.startDate"
+                                                :sprintEndDate="sprint.endDate"
+                                               
+                                                :sprintName="sprint.title "/>
+                                            </div>
+                                     
+                                    </div>
+                                       
                                 </button>
                             </div>
                         </div>
@@ -105,12 +140,13 @@
 
                     <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
                         <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
-                            <BacklogTask v-for="task in getTasksForSprint(sprint.id)" :key="task.id" :id="task.id"
+                            <div class="last:border-b last:border-gray-300" v-for="task in getTasksForSprint(sprint.id)" :key="task.id">
+                            <BacklogTask   :id="task.id"
                                 :title="task.title || ''" :status="task.status || ''" :point="task.point || 0"
                                 :userId="task.userId || ''" :keyProjectTask="task.keyProjectTask || ''"
                                 :sprintId="sprint.id || ''" draggable="true" @statusUpdated="handleStatusUpdated"
                                 @dragstart="startDrag($event, task)" />
-
+                            </div>
                             <div v-if="countTasksForSprint(sprint.id) == 0">
                                 <div
                                     class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
@@ -157,19 +193,21 @@
 
                         <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" @dragenter.prevent
                             @dragover.prevent>
-                            <BacklogTask v-for="task in getTaskBacklog()" 
-                            :key="task.id" 
+                            <div class="last:border-b last:border-gray-300" v-for="task in getTaskBacklog()" :key="task.id">
+                            
+                            
+                            <BacklogTask   
                             :id="task.id"
                             :status="task.status || ''" 
                             :title="task.title || ''" 
                             :point="task.point || 0"
-                            :sprintId = "task.sprintId || null"
+                            :sprintId = "''||null"
                             :userId="task.userId || ''" 
                             :keyProjectTask="task.keyProjectTask || ''" 
                             draggable="true"
                             @statusUpdated="handleStatusUpdated"
                             @dragstart="startDrag($event, task)" />
-
+                        </div>
                             <div v-if="countTasksForSprint(null) == 0">
                                 <div
                                     class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
@@ -221,12 +259,18 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import BacklogTask from '../shared/backlogTask/index.vue';
 import { Sprint, fetchSprintProject } from '../../api/project';
-import { createNewSprint } from '../../api/sprint';
+import { createNewSprint, changeStartToCompleteSprint, deleteSprint } from '../../api/sprint';
 import { fetchAllTask, Task, createNewTask } from '../../api/task';
 import { updateSprintTask } from '../../api/task';
 import { SprintStatus, sortSprints } from '../../utils/constants/enum';
 import { useUserProjectStore } from '../../stores/projectSettingStores/accessStores/accessStore';
 import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue';
+import startSprintModal from '../mainpage/modal/startSprintModal/index.vue';
+import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
+import deleteSprintModal from '../mainpage/modal/deleteSprintModal/index.vue';
+import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
+
+// import { cloneDeep } from 'lodash';
 
 // interface BacklogTask {
 //     id: string;
@@ -239,18 +283,50 @@ import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue
 
 const isSprintNotVisible = ref<Record<string, boolean>>({});
 const isCreateTask = ref(false);
+const activeDropdown = ref<string | null>(null);
 const isBacklogVisible = ref(true);
 const searchQuery = ref<string>("");
 const isLoading = ref(true);
+const isModalVisible = ref(false);
 const inputCreateTask = ref("");
+
 // const statusSprintSearch = ref<string>("");
 const sprints = ref<Sprint[]>([]);
 const allUser = ref<any[]>([]);
 const data = ref<Map<string | null, Task[]>>(new Map());
 
+const dropdownSprint = ref<HTMLElement | null>(null);
 const taskDiv = ref<HTMLElement | null>(null);
 const userProjectStore = useUserProjectStore();
 
+const toggleTask = (state: boolean) => {
+    isCreateTask.value = state;
+};
+
+function toggleSprint(sprintId: string) {
+    isSprintNotVisible.value[sprintId] = !isSprintNotVisible.value[sprintId];
+}
+
+function toggleBacklog() {
+    isBacklogVisible.value = !isBacklogVisible.value;
+}
+
+const clearSearch = () => {
+    searchQuery.value = "";
+};
+
+const getTasksForSprint = (sprintId: string) => {
+    return data.value.get(sprintId) || [];
+};
+const getTaskBacklog = () => {
+    return data.value.get(null) || [];
+};
+// hàm mở model
+const openModal = () => {
+  isModalVisible.value = true;
+};
+
+// Functions
 
 function startDrag(event: DragEvent, task: Task) {
     console.log(task);
@@ -306,31 +382,6 @@ const handleEnterKey = () => {
     }
 };
 
-
-
-const toggleTask = (state: boolean) => {
-    isCreateTask.value = state;
-};
-
-function toggleSprint(sprintId: string) {
-    isSprintNotVisible.value[sprintId] = !isSprintNotVisible.value[sprintId];
-}
-
-function toggleBacklog() {
-    isBacklogVisible.value = !isBacklogVisible.value;
-}
-
-const clearSearch = () => {
-    searchQuery.value = "";
-};
-
-const getTasksForSprint = (sprintId: string) => {
-    return data.value.get(sprintId) || [];
-};
-const getTaskBacklog = () => {
-    return data.value.get(null) || [];
-};
-
 async function createSprint() {
     try {
         const createSprintResponse = await createNewSprint();
@@ -348,6 +399,12 @@ const handleClickOutside = (event: MouseEvent) => {
     if (taskDiv.value && !taskDiv.value.contains(event.target as Node)) {
         isCreateTask.value = false;
     }
+
+    if (dropdownSprint.value && !dropdownSprint.value.contains(event.target as Node)) {
+   
+        activeDropdown.value = null;
+        
+    }
 };
 
 async function loadAllUserProject() {
@@ -360,30 +417,92 @@ async function loadAllUserProject() {
     }
 }
 
+function toggleSprintDropdown(id: string) {
+    
+    if (activeDropdown.value === id) {
+        activeDropdown.value = null;
+    } else {
+        activeDropdown.value = id;
+    }
+    // activeDropdown.value != id;
+}
+
 function countTasksForSprint(sprintId: string | null) {
     return (data.value.get(sprintId) || []).length;
 }
 
 function countIssueForSprint(sprintId: string | null) {
     const tasks = data.value.get(sprintId) || [];
-
-
     return {
         done: computed(() => tasks.filter(task => task.status === "DONE").length),
         notDone: computed(() => tasks.filter(task => task.status !== "DONE").length)
     };
 }
 
-function completeSprint() {
-    console.log("complete sprint");
-}
+const handleSprintUpdated = () => {
+    // const sprintIndex = sprints.value.findIndex(s => s.id === payload.sprintId);
+    // if (sprintIndex !== -1) {
+    
+    //     sprints.value[sprintIndex].status = 'START';
+    // }
+    fetchAllData();
+};
+
+async function completeSprint(sprintId: string) {
+    const tasks = data.value.get(sprintId) || []
+    const notDoneTasks = tasks.filter(task => task.status !== "DONE");
+    const sprint = sprints.value.find(sprint => sprint.id === sprintId);
+    if (!sprint ){
+        return;
+    }
+
+    isLoading.value = true;
+    try {
+        const allBacklogTasks = data.value.get(null) || [];
+
+        const updatePromises = notDoneTasks.map(async (task) => {
+            await updateSprintTask(task.id, null);
+
+            const taskIndex = tasks.findIndex(t => t.id === task.id);
+            if (taskIndex !== -1) {
+                tasks.splice(taskIndex, 1);
+            }
+
+            allBacklogTasks.push(task);
+        });
+        updatePromises.push(
+            (async () => {
+                await changeStartToCompleteSprint(sprintId);
+            })()
+        );
+        await Promise.all(updatePromises);
+
+        // Cập nhật data.value với các nhiệm vụ mới
+        data.value.set(null, allBacklogTasks);
+        data.value.set(sprintId, tasks);
+        sprints.value = sprints.value.filter(s => s.id !== sprintId);
+        // const updatedSprints = cloneDeep(sprints.value);
+        // const sprintIndex = updatedSprints.findIndex(s => s.id === sprintId);
+        // if (sprintIndex !== -1) {
+        //     updatedSprints[sprintIndex] = sprint;
+        // }
+        // sprints.value = updatedSprints;
+
+    }catch(error) {
+        console.error("Failed to complete sprint", error);
+    } finally{
+        isLoading.value = false;
+    }
+
+}   
 
 function handleStatusUpdated(id: string, sprintId: string, status: string) {
     const tasks = data.value.get(sprintId) || [];
     const task = tasks.find(task => task.id === id);
     if (task) {
-        task.status = status; // Update the status in the parent component
+        task.status = status; 
     }
+    data.value.set(sprintId, tasks);
 }
 
 onMounted(() => {
@@ -394,11 +513,11 @@ onUnmounted(() => {
     document.removeEventListener("click", handleClickOutside);
 });
 
-onMounted(async () => {
+async function fetchAllData() {
+    isLoading.value = true;
     try {
-        //loadAllUserProject();
-
-        const tasksResponse = await fetchAllTask();
+    //loadAllUserProject();
+    const tasksResponse = await fetchAllTask();
         console.log("(tasksResponse)", tasksResponse);
         const map = new Map<string, Task[]>();
         tasksResponse.data.forEach((task) => {
@@ -410,8 +529,6 @@ onMounted(async () => {
 
         data.value = map;
 
-        // const requestPayload: SprintProjectRequest = { status: statusSprintSearch.value };
-        // const sprintResponse = await fetchSprintProject(requestPayload);
         const sprintResponse = await fetchSprintProject();
         const filteredSprints = (sprintResponse.data as Sprint[]).filter(sprint => sprint.status !== SprintStatus.COMPLETE);
         const sortedSprints = sortSprints(filteredSprints);
@@ -421,6 +538,11 @@ onMounted(async () => {
     } finally {
         isLoading.value = false;
     }
+}
+
+onMounted(async () => {
+    fetchAllData();
+    
 });
 
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[60px] fixed top-0 left-0 right-0 bg-white z-40 border-b border-black border-opacity-20">
+  <div class="h-[60px] fixed top-0 left-0 right-0 bg-white z-30 border-b border-black border-opacity-20">
     <div class="container mx-auto flex items-center h-full justify-between select-none">
       <div class="flex ml-[10px]">
 

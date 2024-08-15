@@ -2,12 +2,14 @@ import { defineStore } from 'pinia';
 import { regisAccount, validateOtp } from '../../api/register';
 
 interface RegisAccountState {
+  data: any | null,
   email: string | null;
   error: string | null;
 }
 
 export const useRegisAccountStore = defineStore('regisAccount', {
   state: (): RegisAccountState => ({
+    data: {},
     email: null,
     error: null,
   }),
@@ -22,6 +24,7 @@ export const useRegisAccountStore = defineStore('regisAccount', {
         }
 
         console.log(response);
+        this.data = response.data
         this.email = email;
         this.error = null;
       } catch (error: any) {

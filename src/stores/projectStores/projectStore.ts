@@ -3,12 +3,13 @@ import { defineStore } from 'pinia';
 import { fetchAllProjects, fetchProjectRole, fetchCreateProject } from '../../api/project';
 
 interface ProjectState {
-  projects: any[] ; // Đổi kiểu projects thành any[]
+  projects: any[] ; 
   error: string | null;
 }
 
 interface ProjectRoleState {
   project: {} ; 
+  title: string | null;
   idProject: string | null;
   roleUser: string | null;
   error: string | null;
@@ -20,6 +21,7 @@ export const useCreateProjectStore = defineStore('createProject', {
     project: {},
     idProject: localStorage.getItem('idProject') || null,
     roleUser: localStorage.getItem('roleUser') || null,
+    title: "",
     error: null,
   }),
   actions: {
@@ -50,8 +52,10 @@ export const useProjectStore = defineStore('projects', {
     async loadProjects() {
       try {
         const response = await fetchAllProjects();
-        this.projects = response.data; // Không cần ép kiểu vì đã là any
+        this.projects = response.data; 
         this.error = null;
+
+          
       } catch (error: any) {
         this.error = error.message;
       }
@@ -65,6 +69,7 @@ export const useProjectRoleStore = defineStore('projectRole', {
     project: {},
     idProject: localStorage.getItem('idProject') || null,
     roleUser: localStorage.getItem('roleUser') || null,
+    title: localStorage.getItem('titleProject') || null,
     error: null,
   }),
   actions: {
@@ -72,10 +77,12 @@ export const useProjectRoleStore = defineStore('projectRole', {
       try {
         const response = await fetchProjectRole(id);
         this.idProject = response.data.id;
+        this.title = response.data.title;
         this.roleUser = response.data.roleUser;
         this.project = response.data; 
         this.error = null;
 
+        localStorage.setItem('titleProject', this.title);
         localStorage.setItem('idProject', this.idProject);
         localStorage.setItem('roleUser', this.roleUser);
       } catch (error: any) {

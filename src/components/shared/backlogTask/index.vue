@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full min-h-10 flex justify-between bg-white hover:bg-gray-100 group border border-gray-300 items-center cursor-pointer hover:border-gray-300">
+    class="w-full min-h-10 flex justify-between bg-white hover:bg-gray-100 group border-x border-t border-gray-300 items-center cursor-pointer hover:border-gray-300">
     <div class="flex ml-4 items-center">
       <div class="w-6 h-6 p-1 flex items-center">
         <input type="checkbox" id="checkbox"
@@ -17,12 +17,12 @@
 
       <div v-if="!showEditTitle" class="flex items-center text-sm font-ui text-text-dark-thin ml-4 mb-1 cursor-pointer">
         <span class="hover:underline">{{ displayTitle }}</span>
-        <button @click="toggleEditTitle"
+        <button @click.stop="toggleEditTitle"
           class="hover:bg-gray-300 w-5 h-5 flex items-center justify-center rounded ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <i class="fa-solid fa-pen text-xs mt-1"></i>
         </button>
       </div>
-      <div v-else class="relative ml-4">
+      <div v-else class="relative ml-4" ref="popupEditTitle">
         <input v-model="inputTitle" type="text"
           class="min-w-[300px] rounded px-2 h-[34px] text-xs placeholder-transparent border-2 border-blue-400 input-field"
           @input="validateTitle" />
@@ -57,11 +57,11 @@
             class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
             <span class="text-blue-500 font-bold bg-blue-100 px-1 rounded">IN PROGRESS</span>
           </div>
-          <div @click="selectStatus('READY_FOR_TEST')" :class="itemClasses(TaskStatus.DONE)"
+          <div v-if="selectedStatus != TaskStatus.TODO " @click="selectStatus('READY_FOR_TEST')" :class="itemClasses(TaskStatus.DONE)"
             class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
             <span class="text-purple-600 font-bold bg-purple-100 px-1 rounded">READY FOR TEST</span>
           </div>
-          <div @click="selectStatus('DONE')" :class="itemClasses(TaskStatus.DONE)"
+          <div v-if="selectedStatus != TaskStatus.TODO " @click="selectStatus('DONE')" :class="itemClasses(TaskStatus.DONE)"
             class="h-[28px] flex items-center pl-4 cursor-pointer border-l-4 border-white hover:border-blue-500 hover:bg-gray-200">
             <span class="text-green-600 font-bold bg-green-100 px-1 rounded">DONE</span>
           </div>
@@ -73,11 +73,11 @@
       </div>
 
       <div class="flex items-center justify-between min-w-[150px]">
-        <div v-if="!showEditNumber" @click="toggleEditNumber"
+        <div v-if="!showEditNumber" @click.stop="toggleEditNumber"
           class="select-none rounded-full text-xs bg-gray-200 bg-opacity-70 hover:bg-gray-300 w-5 h-5 flex items-center justify-center">
           {{ displayValue }}
         </div>
-        <div v-else class="relative ml-10 select-none ">
+        <div v-else class="relative ml-10 select-none " ref="popupEditNumber">
           <input v-model="inputValue" type="number"
             class="w-[80px] border-2 border-blue-400 rounded p-2 h-8  relative text-xs input-field" min="0" max="5"
             @input="validateInput" />

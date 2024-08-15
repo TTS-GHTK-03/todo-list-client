@@ -5,6 +5,7 @@ import Mainpage from '../views/Mainpage/index.vue';
 
 import Login from '../components/auth/Login/index.vue';
 import Register from '../components/auth/regis/Register/index.vue';
+import RedirectLogin from '../components/auth/redirectLogin/index.vue';
 import Valid from '../components/auth/regis/Valid/index.vue';
 import Regisform from '../components/auth/regis/Regisform/index.vue';
 import Forgot from '../components/auth/forgotPassword/Forgot/index.vue';
@@ -19,10 +20,13 @@ import ProjectAccess from '../components/project/projectsetings/ProjectAccess/in
 import ProjectDetail from '../components/project/projectsetings/ProjectDetail/index.vue';
 import Backlog from '../components/backlog/index.vue';
 import CreateProject from '../components/project/CreateProject/index.vue'
-import Task from '../components/task/index.vue';
+import Task from '../components/taskDetail/index.vue';
 import Profile from '../views/Profile/index.vue';
+import Filter from '../views/Filter/index.vue';
+
 
 import WaitPage from '../views/waitPage/index.vue';
+import WaitSharePage from '../views/waitSharePage/index.vue';
 
 import Bug from '../views/IssueType/Bug/index.vue';
 
@@ -107,6 +111,11 @@ const routes = [
         // },
         component: ForgotForm,
       },
+      {
+        path: 'redirect-login',
+        name: 'redirect-login',
+        component: RedirectLogin,
+      },
     ],
   },
   {
@@ -143,13 +152,18 @@ const routes = [
           {
             path :"/task",
             component: Task,
-          }
+          },
+          
           
         ]
       },
       {
         path: '/project-create',
         component: CreateProject,
+      },
+      {
+        path :"/issues",
+        component: Filter,
       },
       
     ],
@@ -160,16 +174,26 @@ const routes = [
     component: Profile, 
   },
   {
-    path: '/invite',  
+    path: '/wait',  
     component: WaitPage,
+  },
+  {
+    path: '/share',  
+    component: WaitSharePage,
   },
   {
     path: '/:pathMatch(.*)*', 
     redirect: '/',
   },
   {
-    path: '/bug',
+    path: '/issueType',
     component: Bug,
+    children: [
+      {
+        path: 'bug',
+        component: Bug,
+      },
+    ],
   },
 ];
 

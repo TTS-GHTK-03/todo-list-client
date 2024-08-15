@@ -2,7 +2,9 @@
 
   <div >
     <MainNavbar />
+    <div class="h-[700px]">>
     <router-view />
+    </div>
   </div>
 
 </template>

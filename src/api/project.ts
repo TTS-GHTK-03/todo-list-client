@@ -104,7 +104,7 @@ export const fetchAllUserByProjects = async (): Promise<UserProjectResponse> => 
         throw new Error("Project ID is not defined");
       }
       const response = await apiClient.get<UserProjectResponse>(`/users/projects/${idProject}`);
-      console.log("fetchAllUserByProjects (response): ", response)
+     
       return response.data;
     } catch (error: any) {
       if (error.response) {
@@ -233,5 +233,50 @@ export interface SprintProjectResponse {
       } else {
           throw new Error("An error occurred while fetching projects");
       }
+  }
+};
+
+
+//update Project
+export interface UpdateProjectRequest {
+  title: string,
+  keyProject: string,
+}
+
+export interface ProjectResponse {
+  status: number;
+  timestamp: string;
+  data: {
+      id: string;
+      title: string;
+      keyProject: string;
+  }
+}
+
+export const updateProject = async (credentials: UpdateProjectRequest, projectId: string): Promise<ProjectResponse> => {
+  try {
+    // const projectRoleStore = useProjectRoleStore()
+    //   const idProject = projectRoleStore.idProject
+    //   if (!idProject) {
+    //       throw new Error("Project ID is not defined");
+    //   }
+    const response = await apiClient.put<ProjectResponse>(
+      `/projects/${projectId}`,
+      credentials
+    );
+    return response.data;
+  } catch (error: any) {
+      // catch chưa xử lý
+    if (error.response) {
+      if (error.response.status === 404) {
+        throw new Error("Project does not exist");
+      } else if (error.response.status === 400) {
+        throw new Error("Invalid password");
+      } else {
+        throw new Error("An error occurred while trying to log in");
+      }
+    } else {
+      throw new Error("An error occurred while trying to log in");
+    }
   }
 };

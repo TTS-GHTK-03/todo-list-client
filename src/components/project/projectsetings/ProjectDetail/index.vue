@@ -15,7 +15,9 @@
         </div>
 
         <div class="flex justify-between mb-12">
-          <span class="font-ui text-2xl font-semibold text-text-dark-thin">Details</span>
+          <span class="font-ui text-2xl font-semibold text-text-dark-thin"
+            >Details</span
+          >
           <div class="flex items-center">
             <button
               class="bg-gray-100 text-sm text-text-dark-thin hover:bg-gray-200 rounded h-9 w-9 flex px-2 items-center justify-center ml-2"
@@ -35,60 +37,77 @@
             <a-upload class="w-full mb-4 flex justify-center">
               <a-button>Change icon</a-button>
             </a-upload>
-            <!-- :form="form"  @finish="onFinish" -->
-            <a-form  layout="vertical"> 
-              <a-form-item
-                label="Name"
-                name="name"
-                :rules="[
-                  { required: true, message: 'Please input the project name!' },
-                ]"
-              >
-                <a-input v-model:value="project.title" />
+            <a-form
+              layout="vertical"
+              :model="project"
+              @submit.prevent="submitForm"
+            >
+              <a-form-item label="Name *" name="name">
+                <a-input
+                  v-model:value="project.title"
+                  :disabled="isEdit"
+                  required
+                />
               </a-form-item>
-              <a-form-item
-                label="Key"
-                name="key"
-                :rules="[
-                  { required: true, message: 'Please input the project key!' },
-                ]"
-              >
-                <a-input v-model:value="project.keyProject" />
+              <a-form-item label="Key *" name="key">
+                <a-input
+                  v-model:value="project.keyProject"
+                  :disabled="isEdit"
+                  required
+                />
               </a-form-item>
-            
-              <!-- <a-form-item
-                label="Project lead"
+
+              <a-form-item label="Project lead (can't change)" 
                 name="projectLead"
-                :rules="[
-                  { required: true, message: 'Please select the project lead!' },
-                ]"
               >
-                <a-select placeholder="Select project lead">
-                  <a-select-option value="luan-han">Luan Han</a-select-option>
-                </a-select>
-              </a-form-item> -->
-              <a-form-item
-                label="Project lead"
-                name="projectLead"
-                :rules="[
-                  { required: true, message: 'Please select the project lead!' },
-                ]"
-              >
-                <a-select v-model:value="selectedProjectLead" placeholder="Select project lead">
-                  <a-select-option v-for="(lead, index) in project.userNameResponseList" :key="index" :value="lead.firstName">
-                    {{ lead.firstName }}
+                <a-select
+                  v-model:value="selectedProjectLead"
+                  :disabled="isEdit"
+                  required
+                >
+                  <a-select-option
+                    v-for="(lead, index) in project.userNameResponseList"
+                    :key="index"
+                    :value="
+                      normalizeName(
+                        lead?.firstName,
+                        lead?.middleName,
+                        lead?.lastName
+                      )
+                    "
+                    class="flex items-center p-2"
+                  >
+                    <div class="flex items-center">
+                      <div
+                        class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2"
+                      >
+                        <!-- {{  lead?.firstName.charAt(0) }} -->
+                      </div>
+                      <span class="text-slate-950 ml-2">
+                        {{
+                          normalizeName(
+                            lead?.firstName,
+                            lead?.middleName,
+                            lead?.lastName
+                          )
+                        }}
+                      </span>
+                    </div>
                   </a-select-option>
                 </a-select>
-
               </a-form-item>
 
-              <a-form-item label="Default assignee" name="defaultAssignee">
-                <a-select placeholder="Select default assignee">
-                  <a-select-option value="unassigned">Unassigned</a-select-option>
-                </a-select>
-              </a-form-item>
               <a-form-item class="flex justify-center">
-                <a-button type="primary" htmlType="submit">Save</a-button>
+                <a-button v-if="isEdit" type="primary" @click="handelEdit()"
+                  >Edit</a-button
+                >
+                <a-button
+                  v-else
+                  :disabled="isEdit"
+                  type="primary"
+                  htmlType="submit"
+                  >Save</a-button
+                >
               </a-form-item>
             </a-form>
           </div>
@@ -98,46 +117,68 @@
   </div>
 </template>
 
-<script lang="ts">
-
-
-import {  ref, onMounted } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted } from "vue";
 import { useProjectDetailStore } from "../../../../stores/projectSettingStores/detailStores/detailStore";
+import { updateProject } from "../../../../api/project";
+import { normalizeName } from "../../../../utils/normalizeName";
+import { message } from "ant-design-vue";
 
-export default {
-  setup() {
-    const project = ref({})
-    const isLoading = ref(true)
-    const projectStore = useProjectDetailStore();
-    const loadData = async () => {
-      isLoading.value = true
-      try {
-        await projectStore.loadProjectDetail();
-        project.value = projectStore.project
-        console.log("project:", project.value.userNameResponseList);
-      } catch (error) {
-        
-      }finally {
-        isLoading.value = false
-      }
-    };
+const project = ref({
+  id: "",
+  title: "",
+  keyProject: "",
+  userNameResponseList: [],
+});
+const isLoading = ref(true);
+const isEdit = ref(true);
+const selectedProjectLead = ref<string | null>(null);
+const projectStore = useProjectDetailStore();
 
-    const projectLeads = ref([
-
-    ]);
-
-    // Gọi loadData khi component được mount
-    onMounted(() => {
-      loadData();
-      // if (project.value.userNameResponseList.length > 0) {
-      //   selectedProjectLead.value = project.value.userNameResponseList[0].value;
-      // }
-    });
-
-    return {
-      project,
-      isLoading,
-    };
-  },
+const loadData = async () => {
+  isLoading.value = true;
+  isEdit.value = true;
+  try {
+    await projectStore.loadProjectDetail();
+    project.value = projectStore.project;
+    console.log("project:", project.value.userNameResponseList);
+  } catch (error) {
+    console.error("Error loading project details:", error);
+  } finally {
+    isLoading.value = false;
+    if (project.value.userNameResponseList.length > 0) {
+      selectedProjectLead.value = normalizeName(
+        project.value.userNameResponseList[0]?.firstName,
+        project.value.userNameResponseList[0]?.middleName,
+        project.value.userNameResponseList[0]?.lastName
+      );
+    }
+  }
 };
+const handelEdit = () => {
+  isEdit.value = false;
+};
+const submitForm = async () => {
+  try {
+    const response = await updateProject(
+      {
+        title: project.value.title,
+        keyProject: project.value.keyProject,
+      },
+      project.value.id
+    );
+    if (response.data) {
+      project.value.title = response.data.title;
+      project.value.keyProject = response.data.keyProject;
+      console.log("(submitForm) response:", response);
+      message.success(`Update ${project.value.title} is successfully`);
+    }
+  } catch (error) {
+    message.error(`Update ${project.value.title} is failed`);
+  }
+};
+
+onMounted(() => {
+  loadData();
+});
 </script>

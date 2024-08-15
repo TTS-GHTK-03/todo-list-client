@@ -156,7 +156,7 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { acceptInvite } from "../../api/projectUser";
+import { viewShareProject } from "../../api/projectUser";
 import { useProjectRoleStore } from "../../stores/projectStores/projectStore";
 import { UserActionStatus } from "../../utils/constants/enum";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -175,9 +175,10 @@ const isAccess = ref<string>();
 const loading = ref(false);
 const data = ref<DataType | undefined>(undefined);
 
-const email = route.query.email as string;
+const shareToken = route.query.share as string;
 const id = route.query.id as string;
 
+console.log(shareToken, projectId)
 const handleGoLogin = () => {
   router.replace("/author");
 };
@@ -209,7 +210,7 @@ const handleGoProject = async () => {
 onMounted(async () => {
   isLoading.value = true;
   try {
-    const response = await acceptInvite(email, id);
+    const response = await viewShareProject(shareToken);
     data.value = response.data;
     isAccess.value = response.data.status;
   } catch (error) {

@@ -1,6 +1,6 @@
 <template>
     <div :class="{ 'w-8': isCollapsed, 'w-64': !isCollapsed }"
-        class="fixed top-0 left-0 h-full bg-white border-r-4 border-gray-200 transition-all duration-300 flex flex-col">
+        class="z-20 fixed top-0 left-0 h-full bg-white border-r-4 border-gray-200 transition-all duration-300 flex flex-col">
 
         <!-- Sidebar content -->
         <button @click="$emit('toggleSidebar')"
@@ -17,35 +17,29 @@
 
         <div v-if="!isCollapsed" class="mt-20 flex flex-col items-start pl-4 flex-1">
             <!-- section1 -->
+          
             <div class="flex px-4 py-2 h-[52px] bg-white items-center mr-8 mb-4">
                 <img src="../../../assets/img/project_logo.svg" class="h-6 w-6">
                 <span class="flex flex-col ml-4 items-start">
-                    <span class="text-sm font-ui font-semibold text-text-dark-thin min-w-[120px]">My Scrum
-                        project</span>
+                    <span class="text-sm font-ui font-semibold text-text-dark-thin min-w-[120px]">
+                        {{ titleProject }}</span>
                     <span class="text-xs text-[#626F86] font-ui">Software project</span>
                 </span>
             </div>
 
             <!-- section2 -->
             <div class="w-full">
-                <!-- <button @click="togglePlanning"
-                    class="w-full text-left px-2 py-2 text-gray-700 hover:bg-transparent flex items-center relative group">
-
-                    <i class="fa-solid fa-circle-left "></i>
-                    <span class="text-xs font-[500] text-text-dark font-ui ml-2">ISSUE TYPE</span>
-                </button> -->
-                <div
+                <router-link to="/mainpage"
                     class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                     <div class="w-6 flex items-center justify-center">
-                        <!-- <i class="fa-solid fa-timeline text-xl text-[#46546f]"></i> -->
-                        <i class="fa-solid fa-circle-left text-2xl"></i>
+                        <i class="fa-solid fa-arrow-left-long text-xl text-[#46546f]"></i>
                     </div>
                     <span class="ml-4 text-text-dark">Issue Type</span>
 
-                </div>
+                </router-link>
                 <hr>
 
-                <div v-show="isPlanningVisible" class="w-full text-sm font-ui">
+                <div  class="w-full text-sm font-ui">
                     <router-link to="/bug"
                         class="flex items-center px-4 py-1 hover:bg-blue-100 hover:bg-opacity-80 rounded-lg cursor-pointer mb-1 mr-2">
                         <div class="bg-red-500 w-6 h-6 rounded-lg flex items-center justify-center mt-2">
@@ -67,6 +61,11 @@
                         </div>
                         <span class="ml-4 text-text-dark">Task</span>
                     </router-link>
+
+                    
+                    
+                    
+                    
                 </div>
 
                 <div
@@ -142,18 +141,21 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref ,computed} from 'vue';
+import { useProjectRoleStore} from '../../../stores/projectStores/projectStore';
+
 
 const props = defineProps<{
-    isCollapsed: boolean;
+  isCollapsed: boolean;
+  currentRoute : string;
 }>();
 
-const isPlanningVisible = ref(true);
+const projectRoleStore = useProjectRoleStore()
+const titleProject = projectRoleStore.title
+
 const isDevelopmentVisible = ref(true);
 
-function togglePlanning() {
-    isPlanningVisible.value = !isPlanningVisible.value;
-}
+
 
 function toggleDevelopment() {
     isDevelopmentVisible.value = !isDevelopmentVisible.value;

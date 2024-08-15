@@ -11,6 +11,7 @@ export interface Task {
     userId: string;
     sprintId: string;
     sprintTitle: string;
+    sprintStatus :string;
 }
   
   
@@ -188,7 +189,7 @@ export const fetchAllTask = async (): Promise<ListTaskResponse> => {
             throw new Error("Project ID is not defined");
         }
         const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/tasks`);
-        console.log("fetchAllTaskByProject (response): ", response)
+
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -202,3 +203,111 @@ export const fetchAllTask = async (): Promise<ListTaskResponse> => {
         }
     }
 };
+
+
+export interface UpdateDueDateTaskResponse {
+    status: number;
+    timestamp: string;
+    data: {
+        taskId: string;
+        status: string;
+        dueDate: string;
+    };
+}
+
+export const updateStartDateDueDateTask = async (sprintId: string, taskId: string, dueDate: string): Promise<UpdateDueDateTaskResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore()
+        const idProject = projectRoleStore.idProject
+            
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+        const response = await apiClient.put<UpdateDueDateTaskResponse>(`/projects/${idProject}/sprints/${sprintId}/tasks/${taskId}/update-date`,
+            {dueDate: dueDate}
+        );
+
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            console.log(error.response.data)
+            throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+}
+
+
+export const getAllTaskAssigneesForUser = async (): Promise<TaskResponse> => {
+    try {
+        // const projectRoleStore = useProjectRoleStore()
+        // const idProject = projectRoleStore.idProject
+            
+        // if (!idProject) {
+        //     throw new Error("Project ID is not defined");
+        // }
+        const response = await apiClient.get<TaskResponse>("/users/tasks/assignees");
+        console.log("getAllTaskAssigneesForUser (response): ", response)
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            console.log(error.response.data)
+            throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+}
+
+
+export interface DeleteTaskResponse {
+    status: number;
+    timestamp: string;
+    data: string;
+}
+export const deleteTask = async (taskId: string): Promise<DeleteTaskResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore()
+        const idProject = projectRoleStore.idProject
+            
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+        const response = await apiClient.delete<DeleteTaskResponse>(`projects/${idProject}/tasks/${taskId}`);
+        console.log("deleteTask (response): ", response)
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            console.log(error.response.data)
+            throw new Error(error.response.data.error.message);
+        }else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+}
+
+export const fetchAllTaskInAccount = async (): Promise<ListTaskResponse> => {
+    try {
+        const projectRoleStore = useProjectRoleStore()
+        const idProject = projectRoleStore.idProject
+            
+        if (!idProject) {
+            throw new Error("Project ID is not defined");
+        }
+        const response = await apiClient.get<ListTaskResponse>(`/projects/tasks`);
+
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            if (error.response.status === 401) {
+            throw new Error("Unauthorized: Invalid or expired access token");
+            } else {
+            throw new Error("An error occurred while fetching projects");
+            }
+        } else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+};
+

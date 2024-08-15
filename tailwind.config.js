@@ -18,6 +18,8 @@ export default {
         'text-dark-thin': '#172B4D', 
         'text-dark': '#44546F',
       },
+
+      
     },
   },
   plugins: [],

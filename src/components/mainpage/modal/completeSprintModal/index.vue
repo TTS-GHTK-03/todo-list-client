@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <span @click="showModal">Complete sprint</span>
+    <div @click="showModal" class="w-full h-full flex justify-start items-center px-3">
+        <span >Complete sprint</span>
         <a-modal v-model:open="open" @ok="handleOk" class="modal-custom relative rounded-none" 
         :closable="false" :width="600" :footer=null >
 
@@ -63,8 +63,8 @@ export default defineComponent({
 import { ref } from 'vue';
 
 const props = defineProps<{
-  onCompleteSprint: () => void;
-  countIssue : any;
+    onCompleteSprint: () => void;
+    countIssue : any;
 }>();
 
 const open = ref<boolean>(false);
@@ -74,9 +74,10 @@ const showModal = () => {
 };
 
 const handleOk = () => {
-    console.log(props.countIssue);
+    props.onCompleteSprint();
     open.value = false;
 };
+
 
 const handleCancel = () => {
     
@@ -84,6 +85,3 @@ const handleCancel = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
