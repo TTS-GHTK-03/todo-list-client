@@ -124,7 +124,7 @@
 
       <!-- Nút hành động -->
       <div class="flex justify-end mt-6">
-        <a-button class="mr-2">Discard</a-button>
+        <a-button class="mr-2">Delete</a-button>
         <a-button type="primary">Save changes</a-button>
       </div>
     </div>
