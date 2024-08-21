@@ -45,7 +45,7 @@ export const useCreateProjectStore = defineStore('createProject', {
 // getAllProject
 export const useProjectStore = defineStore('projects', {
   state: (): ProjectState => ({
-    projects: [],
+    projects: JSON.parse(localStorage.getItem('projects') || '[]'),
     error: null,
   }),
   actions: {
@@ -54,6 +54,8 @@ export const useProjectStore = defineStore('projects', {
         const response = await fetchAllProjects();
         this.projects = response.data; 
         this.error = null;
+
+        localStorage.setItem('projects', JSON.stringify(this.projects));
 
           
       } catch (error: any) {

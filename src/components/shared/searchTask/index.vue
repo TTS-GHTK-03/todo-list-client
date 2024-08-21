@@ -1,6 +1,9 @@
 <template>
-    <div
-        class="flex flex-col justify-center items-center group w-[254px] h-[80px]  border-x border-t hover:border border-gray-300 bg-white hover:bg-gray-200 cursor-pointer  hover:border-gray-400 border-b-gray-300 rounded">
+    <div class="flex flex-col justify-center items-center group w-[254px] h-[80px] border-x border-t cursor-pointer rounded"
+        :class="{
+            'bg-blue-100 hover:bg-blue-200 border-gray-400 border': curSelectedTaskId === id,
+            'border-gray-300 bg-white hover:bg-gray-200 border-b-gray-300': curSelectedTaskId !== id
+        }">
         <div class="p-3  w-full h-full ">
             <div class="w-full flex flex-col justify-between ">
                 <div class="flex justify-between relative">
@@ -30,7 +33,9 @@
                         </div>
                         <div v-else
                             class="w-6 h-6 p-0 flex text-center items-center justify-center bg-gray-400 bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold  rounded-full text-sm cursor-pointer">
-                            <i class="fa-solid fa-user"></i>
+                            <button >
+                                <i class="fa-solid fa-user text-white text-sm mr-[1px]"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -51,16 +56,20 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref ,watch} from 'vue';
 
 const props = defineProps<{
     id: string;
     title: string;
+    curSelectedTaskId: string;
+    
     keyText: string;
-    tooltipTitle: string | "Unassigned";
+    tooltipTitle: string ;
     point: number;
 }>();
-
+watch(() => props.title, (newVal) => {
+    displayTitle.value = newVal;
+});
 const displayTitle = ref(props.title);
 
 

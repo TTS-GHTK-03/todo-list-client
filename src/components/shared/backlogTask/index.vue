@@ -75,7 +75,7 @@
       <div class="flex items-center justify-between min-w-[150px]">
         <div v-if="!showEditNumber" @click.stop="toggleEditNumber"
           class="select-none rounded-full text-xs bg-gray-200 bg-opacity-70 hover:bg-gray-300 w-5 h-5 flex items-center justify-center">
-          {{ displayValue }}
+          {{ handleDisplayNumber(displayValue) }}
         </div>
         <div v-else class="relative ml-10 select-none " ref="popupEditNumber">
           <input v-model="inputValue" type="number"
@@ -91,26 +91,45 @@
           </div>
         </div>
 
-        <div class="flex items-center relative ml-6">
-          <button @click.stop="toggleDropdownAssignee" class="w-6 h-6 rounded-full bg-gray-500 mr-4">
-            <i class="fa-solid fa-user text-white text-sm mr-[1px]"></i>
-          </button>
+        <div class="flex items-center relative mr-2">
+          <div v-if="props.userId ==='1'">
+            <button @click.stop="toggleDropdownAssignee" class="w-6 h-6 rounded-full bg-gray-500 mr-4">
+              <i class="fa-solid fa-user text-white text-sm mr-[1px]"></i>
+            </button>
 
+          </div>
+          <div v-else @click.stop="toggleDropdownAssignee">
+
+            <a-tooltip  placement="bottom">
+              <template #title>
+                {{ props.username }}
+              </template>
+    
+   
+              <div class="w-6 h-6 mt-1 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold rounded-full text-sm cursor-pointer">
+                {{  props.username?.charAt(0).toUpperCase() }}
+              </div>
+            </a-tooltip>
+         
+          </div>
           <!-- Assignee Dropdown Menu -->
           <div v-if="showDropdownAssignee" ref="dropdownMenuAssignee"
             class="absolute top-[28px] right-[50px] mt-1 w-[300px]  bg-white border border-gray-300 rounded shadow-lg z-10">
 
             <div class="border-2 border-blue-600 rounded h-10 m-2 flex items-center">
+              
               <div class="ml-2">
-                <button @click.stop="toggleDropdownAssignee" class="w-6 h-6 rounded-full bg-gray-300 mr-1">
-                  <i class="fa-solid fa-user text-white text-sm mr-[1px]"></i>
-                </button>
-                <span class="font-ui ">
-                  Unassigned
-                </span>
+                
+                  <button @click.stop="toggleDropdownAssignee" class="w-6 h-6 rounded-full bg-gray-300 mr-1">
+                    <i class="fa-solid fa-user text-white text-sm mr-[1px]"></i>
+                  </button>
+                  <span class="font-ui ">
+                    Unassigned
+                  </span>
+                
               </div>
             </div>
-            <div>
+            <div >
               <div class="my-2 text-[11px] font-semibold font-apple">
                 <div
                   class="h-[45px] hover:bg-gray-100 transition flex items-center pl-2 border-l-4 border-white hover:border-l-4 hover:border-blue-500">
@@ -154,10 +173,35 @@
           </div>
 
 
-          <button
+          <!-- <button
             class="opacity-0 group-hover:bg-gray-200 group-hover:opacity-100 transition-opacity rounded h-8 w-8 mr-2">
             <i class="fa-solid fa-ellipsis text-xl hover:bg-gray-300 w-full h-full rounded pt-1"></i>
+          </button> -->
+          <a-dropdown :trigger="['click']">
+            <button
+            class="opacity-0 group-hover:bg-gray-200 group-hover:opacity-100 transition-opacity rounded h-8 w-8 ml-4">
+            <i class="fa-solid fa-ellipsis text-xl hover:bg-gray-300 w-full h-full rounded pt-1"></i>
           </button>
+            <template #overlay>
+              <a-menu @click="handleMenuClick">
+                <a-menu-item key="0">
+                  <a href="">Copy issue key</a>
+                </a-menu-item>
+                <hr>
+                <a-menu-item key="1">
+                  <a href="">Add flag</a>
+                </a-menu-item>
+                <a-menu-item key="2">
+                  <a href="">Add label</a>
+                </a-menu-item>
+                <a-menu-item key="3">
+                  <a href="">Link issue</a>
+                </a-menu-item>
+                <a-menu-divider />
+                <a-menu-item key="5">Delete</a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
         </div>
       </div>
     </div>
@@ -179,7 +223,9 @@ import { ref, computed, onMounted } from 'vue';
 import { updateStatusTask, updatePointTask, updateTitleTask} from '../../../api/task';
 import { TaskStatus } from '../../../utils/constants/enum';
 import {replaceUnderscores} from '../../../utils/normalizeName';
-
+import {fetchProjectDetail} from '../../../api/project';
+import { message } from 'ant-design-vue';
+import {deleteTask} from '../../../api/task';
 // Props definition
 const props = defineProps<{
   // key: string;
@@ -188,7 +234,8 @@ const props = defineProps<{
   point: number;
   status: string;
   sprintId: string;
-  // userId: string;
+  userId: string;
+  username: string;
   keyProjectTask: string;
 }>();
 
@@ -208,7 +255,12 @@ const popupEditNumber = ref<HTMLElement | null>(null);
 const popupEditTitle = ref<HTMLElement | null>(null);
 const isLoading = ref(false);
 
-const emit = defineEmits<{ (e: 'statusUpdated', id: string,sprintId:string, status: string): void }>();
+
+const emit = defineEmits<{
+  (e: 'statusUpdated', id: string, sprintId: string, status: string): void;
+  (e: 'taskDeleted', id: string): void;
+}>();
+
 
 // Computed classes
 const buttonClasses = computed(() => {
@@ -252,7 +304,13 @@ const itemClasses = (status: string) => {
   });
 };
 
-
+const handleDisplayNumber = (curValue:number) => {
+  if (curValue==null || curValue==0) {
+    return '-'
+  } else {
+    return curValue
+  } 
+};
 async function selectStatus(status: string) {
   isLoading.value = true; // Start loading
 
@@ -345,7 +403,20 @@ const validateInput = (event: Event) => {
     input.value = '5'; // Set to 5 if exceeds
   }
 };
+const handleMenuClick = async ({ key }: { key: string }) => {
+  if (key === '5') {
 
+    try {
+      await deleteTask(props.id)
+      emit('taskDeleted', props.id);
+      message.success('Task deleted successfully!');
+  
+    } catch (error: any) {
+      message.error('Failed to delete task.');
+      console.error(error);
+    }
+  }
+}
 
 function loadUserInfo() {
   // Load user info
@@ -353,6 +424,7 @@ function loadUserInfo() {
 // Lifecycle hook
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
+
 });
 </script>
 

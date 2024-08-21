@@ -92,6 +92,11 @@
                             </button>
                             <div v-if="isDropdownType" ref="dropdownType"
                                 class="z-30 bg-white absolute w-[300px] left-0 top-[40px] rounded border shadow-lg border-blur">
+                                <div v-for="type in typeProjects" :key="type.id">
+                                    <!-- Sử dụng trực tiếp type.image đã được chuyển đổi -->
+                                    <img :src="type.image" alt="Project Image" />
+                                    {{ type.title }}
+                                </div>
                                 <div class="my-2 text-[11px] font-semibold font-apple">
                                     <div @click="selectType('Story')"
                                         class="h-[32px] flex items-center pl-4 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
@@ -149,13 +154,13 @@
 
                                         <span class="text-gray-500 font-bold bg-gray-100 px-1 rounded">TODO</span>
                                     </div>
-                                    <div @click="selectStatus('IN PROGRESS')"
+                                    <div @click="selectStatus('IN_PROGRESS')"
                                         class="h-[28px] flex items-center pl-4 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
 
                                         <span class="text-blue-500 font-bold bg-blue-100 px-1 rounded">IN
                                             PROGRESS</span>
                                     </div>
-                                    <div @click="selectStatus('READY FOR TEST')"
+                                    <div @click="selectStatus('READY_FOR_TEST')"
                                         class="h-[28px] flex items-center pl-4 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
                                         <span class="text-purple-600 font-bold bg-purple-100 px-1 rounded">READY FOR
                                             TEST</span>
@@ -168,8 +173,7 @@
                             </div>
                         </div>
                         <div class="relative">
-                            <button v-if="selectedUser && selectedUser.id !== ''"
-                                @click.stop="toggleDropdownAssignee"
+                            <button v-if="selectedUser && selectedUser.id !== ''" @click.stop="toggleDropdownAssignee"
                                 class="bg-blue-100 bg-opacity-80 text-blue-600 transition-colors duration-300 ease-in-out h-[32px] rounded px-3 mx-1 flex items-center justify-center">
                                 <div class="flex items-center ">
                                     <span class="font-bold">Assignee = </span>
@@ -188,15 +192,24 @@
                             <div v-if="isDropdownAssignee" ref="dropdownAssignee"
                                 class="z-30 bg-white absolute w-[300px] left-0 top-[40px] rounded border shadow-lg border-blur">
                                 <div class="my-2 text-[11px] font-semibold font-apple">
-                                    <div v-for="user in users" :key=user.id>
-                                        <div @click="selectUser({ id: user.id, fullname: user.firstName + user.middleName + user.lastName })"
+                                    <div>
+                                        <div
                                             class="h-[32px] flex items-center pl-4 my-1 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
-                                            <div class="rounded-full w-5 h-5 flex items-center justify-center bg-blue-400  font-medium mt-1">
-                                                {{ user.lastName.charAt(0).toUpperCase() }} 
+                                            <div
+                                                class="rounded-full w-6 h-6 flex items-center justify-center bg-blue-400  font-medium mt-1">
+                                                a
                                             </div>
-                                            <span class="font-apple text-sm text-text-dark-thin font-normal ml-2">
-                                                {{ user.firstName +user.middleName + user.lastName }}</span>
-                                           
+                                            <span>asđs</span>
+
+                                        </div>
+                                        <div
+                                            class="h-[32px] flex items-center pl-4 my-1 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
+                                            <div
+                                                class="rounded-full w-6 h-6 flex items-center justify-center bg-gray-400  font-medium mt-1">
+                                                <i class="fa-solid fa-user text-white text-base"></i>
+                                            </div>
+                                            <span>asđs</span>
+
                                         </div>
                                     </div>
                                 </div>
@@ -242,15 +255,28 @@
 
                             </div>
                             <div class="my-1 w-full h-full overflow-y-auto">
-                                <div v-for="task in tasks" :key="task?.id" class="last:border-b ">
-                                    <item-task :id="task?.id" :point="task?.point" :title="task?.title"
-                                        :keyText="task?.keyProjectTask" :tooltip-title="task?.userResponse?.lastName" />
+                                <div v-if="_.size(tasks) == 0">
+                                    <div class="w-full h-full flex flex-col items-center justify-center mt-20">
+                                        <img src="../../assets/img/search-no-results.svg" alt="" class="w-[160px] mb-2">
+                                        <span
+                                            class="w-[200px] text-sm font-apple text-text-dark-thin flex items-center justify-center text-center">
+                                            No issues were found matching your search
+                                        </span>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div v-for="task in tasks" :key="task?.id" class="last:border-b ">
+                                        <item-task :id="task?.id" :point="task?.point" :title="task?.title"
+                                            @click="selectTask(task.id)" :curSelectedTaskId="selectedTaskId"
+                                            :keyText="task?.keyProjectTask"
+                                            :tooltip-title="task?.userResponse?.lastName" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="flex-1 ">
 
-                            <task />
+                            <task :taskId="selectedTaskId" @updateTitle="handleTitleUpdate" />
                         </div>
                     </div>
                 </div>
@@ -261,13 +287,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, nextTick } from "vue";
 import task from "../../components/taskDetail/index.vue";
-import { fetchAllTaskInAccount } from '../../api/task';
-import { fetchAllProjects,fetchAllUserByProjects } from '../../api/project';
+import { filterTask } from '../../api/task';
+import { fetchAllProjects, fetchAllUserByProjects } from '../../api/project';
 import itemTask from "../../components/shared/searchTask/index.vue";
-
-
+import { getAllTypeProject } from '../../api/taskType';
+import _ from 'lodash';
 
 const searchQuery = ref<string>("");
 const isLoading = ref(false);
@@ -278,9 +304,10 @@ const isDowndropProject = ref(false);
 const isDropdownType = ref(false);
 const isDropdownStatus = ref(false);
 const isDropdownAssignee = ref(false);
+const taskIdReady = ref(false);
 const isSort = ref(false);
-
-const selectedUser = ref <{ id: string; fullname: string }>({
+const selectedTaskId = ref<string>("");
+const selectedUser = ref<{ id: string; fullname: string }>({
     id: '',
     fullname: '',
 });
@@ -290,6 +317,7 @@ const selectedProject = ref<{ id: string; title: string }>({
     id: '',
     title: ''
 });
+const typeProjects = ref<any[]>([]);
 
 const dropdownType = ref<HTMLElement | null>(null);
 const dropdownStatus = ref<HTMLElement | null>(null);
@@ -328,6 +356,16 @@ function toggleDropdownStatus() {
     isDropdownStatus.value = !isDropdownStatus.value;
 }
 
+function handleTitleUpdate(payload: { taskId: string, newTitle: string }) {
+    // resetData()
+    tasks.value = tasks.value.map((task) => {
+        if (task.id === payload.taskId) {
+            task.title = payload.newTitle;
+        }
+        return task;
+    });
+}
+
 function toggleDropdownAssignee() {
     if (!isDropdownAssignee.value) {
         closeAllDropdowns();
@@ -343,13 +381,15 @@ function selectProject(project: { id: string; title: string }) {
     selectedProject.value = project;
     isDowndropProject.value = false;
 }
-function selectStatus(status: string) {
+async function selectStatus(status: string) {
     if (selectedStatus.value == status) {
         selectedStatus.value = "";
         isDropdownStatus.value = false;
+        await resetData();
         return;
     }
     selectedStatus.value = status;
+    await resetData();
     isDropdownStatus.value = false;
 }
 function selectType(type: string) {
@@ -361,7 +401,7 @@ function selectType(type: string) {
     selectedType.value = type;
     isDropdownType.value = false;
 }
-function selectUser(user: { id: string; fullname:string }) {
+function selectUser(user: { id: string; fullname: string }) {
     if (selectedUser.value.id == user.id) {
         selectedUser.value.id = '';
         selectedUser.value.fullname = '';
@@ -372,6 +412,10 @@ function selectUser(user: { id: string; fullname:string }) {
     isDropdownAssignee.value = false;
 }
 
+function selectTask(taskId: string) {
+    selectedTaskId.value = taskId;
+
+}
 const handleClickOutside = (event: MouseEvent) => {
     if (dropdownType.value && !dropdownType.value.contains(event.target as Node)) {
         isDropdownType.value = false;
@@ -388,24 +432,41 @@ const handleClickOutside = (event: MouseEvent) => {
     }
 };
 
-async function fetchAllUser(){
+async function fetchAllUser() {
     const usersResponse = await fetchAllUserByProjects();
     users.value = usersResponse.data;
-    console.log("users 122",users.value[0].email);
+
 }
 async function fetchProjectData() {
     const projectsResponse = await fetchAllProjects();
     projects.value = projectsResponse.data;
 }
 async function fetchAllIssues() {
-    const tasksResponse = await fetchAllTaskInAccount();
+    const tasksResponse = await filterTask({ status: selectedStatus.value });
     tasks.value = tasksResponse.data;
-    
+    if (_.size(tasks.value) > 0) {
+        selectTask(tasks.value[0]?.id);
+    }
+}
+async function fetchAllTypeProject() {
+    const typeProjectResponse = await getAllTypeProject();
+
+    typeProjects.value = typeProjectResponse.data.map(project => {
+        // Chuyển đổi image URL của mỗi project
+        const fileIdMatch = project.image.match(/\/d\/(.*?)\//);
+        if (fileIdMatch && fileIdMatch[1]) {
+            const fileId = fileIdMatch[1];
+            project.image = `https://drive.google.com/uc?export=view&id=${fileId}`;
+        }
+        return project;
+    });
+
+    console.log(typeProjects.value[0].image, 'typeProjects');
 }
 
 async function resetData() {
     isLoading.value = true;
-    
+
     // Create a function that returns a promise that resolves after a delay
     function delay(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -416,7 +477,8 @@ async function resetData() {
         const fetchPromises = [
             fetchAllUser(),
             fetchAllIssues(),
-            fetchProjectData()
+            fetchProjectData(),
+            fetchAllTypeProject(),
         ];
 
         // Track start time
@@ -427,6 +489,7 @@ async function resetData() {
 
         // Calculate elapsed time
         const elapsedTime = Date.now() - startTime;
+
 
         // If the elapsed time is less than 500ms, add a delay
         if (elapsedTime < 500) {
@@ -442,12 +505,21 @@ function revertSort() {
     tasks.value = tasks.value.reverse();
     isSort.value = !isSort.value;
 }
-onMounted(() => {
+
+
+onMounted(async () => {
     isLoading.value = true;
     try {
-        fetchAllUser();
-        fetchAllIssues();
-        fetchProjectData();
+        await fetchAllUser();
+        await fetchAllIssues();
+        await fetchProjectData();
+        await fetchAllTypeProject();
+        if (tasks.value.length > 0) {
+            selectedTaskId.value = tasks.value[0]?.id;
+
+            await nextTick();
+            taskIdReady.value = true;
+        }
     }
     catch (error) {
         console.error("Failed to fetch project", error);

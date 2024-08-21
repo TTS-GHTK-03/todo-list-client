@@ -53,7 +53,7 @@
                     <router-link 
                         to="/mainpage/backlog"
                         :class="{
-                                'flex items-center px-4 py-1 rounded-lg cursor-pointer mb-1 mr-2': true,
+                                'flex items-center px-4 py-1 rounded-r-lg cursor-pointer mb-1 mr-2': true,
                                 'bg-blue-100 border-l-4 border-blue-500': isBacklogActive,
                                 'hover:bg-blue-100 hover:bg-opacity-80': !isBacklogActive
                                 }">
@@ -65,7 +65,7 @@
 
                     <router-link to="/mainpage"
                     :class="{
-                                'flex items-center px-4 py-1 rounded-lg cursor-pointer mb-1 mr-2': true,
+                                'flex items-center px-4 py-1 rounded-r-lg cursor-pointer mb-1 mr-2': true,
                                 'bg-blue-100 border-l-4 border-blue-500': isBoardActive,
                                 'hover:bg-blue-100 hover:bg-opacity-80': !isBoardActive
                                 }">

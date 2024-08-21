@@ -8,7 +8,7 @@
     <div class="mt-24 px-8 py-0">
       <div class="min-h-[150px] flex flex-col justify-around">
         <div class="font-ui font-normal text-text-dark mb-2">
-          <span class="cursor-pointer hover:underline">Projects </span>
+          <router-link to="/allproject" class="cursor-pointer hover:underline">Projects </router-link>
           <span class="px-1">/</span>
           <span class="cursor-pointer hover:underline"> My project name</span>
         </div>
@@ -20,19 +20,14 @@
               <i
                 class="fa-solid fa-bolt bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i
-                class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
-              ></i>
+                class="fa-regular fa-star bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i @click="openModalShare"
-                class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"
-              ></i>
+                class="fa-solid fa-share-nodes bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
               <i
                 class="fa-solid fa-up-right-and-down-left-from-center bg-white hover:bg-gray-200 rounded w-8 h-8 flex items-center justify-center cursor-pointer transition-colors duration-150"></i>
             </div>
 
-            <ShareModal
-              :visible="isModalShareVisible"
-              @update:visible="isModalShareVisible = $event"
-            />
+            <ShareModal :visible="isModalShareVisible" @update:visible="isModalShareVisible = $event" />
 
             <button
               class="bg-gray-100 font-medium font-apple text-sm text-text-dark-thin hover:bg-gray-200 px-4 py-2 rounded h-9 flex items-center">
@@ -75,11 +70,11 @@
             <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
 
             <div class="relative ml-2">
-              <button v-if="selectedSprint && selectedSprint.trim() !== ''" @click.stop="toggleDropdownSprint"
+              <button v-if="selectedSprint && selectedSprint.id !== ''" @click.stop="toggleDropdownSprint"
                 class="bg-blue-100 bg-opacity-80 text-blue-600 transition-colors duration-300 ease-in-out h-[32px] rounded px-3 mx-1 flex items-center justify-center">
                 <div class="flex items-center ">
-                  <span class="font-bold">Sprint = </span>
-                  <span class="text-sm ml-1"> {{ selectedSprint }}</span>
+                  <span class="font-bold mr-1">Sprint </span> =
+                  <span class="text-sm ml-1"> {{ selectedSprint.title }}</span>
                   <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
                 </div>
               </button>
@@ -93,13 +88,14 @@
               </button>
               <div v-if="isDropdownSprint" ref="dropdownSprint"
                 class="z-30 bg-white absolute w-[200px] left-0 top-[40px] py-2 rounded border shadow-lg border-blur">
-                <div v-for="sprint in sprints" :key="sprint.id " class="w-full h-8 flex items-center">
-                  <div @click="selectSprint(sprint.title)" class="w-full">
-                    <span class="cursor-pointer hover:bg-gray-200 w-full  font-ui text-text-dark-thin text-sm px-4 py-2">{{sprint.title}}</span>
+                <div v-for="sprint in sprints" :key="sprint.id" class="w-full h-8 flex items-center">
+                  <div @click="selectSprint(sprint.id, sprint.title)"
+                    class="cursor-pointer hover:bg-gray-200 w-full py-2">
+                    <span class="  font-ui text-text-dark-thin text-sm px-4 py-2">{{ sprint.title }}</span>
                   </div>
                 </div>
 
-              
+
               </div>
             </div>
           </div>
@@ -122,7 +118,8 @@
 
             <!-- Container for item-task, positioned right under the header -->
             <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-              <item-task v-for="task in data.get(TaskStatus.TODO)" :key="task?.id" :id="task?.id" :point="task?.point"
+              <item-task v-for="task in data.get(TaskStatus.TODO)" @taskDeleted="handleTaskDeleted"
+              :key="task?.id" :id="task?.id" :point="task?.point"
                 :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="task?.userResponse?.lastName"
                 draggable="true" @dragstart="startDrag($event, task)" />
             </div>
@@ -143,7 +140,8 @@
 
             <!-- Container for item-task, positioned right under the header -->
             <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-              <item-task v-for="task in data.get(TaskStatus.IN_PROGRESS)" :key="task?.id" :id="task?.id"
+              <item-task v-for="task in data.get(TaskStatus.IN_PROGRESS)" @taskDeleted="handleTaskDeleted"
+              :key="task?.id" :id="task?.id"
                 :point="task?.point" :title="task?.title" :keyText="task?.keyProjectTask"
                 :tooltip-title="task?.userResponse?.lastName" draggable="true" @dragstart="startDrag($event, task)" />
             </div>
@@ -164,7 +162,8 @@
 
             <!-- Container for item-task, positioned right under the header -->
             <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-              <item-task v-for="task in data.get(TaskStatus.READY_FOR_TEST)" :key="task?.id" :id="task?.id"
+              <item-task v-for="task in data.get(TaskStatus.READY_FOR_TEST)" @taskDeleted="handleTaskDeleted"
+              :key="task?.id" :id="task?.id"
                 :point="task?.point" :title="task?.title" :keyText="task?.keyProjectTask"
                 :tooltip-title="task?.userResponse?.lastName" draggable="true" @dragstart="startDrag($event, task)" />
             </div>
@@ -185,7 +184,8 @@
 
             <!-- Container for item-task, positioned right under the header -->
             <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
-              <item-task v-for="task in data.get(TaskStatus.DONE)" :key="task?.id" :id="task?.id" :point="task?.point"
+              <item-task v-for="task in data.get(TaskStatus.DONE)" @taskDeleted="handleTaskDeleted"
+              :key="task?.id" :id="task?.id" :point="task?.point"
                 :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="normalizeName(
                   task?.userResponse?.firstName,
                   task?.userResponse?.middleName,
@@ -199,7 +199,7 @@
           <a-modal title="Start another task" v-model:open="open" @ok="handleOk" @cancel="handleCancel">
             <div class="w-full">
               <div>
-                
+
               </div>
               <div class="mt-1">
                 <span class="text-slate-900 mb-4 text-left w-full">
@@ -238,7 +238,7 @@ import {
 import { TaskStatus } from "../../utils/constants/enum";
 import { normalizeName } from "../../utils/normalizeName";
 import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";
-import {fetchSprintProject} from "../../api/project";
+import { fetchSprintProject } from "../../api/project";
 import ShareModal from "../mainpage/modal/shareModal/index.vue";
 import { message } from "ant-design-vue";
 import dayjs, { Dayjs } from "dayjs";
@@ -255,7 +255,10 @@ const data = ref<Map<string, any[]>>(new Map());
 const sprints = ref<any[]>([]);
 const isLoading = ref(true);
 const isDropdownSprint = ref(false);
-const selectedSprint = ref<string>("");
+const selectedSprint = ref<{ id: string, title: string }>({
+  id: "",
+  title: "",
+});
 const updateTask = ref<{
   title: string;
   taskId: string;
@@ -281,8 +284,15 @@ function toggleDropdownSprint() {
   isDropdownSprint.value = !isDropdownSprint.value;
 }
 
-const selectSprint = (sprint: string) => {
-  selectedSprint.value = sprint;
+const selectSprint = (id: string, title: string) => {
+  if (id === selectedSprint.value.id) {
+    selectedSprint.value = { id: "", title: "" };
+    searchAllTask(null);
+    isDropdownSprint.value = false;
+    return;
+  }
+  selectedSprint.value = { id, title };
+  searchAllTask(id);
   isDropdownSprint.value = false;
 };
 const openModalShare = () => {
@@ -300,14 +310,14 @@ const startDrag = (event: DragEvent, task: any) => {
   event.dataTransfer!.setData("sprintId", task.sprintId);
 };
 
+
 // Hàm xử lý thả nhiệm vụ
 const onDrop = (event: DragEvent, newStatus: string) => {
   const taskId = event.dataTransfer!.getData("taskId");
   const oldStatus = event.dataTransfer!.getData("status");
   const title = event.dataTransfer!.getData("title");
   const sprintId = event.dataTransfer!.getData("sprintId");
-  console.log(taskId);
-  console.log(oldStatus);
+
   if (oldStatus === TaskStatus.TODO) {
     if (newStatus != TaskStatus.IN_PROGRESS) {
       console.log("errror");
@@ -320,6 +330,14 @@ const onDrop = (event: DragEvent, newStatus: string) => {
   } else {
     updateStatus(oldStatus, newStatus, taskId);
   }
+};
+const handleTaskDeleted = (id: string) => {
+  data.value.forEach((tasks) => {
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+    if (taskIndex !== -1) {
+      tasks.splice(taskIndex, 1);
+    }
+  });
 };
 
 function updateStatus(oldStatus: string, newStatus: string, taskId: string) {
@@ -383,16 +401,16 @@ const handleCancel = () => {
 };
 
 async function loadSPrint() {
-    isLoading.value = true;
-    try {
-      const response = await fetchSprintProject();
-      const sprintFilter = response.data.filter((sprint) => sprint.status !== "COMPLETE");
-      sprints.value = sprintFilter;
-    } catch (error) {
-      console.error("Failed to fetch sprints", error);
-    } finally {
-      isLoading.value = false;
-    } 
+  isLoading.value = true;
+  try {
+    const response = await fetchSprintProject();
+    const sprintFilter = response.data.filter((sprint) => sprint.status !== "COMPLETE");
+    sprints.value = sprintFilter;
+  } catch (error) {
+    console.error("Failed to fetch sprints", error);
+  } finally {
+    isLoading.value = false;
+  }
 }
 
 const disabledDate = (current: Dayjs) => {
@@ -406,19 +424,19 @@ const disabledDate = (current: Dayjs) => {
 
 //   return current && (current.isBefore(tomorrow) || current.isAfter(dueSprint));
 // };
-
-
-onMounted(async () => {
+async function searchAllTask(searchSprintId: string | null) {
   isLoading.value = true;
   try {
     const response = await fetchAllTask();
-    loadSPrint();
     const filteredTasks = response.data.filter(
-      (task) => task.sprintId !== null && task.sprintStatus!="COMPLETE"
+      (task) => task.sprintDetailResponse.sprintId !== null && task.sprintDetailResponse.sprintId != "COMPLETE"
     );
     const map = new Map<string, any[]>();
     filteredTasks.forEach((task) => {
-      if (task.sprintStatus !== "COMPLETE") {
+      if (task.sprintDetailResponse.sprintId !== "COMPLETE" ) {
+        if (searchSprintId && task.sprintDetailResponse.sprintId !== searchSprintId) {
+          return;
+        }
         if (!map.has(task.status)) {
           map.set(task.status, []);
         }
@@ -426,7 +444,18 @@ onMounted(async () => {
       }
     });
     data.value = map;
-    console.log("data: ", data.value);
+  } catch (error) {
+    console.error("Failed to fetch tasks", error);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+onMounted(async () => {
+  isLoading.value = true;
+  try {
+    loadSPrint();
+    await searchAllTask(null);
   } catch (error) {
     console.error("Failed to fetch tasks", error);
   } finally {

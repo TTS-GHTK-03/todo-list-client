@@ -5,7 +5,19 @@
       <!-- Section 1 -->
       <div class="mb-4 w-full mt-2">
         <span class="text-xs my-4 text-text-dark pl-4">RECENT</span>
-        <button class="w-full mt-2">
+        <div class="" v-for="project in data" :key="project.id">
+          <button class="w-full mt-2">
+            <div class="flex px-4 py-2 h-[52px] bg-white hover:bg-gray-200 transition-colors duration-200 items-center">
+              <img src="../../../../assets/img/project_logo.svg" class="h-6 w-6" />
+              <span class="flex flex-col ml-4 items-start">
+                <span class="text-sm font-ui">{{ project.name }}</span>
+                <span class="text-xs text-gray-500 font-ui">Software project</span>
+              </span>
+            </div>
+          </button>
+        </div>
+
+        <!-- <button class="w-full mt-2">
           <div class="flex px-4 py-2 h-[52px] bg-white hover:bg-gray-200 transition-colors duration-200 items-center">
             <img src="../../../../assets/img/project_logo.svg" class="h-6 w-6" />
             <span class="flex flex-col ml-4 items-start">
@@ -23,7 +35,7 @@
               <span class="text-xs text-gray-500 font-ui">Software project</span>
             </span>
           </div>
-        </button>
+        </button> -->
 
       </div>
 
@@ -56,4 +68,36 @@ export default defineComponent({
     },
   },
 });
+</script>
+
+<script lang="ts" setup>
+import { onMounted, ref } from "vue";
+import { useProjectStore } from "../../../../stores/projectStores/projectStore";
+
+
+const projectStore = useProjectStore();
+const  data = ref<any[]>([]);
+const loadData = async () => {
+  try {
+    await projectStore.projects;
+    const newProjects = projectStore.projects.map((project) => ({
+      id: project?.id || "",
+      name: project?.title || "",
+      project: project?.keyProject || "",
+
+      
+    }));
+    data.value = newProjects.slice(0, 3);
+  } catch (error) {
+    console.error("Error loading data:", error);
+  } 
+};
+
+onMounted(() => {
+  loadData();
+});
+const allProjects = ref([]);
+async function fetchAllProjects() {
+  // fetch all projects
+}
 </script>

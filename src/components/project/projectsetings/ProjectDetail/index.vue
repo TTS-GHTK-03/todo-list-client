@@ -133,7 +133,7 @@ const project = ref({
 const isLoading = ref(true);
 const isEdit = ref(true);
 const selectedProjectLead = ref<string | null>(null);
-const projectStore = useProjectDetailStore();
+
 
 const loadData = async () => {
   isLoading.value = true;

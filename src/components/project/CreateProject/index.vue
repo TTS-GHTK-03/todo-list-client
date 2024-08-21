@@ -74,14 +74,14 @@ export default defineComponent({
 
     const submitForm = async () => {
       try {
-        await createProjectStore.createProject({
+        const response =await createProjectStore.createProject({
           title: name.value
         });
         if (createProjectStore.error) {
           errorMessage.value = createProjectStore.error;
         } else {
           console.log("Successfully");
-          router.replace("/mainpage");
+          router.back();
         }
       } catch (error) {
 

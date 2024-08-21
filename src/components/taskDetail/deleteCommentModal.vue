@@ -1,6 +1,6 @@
 <template>
-    <div @click="showModal" class="w-full h-full flex justify-start items-center z-50 px-4 bg-white hover:bg-gray-200">
-        <span>Delete sprint</span>
+    <button @click="showModal" class="">
+        <span class="font-apple text-text-dark-thin text-sm font-semibold  cursor-pointer hover:underline">Delete </span>
         <a-modal v-model:open="open" @ok="handleOk" class="modal-custom  rounded-none mt-[-30px]"
             :closable="false" :width="500" :footer=null>
 
@@ -8,14 +8,14 @@
             <div class="text-xl font-apple text-text-dark-thin font-semibold ml-2">
                 <span>
                     <i class="fa-solid fa-triangle-exclamation  text-red-500 mr-1"></i>
-                    Delete sprint
+                    Delete this comment
                 </span>
             </div>
 
             <!-- body -->
             <div class="mt-6 text-sm font-apple text-text-dark-thin ml-2">
                 <div>
-                    <span >Are you sure you want to delete sprint <span class="font-bold">SCRUM Sprint 3?</span></span>
+                    <span >Once you delete, it's gone for good.</span>
                 </div>
 
             </div>
@@ -27,7 +27,7 @@
                         class="text-text-dark-thin  hover:bg-gray-200 px-4 py-2 rounded">
                         <span>Cancel</span>
                     </button>
-                    <button @click="deleteSprintInfo"
+                    <button @click="handleDeleteComment"
                         class="bg-red-500 hover:bg-red-700  text-white px-4 py-2 rounded ml-2 ">
                         <span v-if="!isLoading">
                             Delete
@@ -44,30 +44,27 @@
 
         </a-modal>
         <div v-if="open" class="fixed inset-0 bg-blue-500 bg-opacity-30 z-40"></div>
-    </div>
+    </button>
 </template>
 
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
-    name: 'startSprintModal',
+    name: 'deleteCommentModal',
 })
 </script>
 
 <script lang="ts" setup>
 import { ref} from 'vue';
-import { deleteSprint } from '../../../../api/sprint';
 
 
 const emit = defineEmits<{
     (event: 'sprintDeleted'): void;
 }>();
-
 const props = defineProps<{
-    sprintName: string;
-    sprintId: string;
-   
+    commentId: string,
+    deleteComment: (commentId: string) => void;
 }>();
 
 const open = ref<boolean>(false);
@@ -77,21 +74,20 @@ const isLoading = ref<boolean>(false);
 const showModal = () => {
     open.value = true;
 
-
 };
-
-async function deleteSprintInfo() {
+async function handleDeleteComment() {
     isLoading.value = true;
     try {
-        await deleteSprint(props.sprintId);
-        emit('sprintDeleted');
-        open.value = false;
+        props.deleteComment(props.commentId);
     } catch (error) {
         console.log(error);
     } finally {
         isLoading.value = false;
+        open.value = false;
     }
+  
 }
+
 
 
 const handleOk = () => {
@@ -110,3 +106,4 @@ const handleCancel = () => {
 <style lang="scss" scoped>
 
 </style>
+

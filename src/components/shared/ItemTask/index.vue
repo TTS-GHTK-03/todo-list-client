@@ -55,7 +55,7 @@
           </div>
           <div class="flex items-center">
             <div v-if="!showEditNumber" @click="toggleEditNumber" class="select-none rounded-full text-xs bg-gray-200 bg-opacity-70 hover:bg-gray-300 w-5 h-5 flex items-center justify-center">
-              {{ displayValue }}
+              {{ handleDisplayNumber(displayValue) }}
             </div>
             <div v-else class="relative ml-10 select-none">
               <input v-model="inputValue" type="number" class="w-[80px] border-2 border-blue-400 rounded p-2 h-8 relative text-xs input-field" min="0" max="5" @input="validateInput" />
@@ -72,6 +72,8 @@
               <template #title>
                 {{ tooltipTitle }}
               </template>
+    
+   
               <div class="w-6 h-6 p-0 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold rounded-full text-sm cursor-pointer">
                 {{ tooltipTitle?.charAt(0).toUpperCase() }}
               </div>
@@ -88,7 +90,7 @@ import { defineComponent } from 'vue';
 import { updatePointTask, updateTitleTask, deleteTask } from '../../../api/task';
 import { message } from 'ant-design-vue';
 import { useRouter } from "vue-router";
-
+import  userLogo from '../logoUser/index.vue';
 export default defineComponent({
   name: 'ItemTask',
 });
@@ -105,8 +107,10 @@ const props = defineProps<{
   point: number;
 }>();
 
-const router = useRouter();
 
+const emit = defineEmits<{
+  (e: 'taskDeleted', id: string): void;
+}>();
 const inputValue = ref(props.point);
 const displayValue = ref(props.point);
 const inputTitle = ref(props.title);
@@ -130,6 +134,13 @@ async function confirmValue() {
   }
 }
 
+const handleDisplayNumber = (curValue:number) => {
+  if (curValue==null || curValue==0) {
+    return '-'
+  } else {
+    return curValue
+  } 
+};
 const cancelEdit = () => {
   toggleEditNumber(); // Close the input field without saving changes
 };
@@ -170,8 +181,9 @@ const handleMenuClick = async ({ key }: { key: string }) => {
     console.log("(id)", props.id)
     try {
       await deleteTask(props.id)
+      emit('taskDeleted', props.id);
       message.success('Task deleted successfully!');
-      router.push("/mainpage")
+  
     } catch (error: any) {
       message.error('Failed to delete task.');
       console.error(error);

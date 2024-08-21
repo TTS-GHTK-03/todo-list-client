@@ -141,9 +141,9 @@
                     <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
                         <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
                             <div class="last:border-b last:border-gray-300" v-for="task in getTasksForSprint(sprint.id)" :key="task.id">
-                            <BacklogTask   :id="task.id"
+                            <BacklogTask   :id="task.id" :username="task.userResponse.lastName" @task-deleted="handleTaskDeleted"
                                 :title="task.title || ''" :status="task.status || ''" :point="task.point || 0"
-                                :userId="task.userId || ''" :keyProjectTask="task.keyProjectTask || ''"
+                                :userId="task.userResponse.id || ''" :keyProjectTask="task.keyProjectTask || ''"
                                 :sprintId="sprint.id || ''" draggable="true" @statusUpdated="handleStatusUpdated"
                                 @dragstart="startDrag($event, task)" />
                             </div>
@@ -202,8 +202,10 @@
                             :title="task.title || ''" 
                             :point="task.point || 0"
                             :sprintId = "''||null"
+                            @taskDeleted="handleTaskDeleted"
                             :userId="task.userId || ''" 
                             :keyProjectTask="task.keyProjectTask || ''" 
+                            
                             draggable="true"
                             @statusUpdated="handleStatusUpdated"
                             @dragstart="startDrag($event, task)" />
@@ -269,7 +271,7 @@ import startSprintModal from '../mainpage/modal/startSprintModal/index.vue';
 import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
 import deleteSprintModal from '../mainpage/modal/deleteSprintModal/index.vue';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
-
+import {fetchProjectDetail} from '../../api/project';
 // import { cloneDeep } from 'lodash';
 
 // interface BacklogTask {
@@ -293,7 +295,7 @@ const inputCreateTask = ref("");
 // const statusSprintSearch = ref<string>("");
 const sprints = ref<Sprint[]>([]);
 const allUser = ref<any[]>([]);
-const data = ref<Map<string | null, Task[]>>(new Map());
+const data = ref<Map<string | null, any[]>>(new Map());
 
 const dropdownSprint = ref<HTMLElement | null>(null);
 const taskDiv = ref<HTMLElement | null>(null);
@@ -328,12 +330,12 @@ const openModal = () => {
 
 // Functions
 
-function startDrag(event: DragEvent, task: Task) {
+function startDrag(event: DragEvent, task: any) {
     console.log(task);
     event.dataTransfer!.dropEffect = "move";
     event.dataTransfer!.effectAllowed = "move";
     event.dataTransfer!.setData("taskId", task.id);
-    event.dataTransfer!.setData("sprint", task.sprintId);
+    event.dataTransfer!.setData("sprint", task.sprintDetailResponse.sprintId);
 }
 
 async function onDrop(event: DragEvent, newSprint: string ) {
@@ -352,7 +354,7 @@ async function onDrop(event: DragEvent, newSprint: string ) {
     if (taskIndex !== -1) {
         await updateSprintTask(taskId, newSprint);
         const [task] = oldTasks.splice(taskIndex, 1);
-        task.sprintId = newSprint;
+        task.sprintDetailResponse.sprintId = newSprint;
         newTasks.push(task);
         data.value.set(newSprint, newTasks);
         data.value.set(oldSprint, oldTasks);
@@ -365,7 +367,7 @@ async function createNewBacklogTask(title: string) {
         const response = await createNewTask(title);
         
         const newTask = response.data;
-        newTask.sprintId = null;
+        newTask.sprintDetailResponse.sprintId = null;
         const tasks = data.value.get(null) || [];
         tasks.push(newTask);
         data.value.set(null, tasks);
@@ -381,6 +383,14 @@ const handleEnterKey = () => {
         inputCreateTask.value = "";
     }
 };
+
+async function fetchAllUserInProject() {
+    try {
+       
+    } catch (error) {
+        console.error("Failed to fetch all user in project", error);
+    }
+}
 
 async function createSprint() {
     try {
@@ -448,6 +458,10 @@ const handleSprintUpdated = () => {
     fetchAllData();
 };
 
+
+async function sprintDeleted() {
+    fetchAllData();
+}
 async function completeSprint(sprintId: string) {
     const tasks = data.value.get(sprintId) || []
     const notDoneTasks = tasks.filter(task => task.status !== "DONE");
@@ -496,6 +510,15 @@ async function completeSprint(sprintId: string) {
 
 }   
 
+function handleTaskDeleted(id: string) {
+    data.value.forEach((tasks) => {
+    const taskIndex = tasks.findIndex((task) => task.id === id);
+    if (taskIndex !== -1) {
+      tasks.splice(taskIndex, 1);
+    }
+  });
+}
+
 function handleStatusUpdated(id: string, sprintId: string, status: string) {
     const tasks = data.value.get(sprintId) || [];
     const task = tasks.find(task => task.id === id);
@@ -521,10 +544,10 @@ async function fetchAllData() {
         console.log("(tasksResponse)", tasksResponse);
         const map = new Map<string, Task[]>();
         tasksResponse.data.forEach((task) => {
-            if (!map.has(task.sprintId)) {
-                map.set(task.sprintId, []);
+            if (!map.has(task.sprintDetailResponse.sprintId)) {
+                map.set(task.sprintDetailResponse.sprintId, []);
             }
-            map.get(task.sprintId)!.push(task);
+            map.get(task.sprintDetailResponse.sprintId)!.push(task);
         });
 
         data.value = map;
