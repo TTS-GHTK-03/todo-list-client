@@ -337,13 +337,17 @@
                       <div
                         class="rounded-full bg-blue-500 w-6 h-6 text-gray-800 font-xl font-semibold flex items-center justify-center">
                         V</div>
-                      <span class="ml-2">vuquanghari3</span>
+                      <span class="ml-2">{{task.userResponse.username}}</span>
                     </div>
                     <div class="px-2 hover:bg-gray-200 h-7 rounded flex items-center ">None</div>
-                    <div
+                    <div v-if="task.sprintDetailResponse.sprintTitle != ''"
                       class="px-2 hover:bg-gray-200 text-blue-500 h-7 rounded flex items-center hover:underline cursor-pointer">
                       {{ task.sprintDetailResponse.sprintTitle }}</div>
+                    <div v-else
+                      class="px-2 hover:bg-gray-200 text-blue-500 h-7 rounded flex items-center hover:underline cursor-pointer">
+                      Backlog</div>
                     <div
+                    
                       class="font-apple text-text-dark-thin text-sm flex items-center w-full hover:bg-gray-200 rounded px-2 h-7">
                       <div
                         class="rounded-full bg-blue-500 w-6 h-6 text-gray-800 font-xl font-semibold flex items-center justify-center">
@@ -397,6 +401,15 @@ const task = ref<any>(
     status: '',
     keyProjectTask: '',
     userId: '',
+    userResponse: {
+      id: '',
+      username: '',
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      email: '',
+      role: ''
+    },
     sprintDetailResponse: {
       sprintId: '',
       sprintTitle: '',
@@ -568,7 +581,7 @@ async function deleteCommentById(commentId: string) {
     const parentCommentIndex = allComment.value.findIndex(comment => comment.id === commentId);
 
     if (parentCommentIndex !== -1) {
-
+      allComment.value.splice(parentCommentIndex, 1);
     } else {
       allComment.value.forEach(parentComment => {
         parentComment.children = parentComment.children.filter(child => child.id !== commentId);

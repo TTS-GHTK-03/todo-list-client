@@ -120,7 +120,8 @@
             <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
               <item-task v-for="task in data.get(TaskStatus.TODO)" @taskDeleted="handleTaskDeleted"
               :key="task?.id" :id="task?.id" :point="task?.point"
-                :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="task?.userResponse?.lastName"
+                :userId="task.userResponse.id || ''"
+                :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="task?.userResponse?.username"
                 draggable="true" @dragstart="startDrag($event, task)" />
             </div>
           </div>
@@ -143,7 +144,8 @@
               <item-task v-for="task in data.get(TaskStatus.IN_PROGRESS)" @taskDeleted="handleTaskDeleted"
               :key="task?.id" :id="task?.id"
                 :point="task?.point" :title="task?.title" :keyText="task?.keyProjectTask"
-                :tooltip-title="task?.userResponse?.lastName" draggable="true" @dragstart="startDrag($event, task)" />
+                :userId="task.userResponse.id || ''"
+                :tooltip-title="task?.userResponse?.username" draggable="true" @dragstart="startDrag($event, task)" />
             </div>
           </div>
 
@@ -165,7 +167,8 @@
               <item-task v-for="task in data.get(TaskStatus.READY_FOR_TEST)" @taskDeleted="handleTaskDeleted"
               :key="task?.id" :id="task?.id"
                 :point="task?.point" :title="task?.title" :keyText="task?.keyProjectTask"
-                :tooltip-title="task?.userResponse?.lastName" draggable="true" @dragstart="startDrag($event, task)" />
+                :userId="task.userResponse.id || ''"
+                :tooltip-title="task?.userResponse?.username" draggable="true" @dragstart="startDrag($event, task)" />
             </div>
           </div>
 
@@ -186,12 +189,10 @@
             <div class="mt-0 m-1 flex flex-col items-center min-h-[100px]">
               <item-task v-for="task in data.get(TaskStatus.DONE)" @taskDeleted="handleTaskDeleted"
               :key="task?.id" :id="task?.id" :point="task?.point"
-                :title="task?.title" :keyText="task?.keyProjectTask" :tooltip-title="normalizeName(
-                  task?.userResponse?.firstName,
-                  task?.userResponse?.middleName,
-                  task?.userResponse?.lastName
-                )
-                  " draggable="true" @dragstart="startDrag($event, task)" />
+                :title="task?.title" :keyText="task?.keyProjectTask" 
+                :tooltip-title="task?.userResponse?.username"
+                :userId="task.userResponse.id || ''"
+                draggable="true" @dragstart="startDrag($event, task)" />
             </div>
           </div>
 
@@ -418,12 +419,7 @@ const disabledDate = (current: Dayjs) => {
   return current && current < tomorrow;
 };
 
-// const disabledDate = (current: Dayjs) => {
-//   const tomorrow = dayjs().startOf("day").add(2, "day");
-//   const dueSprint = dayjs().startOf("day").add(20, "day");
 
-//   return current && (current.isBefore(tomorrow) || current.isAfter(dueSprint));
-// };
 async function searchAllTask(searchSprintId: string | null) {
   isLoading.value = true;
   try {

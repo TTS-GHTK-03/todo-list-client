@@ -4,7 +4,7 @@
     <a-spin size="large" />
   </div>
   <div v-else>
-    <div class="mt-24 px-8 py-0">
+    <div class="mt-20 px-8 py-0">
       <div class="min-h-[150px] flex flex-col justify-around">
         <div class="font-ui font-normal text-text-dark mb-2">
           <span class="cursor-pointer hover:underline">Projects </span>
@@ -14,7 +14,7 @@
           <span class="cursor-pointer hover:underline"> Project settings</span>
         </div>
 
-        <div class="flex justify-between mb-12">
+        <div class="flex justify-between ">
           <span class="font-ui text-2xl font-semibold text-text-dark-thin"
             >Details</span
           >
@@ -133,6 +133,7 @@ const project = ref({
 const isLoading = ref(true);
 const isEdit = ref(true);
 const selectedProjectLead = ref<string | null>(null);
+const projectStore = useProjectDetailStore();
 
 
 const loadData = async () => {
@@ -171,10 +172,12 @@ const submitForm = async () => {
       project.value.title = response.data.title;
       project.value.keyProject = response.data.keyProject;
       console.log("(submitForm) response:", response);
-      message.success(`Update ${project.value.title} is successfully`);
+      message.success(`Update successfully`);
     }
   } catch (error) {
     message.error(`Update ${project.value.title} is failed`);
+  } finally {
+    isEdit.value = true;
   }
 };
 

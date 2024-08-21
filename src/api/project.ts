@@ -142,7 +142,6 @@ export const fetchProjectRole = async (id: string): Promise<ProjectRoleResponse>
         // }
   
         const response = await apiClient.get<ProjectRoleResponse>(`/projects/${id}`);
-        console.log("fetchProjectRole (response): ", response)
         return response.data;
     } catch (error: any) {
         if (error.response) {

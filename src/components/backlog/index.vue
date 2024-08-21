@@ -141,9 +141,10 @@
                     <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
                         <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
                             <div class="last:border-b last:border-gray-300" v-for="task in getTasksForSprint(sprint.id)" :key="task.id">
-                            <BacklogTask   :id="task.id" :username="task.userResponse.lastName" @task-deleted="handleTaskDeleted"
+                            <BacklogTask   :id="task.id" :username="task.userResponse.username" @task-deleted="handleTaskDeleted"
                                 :title="task.title || ''" :status="task.status || ''" :point="task.point || 0"
                                 :userId="task.userResponse.id || ''" :keyProjectTask="task.keyProjectTask || ''"
+                                @taskAssigned="handleTaskAssigned"
                                 :sprintId="sprint.id || ''" draggable="true" @statusUpdated="handleStatusUpdated"
                                 @dragstart="startDrag($event, task)" />
                             </div>
@@ -203,10 +204,12 @@
                             :point="task.point || 0"
                             :sprintId = "''||null"
                             @taskDeleted="handleTaskDeleted"
-                            :userId="task.userId || ''" 
+                            :userId="task.userResponse.id"
+                            :username="task.userResponse.username"
                             :keyProjectTask="task.keyProjectTask || ''" 
                             
                             draggable="true"
+                            @task-assigned="handleTaskAssigned"
                             @statusUpdated="handleStatusUpdated"
                             @dragstart="startDrag($event, task)" />
                         </div>
@@ -272,6 +275,7 @@ import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
 import deleteSprintModal from '../mainpage/modal/deleteSprintModal/index.vue';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 import {fetchProjectDetail} from '../../api/project';
+import { message } from 'ant-design-vue';
 // import { cloneDeep } from 'lodash';
 
 // interface BacklogTask {
@@ -458,6 +462,19 @@ const handleSprintUpdated = () => {
     fetchAllData();
 };
 
+async function handleTaskAssigned(taskId:String,newAssgin:any){
+    console.log("newAssgin",newAssgin); 
+    data.value.forEach((tasks) => {
+        const taskIndex = tasks.findIndex((task) => task.id === taskId);
+        if (taskIndex !== -1) {
+            tasks[taskIndex].userResponse = newAssgin;
+            console.log("tasks[taskIndex]",tasks[taskIndex]);
+      
+        }
+    });
+    message.success('Task assigned successfully!');
+    // fetchAllData();
+}
 
 async function sprintDeleted() {
     fetchAllData();
@@ -551,6 +568,7 @@ async function fetchAllData() {
         });
 
         data.value = map;
+        console.log("data", data.value);
 
         const sprintResponse = await fetchSprintProject();
         const filteredSprints = (sprintResponse.data as Sprint[]).filter(sprint => sprint.status !== SprintStatus.COMPLETE);
