@@ -43,11 +43,11 @@
 
       <!-- Section 3 -->
       <div class="w-full mt-1 text-text-dark-thin">
-        <router-link to="/allproject"
+        <router-link to="/allproject" @click = "closeModal"
           class="w-full h-10 bg-white text-sm font-ui font-normal hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           View all projects
         </router-link>
-        <router-link to="/project-create"
+        <router-link to="/project-create" @click = "closeModal"
           class="w-full h-10 bg-white text-sm font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-5 flex items-center">
           Create project
         </router-link>
@@ -67,6 +67,12 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ['update:isVisible'],
+  methods: {
+    closeModal() {
+      this.$emit('update:isVisible', false);
+    }
+  }
 });
 </script>
 
@@ -77,6 +83,7 @@ import { useProjectStore } from "../../../../stores/projectStores/projectStore";
 
 const projectStore = useProjectStore();
 const  data = ref<any[]>([]);
+ 
 const loadData = async () => {
   try {
     await projectStore.projects;
@@ -96,8 +103,8 @@ const loadData = async () => {
 onMounted(() => {
   loadData();
 });
-const allProjects = ref([]);
-async function fetchAllProjects() {
-  // fetch all projects
-}
+// const allProjects = ref([]);
+// async function fetchAllProjects() {
+//   // fetch all projects
+// }
 </script>

@@ -37,7 +37,6 @@ apiClient.interceptors.response.use(
   (error) => {
     console.error("Error Response:", error.response);
 
-    const authStore = useAuthStore();
     if (error.response && error.response.status === 401) {
       // const router = useRouter();
       // authStore.logout();

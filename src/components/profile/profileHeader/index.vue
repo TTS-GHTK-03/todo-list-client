@@ -16,8 +16,13 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: 'rofileHeader',
+}
+</script>
+
 <script lang="ts" setup>
-import { Avatar, Button } from 'ant-design-vue';
 import { ref, watch } from 'vue';
 import { normalizeName } from "../../../utils/normalizeName";
 const props = defineProps<{

@@ -400,16 +400,18 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: "TaskDetail",
+}
+</script>
 <script lang="ts" setup>
 import { onMounted, ref, watch, computed, onUnmounted } from "vue";
 
 import "@fortawesome/fontawesome-free/css/all.css";
-import Comment from "./Comment.vue";
-import LabelAdd from "./LabelAdd.vue";
 import {
   getTaskDetail,
   updateStatusTask,
-  Task,
   updateTitleTask,
 } from "../../api/task";
 import { replaceUnderscores } from "../../utils/normalizeName";
@@ -590,10 +592,10 @@ const saveEditComment = async (commentId: string) => {
 const saveCHildEditComment = async (commentId: string, parentId: string) => {
   try {
     const parentComment = allComment.value.find(
-      (comment) => comment.id === parentId
+      (comment:any) => comment.id === parentId
     );
     const comment = parentComment.children.find(
-      (comment) => comment.id === commentId
+      (comment :any) => comment.id === commentId
     );
     if (comment) {
       const response = await editComment(props.taskId, commentId, comment.text);
@@ -601,7 +603,7 @@ const saveCHildEditComment = async (commentId: string, parentId: string) => {
         if (c.id === parentId) {
           return {
             ...c,
-            children: c.children.map((child) => {
+            children: c.children.map((child:any) => {
               if (child.id === commentId) {
                 return {
                   ...child,
@@ -635,7 +637,7 @@ async function deleteCommentById(commentId: string) {
     } else {
       allComment.value.forEach((parentComment) => {
         parentComment.children = parentComment.children.filter(
-          (child) => child.id !== commentId
+          (child:any) => child.id !== commentId
         );
       });
     }
@@ -822,8 +824,9 @@ async function getAllComment() {
   });
 }
 
-async function handleChangeType(type: string) {
+async function handleChangeType(type:string) {
   try {
+    console.log("type:", type);
   } catch (error) {
     console.log("Error message:", error);
   } finally {
@@ -864,11 +867,7 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener("click", handleClickOutside);
 });
-// Export components for template
-const components = {
-  Comment,
-  LabelAdd,
-};
+
 </script>
 
 

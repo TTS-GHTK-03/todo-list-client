@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isVisible"
+  <div v-if="props.isVisible"
     class="fixed inset-x-0 flex items-start justify-center bg-opacity-50 transition-opacity duration-300 ease-in-out">
     <div class="bg-white w-[320px] shadow-lg border rounded border-gray-500 border-opacity-20 p-0 relative">
 
@@ -116,9 +116,8 @@ onMounted(async () => {
   // }
   try {
     const response = await getAllTaskAssigneesForUser();
-    console.log(response);
-    
-    const filteredTasks: Task[] = response.data.filter((task: Task) => task.status); // Thay đổi điều kiện lọc nếu cần
+
+    const filteredTasks: any[] = response.data.filter((task: any) => task.status);
     
     // Định nghĩa thứ tự trạng thái mong muốn
     const statusOrder = ['TODO', 'IN_PROGRESS', 'READY_FOR_TEST', 'DONE'];

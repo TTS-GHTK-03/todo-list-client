@@ -17,7 +17,7 @@
         <div class="mb-2 mt-4">
           <span class="text-slate-900 mb-4 text-left w-full">Sprint name <span class="text-red-500">*</span></span>
         </div>
-        <a-input class="w-[294px]" v-model:value="value" placeholder="Sprint" />
+        <!-- <a-input class="w-[294px]" v-model:value="se" placeholder="Sprint" /> -->
         <div class="mb-2 mt-4">
           <span class="text-slate-900 mb-4 text-left w-full">Date Sprint <span class="text-red-500">*</span></span>
         </div>
@@ -34,28 +34,28 @@ const open = ref<boolean>(false);
 const valueDate = ref<[Dayjs, Dayjs]>();
 
 import dayjs, { Dayjs } from 'dayjs';
-const range = (start: number, end: number) => {
-  const result = [];
+// const range = (start: number, end: number) => {
+//   const result = [];
 
-  for (let i = start; i < end; i++) {
-    result.push(i);
-  }
+//   for (let i = start; i < end; i++) {
+//     result.push(i);
+//   }
 
-  return result;
-};
+//   return result;
+// };
 
 const disabledDate = (current: Dayjs) => {
   // Can not select days before today and today
   return current && current < dayjs().endOf('day');
 };
 
-const disabledDateTime = () => {
-  return {
-    disabledHours: () => range(0, 24).splice(4, 20),
-    disabledMinutes: () => range(30, 60),
-    disabledSeconds: () => [55, 56],
-  };
-};
+// const disabledDateTime = () => {
+//   return {
+//     disabledHours: () => range(0, 24).splice(4, 20),
+//     disabledMinutes: () => range(30, 60),
+//     disabledSeconds: () => [55, 56],
+//   };
+// };
 
 const showModal = () => {
   open.value = true;

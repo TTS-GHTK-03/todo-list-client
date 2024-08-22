@@ -124,12 +124,7 @@ import { updateProject } from "../../../../api/project";
 import { normalizeName } from "../../../../utils/normalizeName";
 import { message } from "ant-design-vue";
 
-const project = ref({
-  id: "",
-  title: "",
-  keyProject: "",
-  userNameResponseList: [],
-});
+const project = ref<any>({});
 const isLoading = ref(true);
 const isEdit = ref(true);
 const selectedProjectLead = ref<string | null>(null);

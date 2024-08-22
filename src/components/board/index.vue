@@ -14,7 +14,7 @@
         </div>
 
         <div class="flex justify-between mb-12">
-          <span class="font-ui text-2xl font-semibold text-text-dark-thin">SCRUM Sprint 1</span>
+          <span class="font-ui text-2xl font-semibold text-text-dark-thin">BOARD</span>
           <div class="flex items-center">
             <div class="flex space-x-2 text-text-dark-thin mr-2">
               <i
@@ -237,7 +237,6 @@ import {
   updateStartDateDueDateTask,
 } from "../../api/task";
 import { TaskStatus } from "../../utils/constants/enum";
-import { normalizeName } from "../../utils/normalizeName";
 import AddPeopleModal from "../mainpage/modal/addPeopleModal/index.vue";
 import { fetchSprintProject } from "../../api/project";
 import ShareModal from "../mainpage/modal/shareModal/index.vue";
@@ -341,7 +340,7 @@ const handleTaskDeleted = (id: string) => {
   });
 };
 
-function updateStatus(oldStatus: string, newStatus: string, taskId: string) {
+function updateStatus(oldStatus: any, newStatus: any , taskId: any) {
   const oldTasks = data.value.get(oldStatus) || [];
   const newTasks = data.value.get(newStatus) || [];
 
@@ -373,8 +372,8 @@ const handleOk = async () => {
 
       // Đợi kết quả từ updateStartDateDueDateTask
       const updateResponse = await updateStartDateDueDateTask(
-        updateTask.value.sprintId,
-        updateTask.value.taskId,
+        updateTask.value?.sprintId,
+        updateTask.value?.taskId,
         formattedDate
       );
 
@@ -382,9 +381,9 @@ const handleOk = async () => {
 
       // Gọi updateStatus sau khi updateStartDateDueDateTask thành công
       updateStatus(
-        updateTask.value.oldStatus,
-        updateTask.value.newStatus,
-        updateTask.value.taskId
+        updateTask.value?.oldStatus,
+        updateTask.value?.newStatus,
+        updateTask.value?.taskId
       );
     }
   } catch (error) {
@@ -425,10 +424,10 @@ async function searchAllTask(searchSprintId: string | null) {
   try {
     const response = await fetchAllTask();
     const filteredTasks = response.data.filter(
-      (task) => task.sprintDetailResponse.sprintId !== null && task.sprintDetailResponse.sprintId != "COMPLETE"
+      (task : any) => task.sprintDetailResponse.sprintId !== null && task.sprintDetailResponse.sprintId != "COMPLETE"
     );
     const map = new Map<string, any[]>();
-    filteredTasks.forEach((task) => {
+    filteredTasks.forEach((task:any) => {
       if (task.sprintDetailResponse.sprintId !== "COMPLETE" ) {
         if (searchSprintId && task.sprintDetailResponse.sprintId !== searchSprintId) {
           return;

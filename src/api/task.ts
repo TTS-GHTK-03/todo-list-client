@@ -133,7 +133,7 @@ export const updatePointTask = async (taskId:string, newPoint:number ): Promise<
     }
 };
 
-export const updateSprintTask = async (taskId:string, newSprintId:string): Promise<ListTaskResponse> => {
+export const updateSprintTask = async (taskId:string, newSprintId:string|null): Promise<ListTaskResponse> => {
     try {
         const projectRoleStore = useProjectRoleStore()
         const idProject = projectRoleStore.idProject
@@ -217,7 +217,7 @@ export interface UpdateDueDateTaskResponse {
     };
 }
 
-export const updateStartDateDueDateTask = async (sprintId: string, taskId: string, dueDate: string): Promise<UpdateDueDateTaskResponse> => {
+export const updateStartDateDueDateTask = async (sprintId: any, taskId: any, dueDate: any): Promise<UpdateDueDateTaskResponse> => {
     try {
         const projectRoleStore = useProjectRoleStore()
         const idProject = projectRoleStore.idProject
@@ -241,7 +241,7 @@ export const updateStartDateDueDateTask = async (sprintId: string, taskId: strin
 }
 
 
-export const getAllTaskAssigneesForUser = async (): Promise<TaskResponse> => {
+export const getAllTaskAssigneesForUser = async (): Promise<any> => {
     try {
         // const projectRoleStore = useProjectRoleStore()
         // const idProject = projectRoleStore.idProject
@@ -249,7 +249,7 @@ export const getAllTaskAssigneesForUser = async (): Promise<TaskResponse> => {
         // if (!idProject) {
         //     throw new Error("Project ID is not defined");
         // }
-        const response = await apiClient.get<TaskResponse>("/users/tasks/assignees");
+        const response = await apiClient.get<any>("/users/tasks/assignees");
         console.log("getAllTaskAssigneesForUser (response): ", response)
         return response.data;
     } catch (error: any) {

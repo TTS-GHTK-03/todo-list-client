@@ -129,7 +129,6 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from "vue-router";
 import Navbar from '../../components/shared/Navbar/index.vue';
 import { tabs_content, templates } from '../../constants/homeInfo';
-import { useProjectRoleStore } from "../../stores/projectStores/projectStore";
 
 const activeTab = ref(0);
 const tabs = tabs_content;

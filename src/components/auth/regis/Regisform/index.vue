@@ -119,7 +119,7 @@ const handleSubmit = async () => {
   loading.value = true;
   errorMessage.value = "";
   try {
-    const response = await createPassWord({
+    await createPassWord({
       registerKey: registerKey,
       email: email,
       username: username.value,

@@ -179,7 +179,6 @@ const inputValue = ref(props.point);
 const displayValue = ref(props.point);
 const inputTitle = ref(props.title);
 const displayTitle = ref(props.title);
-const taskId = ref(props.id);
 
 const showEditNumber = ref(false);
 const showEditTitle = ref(false);

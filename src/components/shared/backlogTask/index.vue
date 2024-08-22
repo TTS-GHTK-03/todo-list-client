@@ -217,7 +217,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted ,watch} from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { updateStatusTask, updatePointTask, updateTitleTask } from '../../../api/task';
 import { TaskStatus } from '../../../utils/constants/enum';
 import { replaceUnderscores } from '../../../utils/normalizeName';
@@ -233,7 +233,7 @@ const props = defineProps<{
   title: string;
   point: number;
   status: string;
-  sprintId: string;
+  sprintId: string | null;
   userId: string;
   username: string;
   keyProjectTask: string;
@@ -263,7 +263,7 @@ const username = ref(props.username);
 const currentUserAssign = ref(props.userId);
 
 const emit = defineEmits<{
-  (e: 'statusUpdated', id: string, sprintId: string, status: string): void;
+  (e: 'statusUpdated', id: string, sprintId: any, status: string): void;
   (e: 'taskDeleted', id: string): void;
   (e: 'taskAssigned',id:string,newAssgin:any): void;
 }>();

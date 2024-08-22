@@ -43,7 +43,7 @@ const emit = defineEmits<{
 
 const {task, visible } = toRefs(props);
 const dateFormat = 'YYYY-MM-DD';
-const value = ref('');
+
 const loading = ref<boolean>(false);
 const valueDate = ref<Dayjs>();
 

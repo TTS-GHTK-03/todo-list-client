@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { login, LoginResponse } from '../../api/auth';
+import { login } from '../../api/auth';
 
 interface AuthState {
   accessToken: string | null;

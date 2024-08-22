@@ -178,7 +178,6 @@ const data = ref<DataType | undefined>(undefined);
 const shareToken = route.query.share as string;
 const id = route.query.id as string;
 
-console.log(shareToken, projectId)
 const handleGoLogin = () => {
   router.replace("/author");
 };

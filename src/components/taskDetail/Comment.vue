@@ -32,6 +32,12 @@
     </template>
   </a-list>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'Comment',
+};
+</script>
 <script lang="ts" setup>
 import { ref } from 'vue';
 import dayjs from 'dayjs';

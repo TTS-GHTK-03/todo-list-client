@@ -1,5 +1,5 @@
 
-export function normalizeName(firstName: string, middleName: string, lastName: string): string {
+export function normalizeName(firstName: any, middleName: any, lastName: any): string {
     const fullName = normalize(firstName)+ ' '+ normalize(middleName) + ' ' + normalize(lastName)
     return fullName.trim()
 }

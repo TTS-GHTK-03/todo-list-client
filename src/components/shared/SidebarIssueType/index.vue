@@ -1,11 +1,11 @@
 <template>
-    <div :class="{ 'w-8': isCollapsed, 'w-64': !isCollapsed }"
+    <div :class="{ 'w-8': props.isCollapsed, 'w-64': !props.isCollapsed }"
         class="z-20 fixed top-0 left-0 h-full bg-white border-r-4 border-gray-200 transition-all duration-300 flex flex-col">
 
         <!-- Sidebar content -->
         <button @click="$emit('toggleSidebar')"
             class="absolute right-[-25px] top-[100px] -translate-y-1/2 p-3 flex items-center justify-center">
-            <span v-if="!isCollapsed"
+            <span v-if="!props.isCollapsed"
                 class="inline-flex items-center justify-center w-6 h-6 bg-white text-black border-2 border-gray-200 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </span>
@@ -141,7 +141,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref ,computed} from 'vue';
+import { ref } from 'vue';
 import { useProjectRoleStore} from '../../../stores/projectStores/projectStore';
 
 

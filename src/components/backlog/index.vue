@@ -250,16 +250,15 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 import BacklogTask from '../shared/backlogTask/index.vue';
 import { Sprint, fetchSprintProject } from '../../api/project';
 import { createNewSprint, changeStartToCompleteSprint } from '../../api/sprint';
-import { fetchAllTask, Task, createNewTask, updateStatusTask } from '../../api/task';
+import { fetchAllTask, Task, createNewTask } from '../../api/task';
 import { updateSprintTask } from '../../api/task';
 import { SprintStatus, sortSprints } from '../../utils/constants/enum';
-import { useUserProjectStore } from '../../stores/projectSettingStores/accessStores/accessStore';
 import completeSprintModal from '../mainpage/modal/completeSprintModal/index.vue';
 import startSprintModal from '../mainpage/modal/startSprintModal/index.vue';
 import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
 import deleteSprintModal from '../mainpage/modal/deleteSprintModal/index.vue';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
-import { message } from 'ant-design-vue';
+
 // import { cloneDeep } from 'lodash';
 
 // interface BacklogTask {
@@ -282,12 +281,12 @@ const inputCreateTask = ref("");
 
 // const statusSprintSearch = ref<string>("");
 const sprints = ref<Sprint[]>([]);
-const allUser = ref<any[]>([]);
+// const allUser = ref<any[]>([]);
 const data = ref<Map<string | null, any[]>>(new Map());
 
 const dropdownSprint = ref<HTMLElement | null>(null);
 const taskDiv = ref<HTMLElement | null>(null);
-const userProjectStore = useUserProjectStore();
+// const userProjectStore = useUserProjectStore();
 
 const toggleTask = (state: boolean) => {
     isCreateTask.value = state;
@@ -326,7 +325,7 @@ function startDrag(event: DragEvent, task: any) {
     event.dataTransfer!.setData("sprint", task.sprintDetailResponse.sprintId);
 }
 
-async function onDrop(event: DragEvent, newSprint: string) {
+async function onDrop(event: DragEvent, newSprint: string | null) {
     const taskId = event.dataTransfer!.getData("taskId");
     const oldSprint = event.dataTransfer!.getData("sprint");
 
@@ -370,15 +369,9 @@ const handleEnterKey = () => {
         createNewBacklogTask(inputCreateTask.value);
         inputCreateTask.value = "";
     }
+    isCreateTask.value = false;
 };
 
-async function fetchAllUserInProject() {
-    try {
-
-    } catch (error) {
-        console.error("Failed to fetch all user in project", error);
-    }
-}
 
 async function createSprint() {
     try {
@@ -405,15 +398,15 @@ const handleClickOutside = (event: MouseEvent) => {
     }
 };
 
-async function loadAllUserProject() {
-    try {
-        await userProjectStore.loadUserProjects();
-        allUser.value = userProjectStore.userProjects;
-        console.log("all user:", allUser.value);
-    } catch (error) {
-        console.error("Failed to load user projects", error);
-    }
-}
+// async function loadAllUserProject() {
+//     try {
+//         await userProjectStore.loadUserProjects();
+//         allUser.value = userProjectStore.userProjects;
+//         console.log("all user:", allUser.value);
+//     } catch (error) {
+//         console.error("Failed to load user projects", error);
+//     }
+// }
 
 function toggleSprintDropdown(id: string) {
 
@@ -482,7 +475,7 @@ const handleSprintDeleted = async (deletedSprintId: string) => {
 };
 
 async function handleTaskAssigned(taskId: String, newAssgin: any) {
-    console.log("newAssgin", newAssgin);
+
     data.value.forEach((tasks) => {
         const taskIndex = tasks.findIndex((task) => task.id === taskId);
         if (taskIndex !== -1) {
@@ -491,7 +484,7 @@ async function handleTaskAssigned(taskId: String, newAssgin: any) {
 
         }
     });
-    message.success('Task assigned successfully!');
+
     // fetchAllData();
 }
 
@@ -570,7 +563,7 @@ async function fetchAllData() {
         const tasksResponse = await fetchAllTask();
         console.log("(tasksResponse)", tasksResponse);
         const map = new Map<string, Task[]>();
-        tasksResponse.data.forEach((task) => {
+        tasksResponse.data.forEach((task:any) => {
             if (!map.has(task.sprintDetailResponse.sprintId)) {
                 map.set(task.sprintDetailResponse.sprintId, []);
             }

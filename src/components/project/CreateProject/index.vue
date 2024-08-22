@@ -69,16 +69,16 @@ export default defineComponent({
     const router = useRouter();
 
     const name = ref("");
-    const loading = ref(false);
+    // const loading = ref(false);
     const createProjectStore = useCreateProjectStore();
 
     const submitForm = async () => {
       try {
-        const response =await createProjectStore.createProject({
+        await createProjectStore.createProject({
           title: name.value
         });
         if (createProjectStore.error) {
-          errorMessage.value = createProjectStore.error;
+          // errorMessage.value = createProjectStore.error;
         } else {
           console.log("Successfully");
           router.back();

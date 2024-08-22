@@ -77,8 +77,6 @@
         <div class="relative inline-block">
           <input
             type="text"
-            @focus="toggleDropdown(true)"
-            @blur="toggleDropdown(false)"
             placeholder="Roles"
             class="custom-input w-[100px] min-h-[40px] border border-gray-500 rounded py-3 font-light pl-2 pr-10 placeholder-gray-400"
           />
@@ -114,7 +112,7 @@
                 v-model:value="record.role"
                 style="width: 160px"
                 :dropdown-match-select-width="false"
-                @change="(value) => handleRoleChange(value, record)"
+                @change="(value: string) => { handleRoleChange(value, record) }"
               >
                 <a-select-option :value="RoleProjectUser.ADMIN"
                   >Administrator</a-select-option
@@ -150,7 +148,7 @@
       :maskClosable="false"
     >
       <p>
-        {{ projectToRemove.name }} won't be able to work on this project anymore.
+        {{ projectToRemove?.name }} won't be able to work on this project anymore.
       </p>
     </a-modal>
   </div>
@@ -164,6 +162,7 @@ import { updateRoleProjectUser, deleteUser } from '../../../../api/projectUser';
 import { RoleProjectUser } from '../../../../utils/constants/enum';
 import AddPeopleModal from '../../../mainpage/modal/addPeopleModal/index.vue';
 import { message } from 'ant-design-vue';
+import { TableColumnType } from 'ant-design-vue';
 
 interface DataType {
   name: string;
@@ -205,7 +204,7 @@ const isModalVisible = ref(false);
 const projectToRemove = ref<{ id: string; name: string; email: string } | null>(null);
 const loading = ref(false);
 const accessStore = useUserProjectStore();
-const data = ref<DataType[]>([]);
+const data = ref<any[]>([]);
 const isModalVisibleAddPeople = ref(false);
 
 // Hàm mở modal
@@ -243,7 +242,7 @@ const clearSearch = () => {
   searchQuery.value = '';
 };
 
-const handleRoleChange = async (newRole: string, record: DataType) => {
+const handleRoleChange = async (newRole: string, record: any) => {
   const oldRole = record.role;
 
   try {
@@ -255,12 +254,12 @@ const handleRoleChange = async (newRole: string, record: DataType) => {
     message.success(`Changed role ${newRole} of user ${record.name} successfully!`);
   } catch (error) {
     record.role = oldRole;
-    console.error('Failed to change role:', error.message);
+    console.error('Failed to change role:', error);
     message.error(`Changed role ${newRole} of user ${record.name} failed!`);
   }
 };
 
-const confirmRemove = (record: DataType) => {
+const confirmRemove = (record: any) => {
   projectToRemove.value = {
     id: record.key,
     name: record.name,
@@ -273,7 +272,7 @@ const handleOk = async () => {
   if (projectToRemove.value) {
     try {
       await deleteUser(projectToRemove.value.id);
-      data.value = data.value.filter(item => item.key !== projectToRemove.value.id);
+      data.value = data.value.filter(item => item.key !== projectToRemove.value?.id);
       message.success('User removed successfully');
     } catch {
       message.error('Failed to remove user');

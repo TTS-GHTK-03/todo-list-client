@@ -35,7 +35,7 @@
   </template>
   
 <script lang="ts" setup>
-  import { defineComponent, ref, onMounted } from 'vue';
+  import {  ref, onMounted } from 'vue';
   import MainNavbar from '../../components/shared/MainNavbar/index.vue';
   import ProfileHeader from '../../components/profile/profileHeader/index.vue';
   import ProfileDetails from '../../components/profile/profileDetails/index.vue';
@@ -55,7 +55,7 @@
       address: string;
   }
 
-  const profile = ref<Profile[]>();
+  const profile = ref<any>(null);
 
   onMounted(async () => {
     try {

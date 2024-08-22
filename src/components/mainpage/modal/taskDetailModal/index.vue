@@ -17,8 +17,13 @@
     <div v-if="isVisible" class="fixed inset-0 bg-blue-500 bg-opacity-30 z-40"></div>
   </template>
   
+
+<script lang="ts">
+export default {
+  name: 'TaskDetailModal',
+}
+</script>
   <script setup lang="ts">
-  import { defineEmits } from 'vue';
   import TaskDetail from '../../../taskDetail/index.vue'
   const props = defineProps<{
     taskId: string;

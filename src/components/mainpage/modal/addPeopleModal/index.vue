@@ -46,6 +46,14 @@
   </a-modal>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+export default defineComponent({
+  name: 'AddPeopleModal',
+})
+</script>
+
+
 <script setup lang="ts">
 import { ref, toRefs} from 'vue';
 import { fetchInviteUser } from "../../../../api/projectUser";

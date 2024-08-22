@@ -108,9 +108,13 @@
         </div>
     </div>
 </template>
-
+<script lang="ts" >
+export default {
+    name: 'ProfileDetails',
+}
+</script>
 <script lang="ts" setup>
-import { ref, nextTick, onMounted, watch } from 'vue';
+import { ref, nextTick, watch } from 'vue';
 import { message } from "ant-design-vue";
 import { updateInformation } from "../../../api/profile";
 

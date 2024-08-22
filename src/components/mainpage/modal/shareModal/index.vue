@@ -63,8 +63,16 @@
   </a-modal>
 </template>
 
+<script lang="ts">
+
+export default defineComponent({
+  name: 'ShareModal',
+  
+});
+</script>
+
 <script setup lang="ts">
-import { ref, toRefs} from 'vue';
+import { defineComponent, ref, toRefs} from 'vue';
 import { RoleProjectUser } from "../../../../utils/constants/enum";
 import { shareProject } from "../../../../api/projectUser";
 import { message } from 'ant-design-vue';
@@ -78,7 +86,6 @@ const emit = defineEmits<{
 }>();
 
 const { visible } = toRefs(props);
-const dateFormat = "YYYY-MM-DD";
 const email = ref("");
 const role = ref("");
 const dateTime = ref("");
