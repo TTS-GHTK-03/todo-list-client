@@ -92,11 +92,7 @@
                             </button>
                             <div v-if="isDropdownType" ref="dropdownType"
                                 class="z-30 bg-white absolute w-[300px] left-0 top-[40px] rounded border shadow-lg border-blur">
-                                <div v-for="type in typeProjects" :key="type.id">
-                                    <!-- Sử dụng trực tiếp type.image đã được chuyển đổi -->
-                                    <img :src="type.image" alt="Project Image" />
-                                    {{ type.title }}
-                                </div>
+                                
                                 <div class="my-2 text-[11px] font-semibold font-apple">
                                     <div @click="selectType('Story')"
                                         class="h-[32px] flex items-center pl-4 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
@@ -193,22 +189,22 @@
                                 class="z-30 bg-white absolute w-[300px] left-0 top-[40px] rounded border shadow-lg border-blur">
                                 <div class="my-2 text-[11px] font-semibold font-apple">
                                     <div>
-                                        <div
+                                        <div @click="selectUser({ id: '', fullname: '' })"
                                             class="h-[32px] flex items-center pl-4 my-1 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
                                             <div
-                                                class="rounded-full w-6 h-6 flex items-center justify-center bg-blue-400  font-medium mt-1">
-                                                a
+                                                class="rounded-full w-6 h-6 flex items-center justify-center text-base bg-[#39a3bf]  font-medium ">
+                                                {{ userDetail.userName.charAt(0).toUpperCase() }}
                                             </div>
-                                            <span>asđs</span>
+                                            <span class="text-sm font-ui font-normal ml-2">Current user</span>
 
                                         </div>
-                                        <div
+                                        <div @click="selectUser({ id: '1', fullname: 'Unassigned' })"
                                             class="h-[32px] flex items-center pl-4 my-1 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
                                             <div
                                                 class="rounded-full w-6 h-6 flex items-center justify-center bg-gray-400  font-medium mt-1">
                                                 <i class="fa-solid fa-user text-white text-base"></i>
                                             </div>
-                                            <span>asđs</span>
+                                            <span class="text-sm font-ui font-normal ml-2">Unassigned</span>
 
                                         </div>
                                     </div>
@@ -268,6 +264,7 @@
                                     <div v-for="task in tasks" :key="task?.id" class="last:border-b ">
                                         <item-task :id="task?.id" :point="task?.point" :title="task?.title"
                                             @click="selectTask(task.id)" :curSelectedTaskId="selectedTaskId"
+                                            :username="task?.userResponse?.username" 
                                             :keyText="task?.keyProjectTask"
                                             :tooltip-title="task?.userResponse?.lastName" />
                                     </div>
@@ -292,6 +289,7 @@ import task from "../../components/taskDetail/index.vue";
 import { filterTask } from '../../api/task';
 import { fetchAllProjects, fetchAllUserByProjects } from '../../api/project';
 import itemTask from "../../components/shared/searchTask/index.vue";
+import {useGetUserDetailStore} from '../../stores/projectStores/userStore/user';
 import { getAllTypeProject } from '../../api/taskType';
 import _ from 'lodash';
 
@@ -318,6 +316,10 @@ const selectedProject = ref<{ id: string; title: string }>({
     title: ''
 });
 const typeProjects = ref<any[]>([]);
+const userDetailStore = useGetUserDetailStore();
+const userDetail = ref<any>(null);
+
+
 
 const dropdownType = ref<HTMLElement | null>(null);
 const dropdownStatus = ref<HTMLElement | null>(null);
@@ -410,6 +412,7 @@ function selectUser(user: { id: string; fullname: string }) {
     }
     selectedUser.value = user;
     isDropdownAssignee.value = false;
+    
 }
 
 function selectTask(taskId: string) {
@@ -520,6 +523,11 @@ onMounted(async () => {
             await nextTick();
             taskIdReady.value = true;
         }
+        userDetail.value = {
+            id:userDetailStore.id, 
+            userName: userDetailStore.username,
+        }
+
     }
     catch (error) {
         console.error("Failed to fetch project", error);

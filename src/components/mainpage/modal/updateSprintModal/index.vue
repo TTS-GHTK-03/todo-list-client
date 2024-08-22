@@ -1,6 +1,6 @@
 <template>
-    <div @click="showModal" class="w-full h-full flex justify-start items-center z-50 px-4 bg-white hover:bg-gray-200">
-        <span>Edit sprint</span>
+    <div @click="showModal" class="w-full h-full flex justify-start items-center z-40 px-4 bg-white hover:bg-gray-200">
+        <span class="z-20">Edit sprint</span>
         <a-modal v-model:open="open" @ok="handleOk" class="modal-custom relative rounded-none mt-[-40px]"
             :closable="false" :width="500" :footer=null>
 

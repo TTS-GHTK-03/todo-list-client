@@ -34,3 +34,31 @@ export const assignTaskForUser = async (userId : string,taskId :string): Promise
         }
     }
 };
+
+
+export interface getUserDetailResponse {
+    status: number;
+    timestamp: string;
+    data: any;
+}
+
+
+export const getCurrentUserDetail = async (): Promise<getUserDetailResponse> => {
+    try {
+       
+        const response = await apiClient.get<getUserDetailResponse>(`/users`);
+        return response.data;
+    } catch (error: any) {
+        if (error.response) {
+            if (error.response.status === 401) {
+            throw new Error("Unauthorized: Invalid or expired access token");
+            } else {
+            throw new Error("An error occurred while fetching projects");
+            }
+        } else {
+            throw new Error("An error occurred while fetching projects");
+        }
+    }
+};
+
+

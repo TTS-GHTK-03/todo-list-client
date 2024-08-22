@@ -16,7 +16,7 @@
 
 
       <div v-if="!showEditTitle" class="flex items-center text-sm font-ui text-text-dark-thin ml-4 mb-1 cursor-pointer">
-        <span class="hover:underline">{{ displayTitle }}</span>
+        <span class="hover:underline">{{ inputTitle }}</span>
         <button @click.stop="toggleEditTitle"
           class="hover:bg-gray-300 w-5 h-5 flex items-center justify-center rounded ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <i class="fa-solid fa-pen text-xs mt-1"></i>
@@ -181,7 +181,7 @@
             <template #overlay>
               <a-menu @click="handleMenuClick">
                 <a-menu-item key="0">
-                  <a href="">Copy issue key</a>
+                  <span>Issue Detail</span>
                 </a-menu-item>
                 <hr>
                 <a-menu-item key="1">
@@ -201,13 +201,13 @@
         </div>
       </div>
     </div>
+    <taskDetailModal :isVisible="isModalVisible" :onClose="hideModal" :taskId="props.id"></taskDetailModal>
   </div>
 
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
 
 
 export default defineComponent({
@@ -225,7 +225,7 @@ import { fetchAllUserByProjects } from '../../../api/project';
 import { message } from 'ant-design-vue';
 import { deleteTask } from '../../../api/task';
 import { assignTaskForUser } from '../../../api/user';
-
+import taskDetailModal from "../../mainpage/modal/taskDetailModal/index.vue";
 // Props definition
 const props = defineProps<{
   // key: string;
@@ -239,7 +239,10 @@ const props = defineProps<{
   keyProjectTask: string;
 }>();
 
-
+// watch (() => props.id, (newVal, oldVal) => {
+//   inputValue.value = newVal;
+//   displayValue.value = newVal;
+// });
 // Reactive state variables
 const showDropdown = ref(false);
 const showDropdownAssignee = ref(false);
@@ -265,7 +268,15 @@ const emit = defineEmits<{
   (e: 'taskAssigned',id:string,newAssgin:any): void;
 }>();
 
+const isModalVisible = ref(false);
 
+const showModal = () => {
+  isModalVisible.value = true;
+};
+
+const hideModal = () => {
+  isModalVisible.value = false;
+};
 
 // Computed classes
 const buttonClasses = computed(() => {
@@ -326,6 +337,7 @@ async function assignUser(userId: string,newUsername:string) {
     
   } catch (error: any) {
     console.error(error);
+    message.error('User already assigned to this task.');
   } finally {
     showDropdownAssignee.value = false;
   }
@@ -435,6 +447,10 @@ const handleMenuClick = async ({ key }: { key: string }) => {
       message.error('Failed to delete task.');
       console.error(error);
     }
+  }
+
+  if (key === '0') {
+    showModal();
   }
 }
 

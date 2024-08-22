@@ -31,11 +31,33 @@
         </ul>
       </div>
       <div class="flex items-center">
-        <button class="mx-2 text-gray-600 hover:text-gray-900">
-          <i class="fas fa-bell"></i>
-        </button>
+        <a-dropdown :trigger="['click']" placement="bottomRight">
+          <button class=" text-gray-600 hover:text-gray-900 hover:bg-gray-200 w-8 h-8 rounded-full">
+            <i class="fas fa-bell"></i>
+          </button>
+          <template #overlay>
+            <a-menu class="w-[500px] ">
+              <div class="px-6">
+                <!-- header -->
+                <div class="mt-2">
+                  <span class="text-text-dark-thin font-apple text-2xl font-medium ">Notifications</span>
+                </div>
+
+                <!-- content -->
+                <div class="mt-4 h-[400px] overflow-y-auto">
+                  <span class="font-ui text-text-dark text-xs font-medium ">LATEST</span>
+                  <div v-for="activityLog in allActivityLog" :key="activityLog.id" class="w-[75px]">
+                    {{activityLog.action}}
+
+                  </div>
+                </div>
+              </div>
+            </a-menu>
+          </template>
+        </a-dropdown>
+
         <a-dropdown :trigger="['click']">
-          <button class="mx-2 text-gray-600 hover:text-gray-900">
+          <button class=" text-gray-600 hover:text-gray-900 hover:bg-gray-200 w-8 h-8 rounded-full">
             <i class="fas fa-user"></i>
           </button>
           <template #overlay>
@@ -48,15 +70,15 @@
                   <div class="basis-1/6">
                     <div class="flex items-center justify-center mr-1.5">
                       <div
-                        class="flex items-center justify-center w-10 h-10 bg-slate-700 rounded-full text-white text-xl font-bold">
-                        MH
+                        class="flex items-center justify-center w-10 h-10 bg-[#39a3bf]  rounded-full text-[#1e3d5f] text-xl font-bold">
+                        {{ userDetail.username.charAt(0).toUpperCase() }}
                       </div>
                     </div>
                     <!-- <Avat class="bg-slate-700 text-white inset-x-0 rounded-full " style="font-size: 25px" :size="100">MH</Avat> -->
                   </div>
-                  <div class="basis-5/6 flex flex-col">
-                    <p class="text-base text-gray-600 mb-px">Mai Thanh Hà</p>
-                    <p class=" text-gray-600 text-xs">thanhhaxinhdep@gmail.com</p>
+                  <div class="basis-5/6 flex flex-col ml-2">
+                    <p class="text-base text-gray-600 mb-px">{{ userDetail.username }}</p>
+                    <p class=" text-gray-600 text-xs">{{ userDetail.email }}</p>
                   </div>
                 </div>
               </div>
@@ -100,11 +122,14 @@ import YourWorkModal from '../../mainpage/modal/YourWorkModal/index.vue';
 import ProjectModal from '../../mainpage/modal/ProjectModal/index.vue';
 import FilterModal from '../../mainpage/modal/FilterModal/index.vue';
 import TeamModal from '../../mainpage/modal/TeamModal/index.vue';
-
+import { useGetUserDetailStore } from '../../../stores/projectStores/userStore/user';
+import { getAllActivityLogForUser } from '../../../api/activityLog';
 
 const buttons = ["Your Work", "Projects", "Filters", "Teams"];
 const activeModal = ref<number | null>(null);
 const modalComponents = [YourWorkModal, ProjectModal, FilterModal, TeamModal];
+const userDetail = ref<any>(null);
+const allActivityLog = ref<any[]>([]);
 
 function openModal(index: number, event: MouseEvent) {
   activeModal.value = index;
@@ -127,8 +152,39 @@ function handleOutsideClick(event: MouseEvent) {
   }
 }
 
+async function getDetailUser() {
+  const userStore = useGetUserDetailStore();
+
+  await userStore.getDetailUser();
+  userDetail.value = {
+    id: userStore.id,
+    username: userStore.username,
+    firstName: userStore.firstName,
+    middleName: userStore.middleName,
+    lastName: userStore.lastName,
+    email: userStore.email,
+    phone: userStore.phone,
+    dateOfBirth: userStore.dateOfBirth,
+    gender: userStore.gender,
+    address: userStore.address,
+    error: userStore.error,
+  };
+
+}
+
+const getAllActivityLog = async () => {
+  try {
+    const response = await getAllActivityLogForUser();
+    allActivityLog.value = response.data;
+    
+  } catch (error) {
+    console.log(error);
+  }
+};
 onMounted(() => {
   document.addEventListener("click", handleOutsideClick);
+  getDetailUser()
+  getAllActivityLog()
 });
 
 onUnmounted(() => {

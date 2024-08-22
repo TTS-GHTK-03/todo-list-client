@@ -1,6 +1,6 @@
 <template>
-    <div @click="showModal" class="w-full h-full flex justify-start items-center z-50 px-4 bg-white hover:bg-gray-200">
-        <span>Delete sprint</span>
+    <div @click="showModal" class="w-full h-full flex justify-start items-center z-40 px-4 bg-white hover:bg-gray-200">
+        <span class="z-20">Delete sprint</span>
         <a-modal v-model:open="open" @ok="handleOk" class="modal-custom  rounded-none mt-[-30px]"
             :closable="false" :width="500" :footer=null>
 
@@ -15,7 +15,7 @@
             <!-- body -->
             <div class="mt-6 text-sm font-apple text-text-dark-thin ml-2">
                 <div>
-                    <span >Are you sure you want to delete sprint <span class="font-bold">SCRUM Sprint 3?</span></span>
+                    <span >Are you sure you want to delete sprint <span class="font-bold">{{sprintName}}?</span></span>
                 </div>
 
             </div>
@@ -43,7 +43,7 @@
 
 
         </a-modal>
-        <div v-if="open" class="fixed inset-0 bg-blue-500 bg-opacity-30 z-40"></div>
+        <div v-if="open" class="fixed inset-0 bg-blue-500 bg-opacity-30 z-50"></div>
     </div>
 </template>
 
@@ -59,16 +59,17 @@ export default defineComponent({
 import { ref} from 'vue';
 import { deleteSprint } from '../../../../api/sprint';
 
-
-const emit = defineEmits<{
-    (event: 'sprintDeleted'): void;
-}>();
-
 const props = defineProps<{
     sprintName: string;
     sprintId: string;
    
 }>();
+
+const emit = defineEmits<{
+    (event: 'sprintDeleted',sprintId:string): void;
+}>();
+
+
 
 const open = ref<boolean>(false);
 
@@ -84,7 +85,7 @@ async function deleteSprintInfo() {
     isLoading.value = true;
     try {
         await deleteSprint(props.sprintId);
-        emit('sprintDeleted');
+        emit('sprintDeleted',props.sprintId);
         open.value = false;
     } catch (error) {
         console.log(error);

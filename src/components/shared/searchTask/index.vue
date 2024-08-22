@@ -29,7 +29,7 @@
 
                         <div v-if="tooltipTitle !== 'Unassigned'"
                             class="w-6 h-6 p-0 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold  rounded-full text-sm cursor-pointer">
-                            {{ tooltipTitle?.charAt(0).toUpperCase() }}
+                            {{ username?.charAt(0).toUpperCase() }}
                         </div>
                         <div v-else
                             class="w-6 h-6 p-0 flex text-center items-center justify-center bg-gray-400 bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold  rounded-full text-sm cursor-pointer">
@@ -62,7 +62,7 @@ const props = defineProps<{
     id: string;
     title: string;
     curSelectedTaskId: string;
-    
+    username: string;
     keyText: string;
     tooltipTitle: string ;
     point: number;

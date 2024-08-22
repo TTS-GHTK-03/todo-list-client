@@ -308,7 +308,7 @@ const startDrag = (event: DragEvent, task: any) => {
   event.dataTransfer!.setData("taskId", task.id);
   event.dataTransfer!.setData("status", task.status);
   event.dataTransfer!.setData("title", task.title);
-  event.dataTransfer!.setData("sprintId", task.sprintId);
+  event.dataTransfer!.setData("sprintId", task.sprintDetailResponse.sprintId);
 };
 
 

@@ -8,6 +8,7 @@ export interface UserResponse {
     timestamp: string;
     data: {
       id: string;
+      
       firstName: string;
       middleName: string;
       lastName: string;

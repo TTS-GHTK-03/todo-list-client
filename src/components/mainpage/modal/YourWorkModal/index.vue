@@ -17,22 +17,22 @@
         <span v-if="currentTab === 'boards'">Board related information will be shown here</span>
       </div>
 
-      <div v-else class="mt-5" v-for="(task, status) in tasks" :key="status">
-        <div class="pl-5 mb-2">
-          <span class="text-xm font-medium font-apple text-slate-800">{{task[0]}} </span>
+      <div v-else class="mt-3 mb-1" v-for="(task, status) in tasks" :key="status">
+        <div class="pl-5 mb-1">
+          <span class="text-xm font-medium font-ui text-text-dark text-xs">{{task[0]}} </span>
         </div>
-        <ul class="w-full mt-1">
-          <li v-for="(item, index) in task[1]" :key="index" class="py-1 w-full h-10 bg-white text-text-dark-thin text-sm font-ui font-normal mb-2 hover:bg-gray-200 hover:bg-opacity-80 pl-4 flex items-center cursor-pointer">
-            <div class="flex">
-              <div class="flex items-center cursor-pointer">
-                <i class="fa-solid fa-square-check text-blue-400 ml-1 fa-lg"></i>
+        <ul class="w-full ">
+          <li v-for="(item, index) in task[1]" :key="index" class="h-[50px]  w-full bg-white text-text-dark-thin text-sm font-ui font-normal  hover:bg-gray-200 hover:bg-opacity-80 pl-4 flex items-center cursor-pointer">
+            <div class="flex h-[20px] py-4">
+              <div class="flex items-center cursor-pointer ">
+                <i class="fa-solid fa-square-check text-blue-400 ml-1 fa-lg text-2xl"></i>
                 <div class="ml-3">
                   <div>
-                    <span class="text-sm font-medium font-apple text-slate-600">{{item.title}}</span>
+                    <span class="text-sm font-ui text-text-dark-thin">{{item.title}}</span>
                   </div>
                   <div>
-                    <span class="text-sm font-apple text-slate-600">{{item.keyProjectTask}}</span>
-                    <!-- <span class="text-xs ml-2 text-lg font-apple text-slate-500">.project name</span> -->
+                    <span class="text-xs font-ui text-text-dark">{{item.keyProjectTask}}</span>
+                    
                   </div>
                 </div>
               </div>

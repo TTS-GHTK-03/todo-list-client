@@ -1,5 +1,5 @@
 <template>
-  <div
+  <div 
     class="flex flex-col justify-center items-center group w-[254px] h-[90px] bg-white hover:bg-gray-200 cursor-pointer my-1 border border-b-2 border-b-gray-300 rounded"
   >
     <div class="p-3 w-full h-full">
@@ -50,7 +50,7 @@
             <template #overlay>
               <a-menu @click="handleMenuClick">
                 <a-menu-item key="0">
-                  <a href="">Copy issue key</a>
+                  <span>Issue detail</span>
                 </a-menu-item>
                 <hr />
                 <a-menu-item key="1">
@@ -79,7 +79,7 @@
           <div class="flex items-center">
             <div
               v-if="!showEditNumber"
-              @click="toggleEditNumber"
+              @click.prevent="toggleEditNumber"
               class="select-none rounded-full text-xs bg-gray-200 bg-opacity-70 hover:bg-gray-300 w-5 h-5 flex items-center justify-center"
             >
               {{ handleDisplayNumber(displayValue) }}
@@ -108,7 +108,7 @@
                 </button>
               </div>
             </div>
-            <a-tooltip class="ml-2" placement="bottom">
+            <a-tooltip class="ml-4 flex items-center" placement="bottom">
             
 
               <div v-if="props.userId === '1'">
@@ -117,7 +117,7 @@
 
                   <button
                     
-                    class="w-6 h-6 rounded-full bg-gray-500 mr-4"
+                    class="w-6 h-6 rounded-full bg-gray-500 mr-2"
                   >
                     <i class="fa-solid fa-user text-white text-sm mr-[1px]"></i>
                   </button>
@@ -130,7 +130,7 @@
                   </template>
 
                   <div
-                    class="w-6 h-6 mt-1 mr-4 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold rounded-full text-sm cursor-pointer"
+                    class="w-6 h-6 mt-1 mr-2 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-opacity-80 font-semibold rounded-full text-sm cursor-pointer"
                   >
                     {{ props.tooltipTitle.charAt(0).toUpperCase() }}
                   </div>
@@ -141,7 +141,9 @@
         </div>
       </div>
     </div>
+    <taskDetailModal :isVisible="isModalVisible" :onClose="hideModal" :taskId="props.id"></taskDetailModal>
   </div>
+  
 </template>
 
 <script lang="ts">
@@ -159,6 +161,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { ref } from "vue";
+import taskDetailModal from "../../mainpage/modal/taskDetailModal/index.vue";
 
 const props = defineProps<{
   id: string;
@@ -183,6 +186,16 @@ const showEditTitle = ref(false);
 
 const toggleEditNumber = () => (showEditNumber.value = !showEditNumber.value);
 const toggleEditTitle = () => (showEditTitle.value = !showEditTitle.value);
+const isModalVisible = ref(false);
+
+const showModal = () => {
+  isModalVisible.value = true;
+};
+
+const hideModal = () => {
+  isModalVisible.value = false;
+};
+
 
 async function confirmValue() {
   try {
@@ -248,6 +261,10 @@ const handleMenuClick = async ({ key }: { key: string }) => {
       message.error("Failed to delete task.");
       console.error(error);
     }
+  }
+
+  if(key==="0"){
+    showModal();
   }
 };
 </script>
