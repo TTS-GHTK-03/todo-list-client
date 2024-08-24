@@ -68,13 +68,7 @@
                   <a-select-option
                     v-for="(lead, index) in project.userNameResponseList"
                     :key="index"
-                    :value="
-                      normalizeName(
-                        lead?.firstName,
-                        lead?.middleName,
-                        lead?.lastName
-                      )
-                    "
+                    :value="lead.username"
                     class="flex items-center p-2"
                   >
                     <div class="flex items-center">
@@ -85,11 +79,7 @@
                       </div>
                       <span class="text-slate-950 ml-2">
                         {{
-                          normalizeName(
-                            lead?.firstName,
-                            lead?.middleName,
-                            lead?.lastName
-                          )
+                          lead.username
                         }}
                       </span>
                     </div>
@@ -121,7 +111,6 @@
 import { ref, onMounted } from "vue";
 import { useProjectDetailStore } from "../../../../stores/projectSettingStores/detailStores/detailStore";
 import { updateProject } from "../../../../api/project";
-import { normalizeName } from "../../../../utils/normalizeName";
 import { message } from "ant-design-vue";
 
 const project = ref<any>({});
@@ -143,11 +132,8 @@ const loadData = async () => {
   } finally {
     isLoading.value = false;
     if (project.value.userNameResponseList.length > 0) {
-      selectedProjectLead.value = normalizeName(
-        project.value.userNameResponseList[0]?.firstName,
-        project.value.userNameResponseList[0]?.middleName,
-        project.value.userNameResponseList[0]?.lastName
-      );
+      selectedProjectLead.value = 
+        project.value.userNameResponseList[0]?.username;
     }
   }
 };
@@ -167,7 +153,7 @@ const submitForm = async () => {
       project.value.title = response.data.title;
       project.value.keyProject = response.data.keyProject;
       console.log("(submitForm) response:", response);
-      message.success(`Update successfully`);
+      // message.success(`Update successfully`);
     }
   } catch (error) {
     message.error(`Update ${project.value.title} is failed`);

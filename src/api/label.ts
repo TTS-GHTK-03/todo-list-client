@@ -2,25 +2,26 @@
 import apiClient from "../api/index";
 import { useProjectRoleStore } from '../stores/projectStores/projectStore'; 
 
-export interface Type {
-    
+export interface Label {
     id: string,
+    typeId: string,
     title: string,
-    image: string,
-    description: string,
-      
+    description: string
 }
   
   
-export interface ListTaskResponse {
+export interface LabelResponse {
     status: number;
     timestamp: string;
-    data: Type[];
+    data: Label;
+}
+export interface LabelContent {
+    title: string,
+    description: string
 }
 
 
-
-export const getAllTypeProject = async (): Promise<ListTaskResponse> => {
+export const createLabelForType = async (typeId:string,credentials: LabelContent): Promise<LabelResponse> => {
     try {
         const projectRoleStore = useProjectRoleStore()
         const idProject = projectRoleStore.idProject
@@ -28,8 +29,8 @@ export const getAllTypeProject = async (): Promise<ListTaskResponse> => {
             throw new Error("Project ID is not defined");
         }
        
-        const response = await apiClient.get<ListTaskResponse>(`/projects/${idProject}/types`,
-            
+        const response = await apiClient.post<LabelResponse>(`/projects/${idProject}/types/${typeId}/labels`,
+            credentials
         );
         return response.data;
     } catch (error: any) {
@@ -45,16 +46,12 @@ export const getAllTypeProject = async (): Promise<ListTaskResponse> => {
     }
 };
 
-
-export interface UpdateTaskResponse {
+export interface ListLabelResponse {
     status: number;
     timestamp: string;
-    data: Type;
+    data: Label[];
 }
-
-
-
-export const aagetAllTypeProject = async (): Promise<UpdateTaskResponse> => {
+export const getAllLabelInType = async (typeId:string): Promise<ListLabelResponse> => {
     try {
         const projectRoleStore = useProjectRoleStore()
         const idProject = projectRoleStore.idProject
@@ -62,8 +59,7 @@ export const aagetAllTypeProject = async (): Promise<UpdateTaskResponse> => {
             throw new Error("Project ID is not defined");
         }
        
-        const response = await apiClient.put<UpdateTaskResponse>(`/projects/${idProject}/types/`,
-            
+        const response = await apiClient.get<ListLabelResponse>(`/projects/${idProject}/types/${typeId}/labels`,
         );
         return response.data;
     } catch (error: any) {
@@ -78,4 +74,3 @@ export const aagetAllTypeProject = async (): Promise<UpdateTaskResponse> => {
         }
     }
 };
-

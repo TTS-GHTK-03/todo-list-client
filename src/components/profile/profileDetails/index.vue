@@ -202,7 +202,7 @@ const handleUpdate = async () => {
             address: profile.value.address,
         })
         console.log("(updateResponse)", updateResponse)
-        message.success("Update profile successfully!");
+        // message.success("Update profile successfully!");
     } catch (error) {
         console.error("Failed to update profile", error);
         message.error("Failed to update profile ");

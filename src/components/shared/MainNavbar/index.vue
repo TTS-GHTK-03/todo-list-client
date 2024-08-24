@@ -96,7 +96,7 @@
                 <a href="/mainpage">Notification</a>
               </a-menu-item>
               <a-menu-divider />
-              <a-menu-item key="4">Log out</a-menu-item>
+              <a-menu-item key="4" @click="handleLogout">Log out</a-menu-item>
             </a-menu>
           </template>
         </a-dropdown>
@@ -124,13 +124,16 @@ import FilterModal from '../../mainpage/modal/FilterModal/index.vue';
 import TeamModal from '../../mainpage/modal/TeamModal/index.vue';
 import { useGetUserDetailStore } from '../../../stores/projectStores/userStore/user';
 import { getAllActivityLogForUser } from '../../../api/activityLog';
+import { useRouter } from 'vue-router';
+import {useAuthStore} from '../../../stores/authStores/authStore'
 
 const buttons = ["Your Work", "Projects", "Filters", "Teams"];
 const activeModal = ref<number | null>(null);
 const modalComponents = [YourWorkModal, ProjectModal, FilterModal, TeamModal];
 const userDetail = ref<any>(null);
 const allActivityLog = ref<any[]>([]);
-
+const router = useRouter();
+const authStore = useAuthStore();
 function openModal(index: number, event: MouseEvent) {
   activeModal.value = index;
   event.stopPropagation();
@@ -180,6 +183,16 @@ const getAllActivityLog = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const handleLogout = () => {
+   // Get the router instance
+  localStorage.clear(); // Clear all localStorage items
+  authStore.logout();
+  router.push('/author');
+  
+  
+  
 };
 onMounted(() => {
   document.addEventListener("click", handleOutsideClick);

@@ -34,17 +34,32 @@ import StoryIssue from '../components/issueType/stori/index.vue';
 import IssueType from '../views/IssueType/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
-import path from 'path';
 
 
 const routes = [
   {
     path: '/',  
     component: Home,
+    beforeEnter: (to, from, next) => {
+      const authStore = useAuthStore();
+      if (authStore.isLoggedIn()) {
+        next({ path: '/allproject' });
+      } else {
+        next();
+      }
+    },
   },
   {
     path: '/author',
     component: Author,
+    beforeEnter: (to, from, next) => {
+      const authStore = useAuthStore();
+      if (authStore.isLoggedIn()) {
+        next({ path: '/allproject' });
+      } else {
+        next();
+      }
+    },
     children: [
       {
         path: '',
@@ -60,27 +75,27 @@ const routes = [
         path: 'validate',
         name: 'validate',
         component: Valid,
-        // beforeEnter: (to, from, next) => {
-        //   const regisAccountStore = useRegisAccountStore();
-        //   if (!regisAccountStore.email) {
-        //     next({ name: 'register' });
-        //   } else {
-        //     next();
-        //   }
-        // },
+        beforeEnter: (to, from, next) => {
+          const regisAccountStore = useRegisAccountStore();
+          if (!regisAccountStore.email) {
+            next({ name: 'register' });
+          } else {
+            next();
+          }
+        },
       },
       {
         path: 'regisform',
         name: 'regisform',
         component: Regisform,
-        // beforeEnter: (to, from, next) => {
-        //   const validateStoreRegis = useValidateOtpRegisStore();
-        //   if (!validateStoreRegis.registerKey) {
-        //     next({ name: 'validate' });
-        //   } else {
-        //     next();
-        //   }
-        // },
+        beforeEnter: (to, from, next) => {
+          const validateStoreRegis = useValidateOtpRegisStore();
+          if (!validateStoreRegis.registerKey) {
+            next({ name: 'validate' });
+          } else {
+            next();
+          }
+        },
       },
       {
         path: 'forgot',
@@ -92,26 +107,26 @@ const routes = [
         path: 'validforgot',
         name: 'validforgot',
         component: ValidForgot,
-        // beforeEnter: (to, from, next) => {
-        //   const forgotPasswordStore = useForgotPasswordStore();
-        //   if (!forgotPasswordStore.email) {
-        //     next({ name: 'forgot' });
-        //   } else {
-        //     next();
-        //   }
-        // },
+        beforeEnter: (to, from, next) => {
+          const forgotPasswordStore = useForgotPasswordStore();
+          if (!forgotPasswordStore.email) {
+            next({ name: 'forgot' });
+          } else {
+            next();
+          }
+        },
       },
       {
         path: 'forgotform',
         name: 'forgotform',
-        // beforeEnter: (to, from, next) => {
-        //   const validateStoreForgot = useValidateOtpStore();
-        //   if (!validateStoreForgot.resetPasswordKey) {
-        //     next({ name: 'validforgot' });
-        //   } else {
-        //     next();
-        //   }
-        // },
+        beforeEnter: (to, from, next) => {
+          const validateStoreForgot = useValidateOtpStore();
+          if (!validateStoreForgot.resetPasswordKey) {
+            next({ name: 'validforgot' });
+          } else {
+            next();
+          }
+        },
         component: ForgotForm,
       },
       {
@@ -129,7 +144,15 @@ const routes = [
         path: '/allproject',
         component: AllProject,  
       },
-
+      {
+        path: '/profile',
+        component: Profile, 
+      },
+      
+      {
+        path: '/share',  
+        component: WaitSharePage,
+      },
       {
         path: '',
         component: Project,
@@ -170,20 +193,9 @@ const routes = [
       },
       
     ],
-    // meta: { requiresAuth: true },
+    meta: { requiresAuth: true },
   },
-  {
-    path: '/profile',
-    component: Profile, 
-  },
-  {
-    path: '/wait',  
-    component: WaitPage,
-  },
-  {
-    path: '/share',  
-    component: WaitSharePage,
-  },
+  
   {
     path: '/:pathMatch(.*)*', 
     redirect: '/',
@@ -205,7 +217,12 @@ const routes = [
         component: StoryIssue,
       }
     ],
+    // meta: { requiresAuth: true },
   },
+  {
+    path: '/wait',  
+    component: WaitPage,
+  }
 ];
 
 const router = createRouter({

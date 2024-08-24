@@ -59,7 +59,7 @@
           </template>
 
           <template v-if="column.dataIndex === 'lead'">
-            <div class="relative flex items-center cursor-pointer" @click="toggleHover(record.lead)">
+            <div class="relative flex items-center cursor-pointer" @click.stop="toggleHover(record.key)">
               <div
                 class="w-6 h-6 flex items-center justify-center bg-[#1b2b4e] bg-opacity-90 text-white rounded-full text-xs mr-2">
                 {{ text.charAt(0) }}
@@ -67,7 +67,7 @@
 
               <span class="text-button-color flex cursor-pointer hover:underline ml-1">{{ text }}</span>
               <!-- Hover Box -->
-              <div v-if="activeLead === record.lead"
+              <div v-if="activeLead[record.key]" ref = "dropdownUserDetails"
                 class="cursor-default absolute top-[-210px] left-0 w-[360px] h-[200px] bg-white border border-gray-300 shadow-lg z-50 flex flex-col rounded-lg">
                 <div
                   class="absolute top-[30px] left-[40px] w-[100px] h-[100px] rounded-full bg-[#1b2b4e] text-white text-5xl flex items-center justify-center">
@@ -96,12 +96,23 @@
           </template>
 
           <template v-if="column.dataIndex === 'actions'">
-            <div
-              class="flex items-center justify-center h-10 w-10 cursor-pointer bg-white rounded hover:bg-gray-100 ml-8">
+            <button @click.stop="toggleDropDownDetails(record.key)"
+              class="relative flex items-center justify-center z-40 h-10 w-10 cursor-pointer bg-white rounded hover:bg-gray-100 ml-8">
               <i class="fa-solid fa-ellipsis text-2xl text-gray-500"></i>
+
+            </button>
+            <div v-if="isDropdownDetailVisible[record.key]" ref="dropdownSprint" @click.stop
+              class="right-0 top-[50px] absolute bg-white border border-gray-200 rounded shadow-lg  min-w-[120px] min-h-[40px] z-50 cursor-pointer">
+
+              <div class="h-[40px] w-full flex items-center justify-start hover:bg-gray-200 relative ">
+                <deleteProjectModal :projectId="record.key" :proJectName="record.name" @projectDeleted = "handleProjectDelete"/>
+              </div>
+              
             </div>
+
+
           </template>
-          
+
         </template>
       </a-table>
     </div>
@@ -117,12 +128,13 @@ export default defineComponent({
 
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted} from "vue";
 import { useRouter } from "vue-router";
 import { type TableProps, type TableColumnType } from "ant-design-vue/es";
 import type { Key } from "ant-design-vue/es/table/interface";
 import { useProjectStore, useProjectRoleStore } from "../../stores/projectStores/projectStore";
 import { normalizeName } from "../../utils/normalizeName";
+import DeleteProjectModal from "../../components/mainpage/modal/deleteProjectModal/index.vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 interface DataType {
@@ -173,6 +185,8 @@ const columns: TableColumnType<DataType>[] = [
   },
 ];
 
+
+
 const rowSelection: TableProps<DataType>["rowSelection"] = {
   onChange: (selectedRowKeys: Key[], selectedRows: DataType[]) => {
     console.log(
@@ -191,11 +205,16 @@ const router = useRouter();
 const projectStore = useProjectStore();
 const searchQuery = ref("");
 const isDropdownVisible = ref(false);
+const isDropdownDetailVisible = ref<Record<string, boolean>>({});
 const selectedFilters = ref<string[]>([]);
-const activeLead = ref<string | null>(null);
+const activeLead = ref<Record<string, boolean>>({});;
 const data = ref<any[]>([]);
 const loading = ref(false);
+const dropdownUserDetails = ref<HTMLElement | null>(null);
 
+const toggleDropDownDetails = (projectKey: string) => {
+  isDropdownDetailVisible.value[projectKey] = !isDropdownDetailVisible.value[projectKey];
+};
 const loadData = async () => {
   loading.value = true;
   try {
@@ -205,13 +224,19 @@ const loadData = async () => {
       name: project?.title || "",
       project: project?.keyProject || "",
       role: project?.roleUser || "",
-      lead: normalizeName(
-        project?.userNameResponseList[0]?.firstName,
-        project?.userNameResponseList[0]?.middleName,
-        project?.userNameResponseList[0]?.lastName
-      ), // sau set list lead
+      email: project?.email || "",
+      // lead: normalizeName(
+      //   project?.userNameResponseList[0]?.firstName,
+      //   project?.userNameResponseList[0]?.middleName,
+      //   project?.userNameResponseList[0]?.lastName
+      // ), // sau set list lead
+      lead: project?.username || "",
     }));
     data.value = newProjects;
+    data.value.forEach((project) => {
+      isDropdownDetailVisible.value[project.key] = false;
+      activeLead.value[project.id] = false;
+    });
   } catch (error) {
     console.error("Error loading data:", error);
   } finally {
@@ -229,7 +254,9 @@ const handleProject = async (id: string) => {
   }
 };
 
-
+async function handleProjectDelete(projectId:string) {
+  loadData();
+}
 
 const clearSearch = () => {
   searchQuery.value = "";
@@ -240,16 +267,28 @@ const toggleDropdown = (show: boolean) => {
 };
 
 const toggleHover = (lead: string) => {
-  if (activeLead.value === lead) {
-    activeLead.value = null;
-  } else {
-    activeLead.value = lead;
-  }
+  activeLead.value[lead] = !activeLead.value[lead];
+};
+
+const handleClickOutside = (event: MouseEvent) => {
+    
+    if (dropdownUserDetails.value && !dropdownUserDetails.value.contains(event.target as Node)) {
+      
+    }
 };
 
 onMounted(() => {
   loadData();
 });
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+    document.removeEventListener('click', handleClickOutside);
+});
+
 </script>
 
 <style scoped>

@@ -1,7 +1,13 @@
 <template>
-  <div class="profile-header bg-gray-200 relative bg-slate-200 bgImg">
-    <div class="avatar-container absolute flex flex-col space-y-2.5 ml-72">
-      <Avatar class="bg-slate-700 text-white inset-x-0" style="font-size: 50px" :size="100">{{ profile?.firstName.charAt(0) }}{{ profile?.lastName.charAt(0) }}</Avatar>
+  <div class="profile-header  relative bg-slate-200 bgImg">
+    <div class="avatar-container absolute flex flex-col space-y-2.5 ml-72 mb-10">
+      <!-- <Avatar class="bg-slate-700 text-white inset-x-0" style="font-size: 50px" :size="100">{{ profile?.firstName.charAt(0) }}{{ profile?.lastName.charAt(0) }}</Avatar> -->
+      <div
+                    class="w-[100px] h-[100px]  mr-[20px] flex text-center items-center justify-center bg-[#39a3bf]  text-[#1e3d5f] text-opacity-80 font-semibold rounded-full text-5xl cursor-pointer"
+                  >
+                    {{ profile?.username.charAt(0).toUpperCase() }}
+                  </div>
+      
       <div>
         <h2 class="text-xl font-semibold my-3">
           {{normalizeName(

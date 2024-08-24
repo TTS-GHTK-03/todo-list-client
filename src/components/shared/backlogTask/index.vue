@@ -441,7 +441,7 @@ const handleMenuClick = async ({ key }: { key: string }) => {
     try {
       await deleteTask(props.id)
       emit('taskDeleted', props.id);
-      message.success('Task deleted successfully!');
+      // message.success('Task deleted successfully!');
 
     } catch (error: any) {
       message.error('Failed to delete task.');

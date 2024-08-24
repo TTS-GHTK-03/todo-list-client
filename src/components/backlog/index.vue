@@ -128,7 +128,10 @@
                         </div>
 
                         <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
-                            <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
+                            <div @drop="onDrop($event, sprint.id)" 
+                            @dragenter="handleDragEnter($event,sprint.id)"
+                            @dragleave="handleDragLeave"
+                            @dragenter.prevent @dragover.prevent>
                                 <div class="last:border-b last:border-gray-300"
                                     v-for="task in getTasksForSprint(sprint.id)" :key="task.id">
                                     <BacklogTask :id="task.id" :username="task.userResponse.username"
@@ -184,12 +187,15 @@
 
                         <div v-show="isBacklogVisible" class="mt-2 mx-2">
 
-                            <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" @dragenter.prevent
-                                @dragover.prevent>
-                                <div class="last:border-b last:border-gray-300" v-for="task in getTaskBacklog()"
+                            <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" 
+                                    @dragenter="handleDragEnter($event,null,-1)"
+                                    @dragleave="handleDragLeave"
+                                    @dragenter.prevent
+                                    @dragover.prevent>
+                                    
+                                <div class="last:border-b last:border-gray-300" v-for="(task, index) in getTaskBacklog()"
                                     :key="task.id">
-
-
+                                    <div v-if="hoverIndex === index" class="h-[2px] bg-blue-500 my-2"></div>
                                     <BacklogTask :id="task.id" :status="task.status || ''" :title="task.title || ''"
                                         :point="task.point || 0" :sprintId="'' || null" @taskDeleted="handleTaskDeleted"
                                         :userId="task.userResponse.id" :username="task.userResponse.username"
@@ -278,7 +284,7 @@ const searchQuery = ref<string>("");
 const isLoading = ref(true);
 const isModalVisible = ref(false);
 const inputCreateTask = ref("");
-
+const isDraggingOver = ref(false);
 // const statusSprintSearch = ref<string>("");
 const sprints = ref<Sprint[]>([]);
 // const allUser = ref<any[]>([]);
@@ -287,7 +293,7 @@ const data = ref<Map<string | null, any[]>>(new Map());
 const dropdownSprint = ref<HTMLElement | null>(null);
 const taskDiv = ref<HTMLElement | null>(null);
 // const userProjectStore = useUserProjectStore();
-
+const hoverIndex = ref(-1);
 const toggleTask = (state: boolean) => {
     isCreateTask.value = state;
 };
@@ -324,8 +330,19 @@ function startDrag(event: DragEvent, task: any) {
     event.dataTransfer!.setData("taskId", task.id);
     event.dataTransfer!.setData("sprint", task.sprintDetailResponse.sprintId);
 }
+const handleDragEnter = (event: DragEvent,sprintId :string|null,index:number) => {
+    event.preventDefault();
+    hoverIndex.value = index;
+   
+};
 
+const handleDragLeave = (event: DragEvent) => {
+    event.preventDefault();
+    hoverIndex.value = -1;
+};
 async function onDrop(event: DragEvent, newSprint: string | null) {
+    hoverIndex.value = -1;
+    isDraggingOver.value = false;
     const taskId = event.dataTransfer!.getData("taskId");
     const oldSprint = event.dataTransfer!.getData("sprint");
 
@@ -563,7 +580,7 @@ async function fetchAllData() {
         const tasksResponse = await fetchAllTask();
         console.log("(tasksResponse)", tasksResponse);
         const map = new Map<string, Task[]>();
-        tasksResponse.data.forEach((task:any) => {
+        tasksResponse.data.forEach((task: any) => {
             if (!map.has(task.sprintDetailResponse.sprintId)) {
                 map.set(task.sprintDetailResponse.sprintId, []);
             }

@@ -1,0 +1,275 @@
+Date : 2024-08-22 23:00:34
+Directory : c:\Users\admin\drive\Documents\GitHub\todo-list-client
+Total : 153 files,  20493 codes, 532 comments, 1619 blanks, all 22644 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          5 |      8,638 |          2 |          6 |      8,646 |
+| Vue                |         58 |      8,035 |        300 |      1,181 |      9,516 |
+| TypeScript         |         29 |      1,875 |        128 |        296 |      2,299 |
+| JavaScript         |          5 |        707 |         63 |         33 |        803 |
+| SCSS               |         32 |        606 |         33 |         90 |        729 |
+| XML                |         19 |        590 |          2 |          8 |        600 |
+| HTML               |          2 |         29 |          0 |          2 |         31 |
+| JSON with Comments |          1 |         11 |          0 |          1 |         12 |
+| CSS                |          2 |          2 |          4 |          2 |          8 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                    | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                       |        153 |     20,493 |        532 |      1,619 |     22,644 |
+| . (Files)                                                                                                               |          9 |      7,878 |          5 |         14 |      7,897 |
+| dist                                                                                                                    |          9 |        606 |         33 |         14 |        653 |
+| dist (Files)                                                                                                            |          1 |         16 |          0 |          1 |         17 |
+| dist\assets                                                                                                             |          8 |        590 |         33 |         13 |        636 |
+| out                                                                                                                     |          1 |        830 |          0 |          0 |        830 |
+| src                                                                                                                     |        134 |     11,179 |        494 |      1,591 |     13,264 |
+| src (Files)                                                                                                             |          3 |         20 |          2 |          7 |         29 |
+| src\api                                                                                                                 |         13 |      1,398 |         60 |        228 |      1,686 |
+| src\assets                                                                                                              |         16 |        512 |          4 |          9 |        525 |
+| src\assets (Files)                                                                                                      |          1 |          5 |          2 |          2 |          9 |
+| src\assets\img                                                                                                          |         15 |        507 |          2 |          7 |        516 |
+| src\components                                                                                                          |         72 |      7,136 |        281 |      1,066 |      8,483 |
+| src\components\auth                                                                                                     |         16 |      1,034 |         29 |        165 |      1,228 |
+| src\components\auth\Login                                                                                               |          2 |        147 |          5 |         22 |        174 |
+| src\components\auth\forgotPassword                                                                                      |          6 |        415 |         15 |         68 |        498 |
+| src\components\auth\forgotPassword\Forgot                                                                               |          2 |        102 |          3 |         18 |        123 |
+| src\components\auth\forgotPassword\ForgotForm                                                                           |          2 |        162 |          5 |         29 |        196 |
+| src\components\auth\forgotPassword\ValidForgot                                                                          |          2 |        151 |          7 |         21 |        179 |
+| src\components\auth\redirectLogin                                                                                       |          2 |         57 |          0 |         16 |         73 |
+| src\components\auth\regis                                                                                               |          6 |        415 |          9 |         59 |        483 |
+| src\components\auth\regis\Regisform                                                                                     |          2 |        158 |          4 |         20 |        182 |
+| src\components\auth\regis\Register                                                                                      |          2 |        109 |          2 |         23 |        134 |
+| src\components\auth\regis\Valid                                                                                         |          2 |        148 |          3 |         16 |        167 |
+| src\components\backlog                                                                                                  |          2 |        508 |         32 |        117 |        657 |
+| src\components\board                                                                                                    |          2 |        442 |         16 |         51 |        509 |
+| src\components\issueType                                                                                                |          3 |        577 |         33 |         51 |        661 |
+| src\components\issueType\bug                                                                                            |          1 |        189 |         11 |         17 |        217 |
+| src\components\issueType\stori                                                                                          |          1 |        194 |         11 |         17 |        222 |
+| src\components\issueType\task                                                                                           |          1 |        194 |         11 |         17 |        222 |
+| src\components\mainpage                                                                                                 |         18 |      1,163 |         82 |        259 |      1,504 |
+| src\components\mainpage\modal                                                                                           |         18 |      1,163 |         82 |        259 |      1,504 |
+| src\components\mainpage\modal\FilterModal                                                                               |          1 |         42 |          2 |          9 |         53 |
+| src\components\mainpage\modal\ProjectModal                                                                              |          1 |         72 |         25 |         14 |        111 |
+| src\components\mainpage\modal\TeamModal                                                                                 |          1 |         33 |          3 |         10 |         46 |
+| src\components\mainpage\modal\UpdateDateTaskModel                                                                       |          2 |        112 |         18 |         22 |        152 |
+| src\components\mainpage\modal\YourWorkModal                                                                             |          1 |        112 |         11 |         22 |        145 |
+| src\components\mainpage\modal\addLabelModal                                                                             |          2 |         72 |          0 |         16 |         88 |
+| src\components\mainpage\modal\addPeopleModal                                                                            |          2 |        102 |          0 |         16 |        118 |
+| src\components\mainpage\modal\completeSprintModal                                                                       |          1 |         65 |          5 |         18 |         88 |
+| src\components\mainpage\modal\deleteSprintModal                                                                         |          1 |         79 |          3 |         31 |        113 |
+| src\components\mainpage\modal\shareModal                                                                                |          1 |        107 |          2 |         19 |        128 |
+| src\components\mainpage\modal\startSprintModal                                                                          |          2 |        166 |          6 |         36 |        208 |
+| src\components\mainpage\modal\taskDetailModal                                                                           |          1 |         39 |          1 |         10 |         50 |
+| src\components\mainpage\modal\updateSprintModal                                                                         |          2 |        162 |          6 |         36 |        204 |
+| src\components\profile                                                                                                  |          6 |        299 |          2 |         29 |        330 |
+| src\components\profile\profileDetails                                                                                   |          2 |        205 |          2 |         17 |        224 |
+| src\components\profile\profileHeader                                                                                    |          2 |         47 |          0 |          5 |         52 |
+| src\components\profile\workOn                                                                                           |          2 |         47 |          0 |          7 |         54 |
+| src\components\project                                                                                                  |          6 |        542 |         32 |         51 |        625 |
+| src\components\project\CreateProject                                                                                    |          2 |        105 |         26 |         20 |        151 |
+| src\components\project\projectsetings                                                                                   |          4 |        437 |          6 |         31 |        474 |
+| src\components\project\projectsetings\ProjectAccess                                                                     |          2 |        272 |          4 |         21 |        297 |
+| src\components\project\projectsetings\ProjectDetail                                                                     |          2 |        165 |          2 |         10 |        177 |
+| src\components\shared                                                                                                   |         12 |      1,294 |         31 |        226 |      1,551 |
+| src\components\shared\ItemTask                                                                                          |          2 |        268 |          1 |         26 |        295 |
+| src\components\shared\MainNavbar                                                                                        |          1 |        168 |          4 |         22 |        194 |
+| src\components\shared\Navbar                                                                                            |          1 |         41 |          0 |          9 |         50 |
+| src\components\shared\Sidebar                                                                                           |          1 |        168 |          6 |         34 |        208 |
+| src\components\shared\SidebarIssueType                                                                                  |          1 |        124 |          6 |         36 |        166 |
+| src\components\shared\backlogTask                                                                                       |          2 |        411 |         13 |         73 |        497 |
+| src\components\shared\iconUser                                                                                          |          1 |          8 |          0 |          4 |         12 |
+| src\components\shared\logoUser                                                                                          |          1 |         23 |          0 |          4 |         27 |
+| src\components\shared\searchTask                                                                                        |          2 |         83 |          1 |         18 |        102 |
+| src\components\taskDetail                                                                                               |          5 |      1,041 |         18 |         92 |      1,151 |
+| src\components\waitpage                                                                                                 |          2 |        236 |          6 |         25 |        267 |
+| src\constants                                                                                                           |          3 |         70 |         53 |          8 |        131 |
+| src\router                                                                                                              |          1 |        173 |         33 |         19 |        225 |
+| src\stores                                                                                                              |          8 |        330 |         11 |         44 |        385 |
+| src\stores (Files)                                                                                                      |          1 |          3 |          0 |          3 |          6 |
+| src\stores\authStores                                                                                                   |          3 |        150 |          4 |         18 |        172 |
+| src\stores\projectSettingStores                                                                                         |          2 |         46 |          2 |          4 |         52 |
+| src\stores\projectSettingStores\accessStores                                                                            |          1 |         23 |          1 |          2 |         26 |
+| src\stores\projectSettingStores\detailStores                                                                            |          1 |         23 |          1 |          2 |         26 |
+| src\stores\projectStores                                                                                                |          2 |        131 |          5 |         19 |        155 |
+| src\stores\projectStores (Files)                                                                                        |          1 |         80 |          4 |         11 |         95 |
+| src\stores\projectStores\userStore                                                                                      |          1 |         51 |          1 |          8 |         60 |
+| src\utils                                                                                                               |          2 |         43 |          0 |          8 |         51 |
+| src\utils (Files)                                                                                                       |          1 |         13 |          0 |          4 |         17 |
+| src\utils\constants                                                                                                     |          1 |         30 |          0 |          4 |         34 |
+| src\views                                                                                                               |         16 |      1,497 |         50 |        202 |      1,749 |
+| src\views\AllProject                                                                                                    |          2 |        240 |          4 |         32 |        276 |
+| src\views\Author                                                                                                        |          1 |          6 |          0 |          2 |          8 |
+| src\views\Filter                                                                                                        |          2 |        489 |          9 |         60 |        558 |
+| src\views\Home                                                                                                          |          2 |        163 |          7 |         27 |        197 |
+| src\views\IssueType                                                                                                     |          1 |         12 |          2 |          3 |         17 |
+| src\views\Mainpage                                                                                                      |          2 |         33 |          0 |          8 |         41 |
+| src\views\Profile                                                                                                       |          1 |         71 |         16 |         13 |        100 |
+| src\views\Project                                                                                                       |          1 |         21 |          0 |          7 |         28 |
+| src\views\waitPage                                                                                                      |          2 |        226 |          6 |         25 |        257 |
+| src\views\waitSharePage                                                                                                 |          2 |        236 |          6 |         25 |        267 |
++-------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\bg_auth-CiDaiSEY.svg                                 | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\cup-Bv7fyqDm.svg                                     | XML                |         80 |          0 |          1 |         81 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\filter-Bb8JJMq-.svg                                  | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\index-BUpt0dbI.js                                    | JavaScript         |         10 |          0 |          1 |         11 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\index-dGDVGVGd.css                                   | CSS                |          1 |          0 |          1 |          2 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\search-no-results-CUQ7EQLK.svg                       | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\vendor-BLTtbGVA.css                                  | CSS                |          1 |          4 |          1 |          6 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\assets\vendor-DSuJJocV.js                                   | JavaScript         |        495 |         29 |          9 |        533 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\dist\index.html                                                  | HTML               |         16 |          0 |          1 |         17 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\index.html                                                       | HTML               |         13 |          0 |          1 |         14 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\out\linecounter.json                                             | JSON               |        830 |          0 |          0 |        830 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\package-lock.json                                                | JSON               |      7,732 |          0 |          1 |      7,733 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\package.json                                                     | JSON               |         39 |          0 |          1 |         40 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\postcss.config.js                                                | JavaScript         |          6 |          0 |          1 |          7 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\App.vue                                                      | Vue                |          3 |          0 |          1 |          4 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\activityLog.ts                                           | TypeScript         |         30 |          0 |          8 |         38 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\auth.ts                                                  | TypeScript         |         36 |          0 |          4 |         40 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\commentTask.ts                                           | TypeScript         |        142 |          0 |         20 |        162 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\forgotPassword.ts                                        | TypeScript         |         99 |          3 |         10 |        112 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\index.ts                                                 | TypeScript         |         35 |          6 |         10 |         51 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\profile.ts                                               | TypeScript         |         53 |          3 |          8 |         64 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\project.ts                                               | TypeScript         |        227 |         22 |         33 |        282 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\projectUser.ts                                           | TypeScript         |        172 |         10 |         35 |        217 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\register.ts                                              | TypeScript         |         99 |          7 |         11 |        117 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\sprint.ts                                                | TypeScript         |        132 |          1 |         18 |        151 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\task.ts                                                  | TypeScript         |        289 |          6 |         45 |        340 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\taskType.ts                                              | TypeScript         |         35 |          1 |         11 |         47 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\api\user.ts                                                  | TypeScript         |         49 |          1 |         15 |         65 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\atlassian.svg                                     | XML                |         38 |          1 |          2 |         41 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\bg_auth.svg                                       | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\bug_tracking.svg                                  | XML                |         40 |          0 |          1 |         41 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\cup.svg                                           | XML                |         80 |          0 |          1 |         81 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\devops.svg                                        | XML                |        211 |          0 |          1 |        212 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\document.svg                                      | XML                |          6 |          0 |          1 |          7 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\filter.svg                                        | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\icon-workflow.svg                                 | XML                |          6 |          0 |          1 |          7 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\icon_clock.svg                                    | XML                |         78 |          0 |          0 |         78 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\icon_like.svg                                     | XML                |         12 |          0 |          0 |         12 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\jira_logo.svg                                     | XML                |          2 |          0 |          0 |          2 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\kanban.svg                                        | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\project_logo.svg                                  | XML                |         29 |          1 |          0 |         30 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\scrum.svg                                         | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\img\search-no-results.svg                             | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\assets\main.scss                                             | SCSS               |          5 |          2 |          2 |          9 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\Login\index.scss                             | SCSS               |         19 |          0 |          3 |         22 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\Login\index.vue                              | Vue                |        128 |          5 |         19 |        152 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\forgotPassword\ForgotForm\index.scss         | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\forgotPassword\ForgotForm\index.vue          | Vue                |        143 |          5 |         25 |        173 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\forgotPassword\Forgot\index.scss             | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\forgotPassword\Forgot\index.vue              | Vue                |         83 |          3 |         14 |        100 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\forgotPassword\ValidForgot\index.scss        | SCSS               |         41 |          3 |          7 |         51 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\forgotPassword\ValidForgot\index.vue         | Vue                |        110 |          4 |         14 |        128 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\redirectLogin\index.scss                     | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\redirectLogin\index.vue                      | Vue                |         38 |          0 |         12 |         50 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\regis\Regisform\index.scss                   | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\regis\Regisform\index.vue                    | Vue                |        139 |          4 |         16 |        159 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\regis\Register\index.scss                    | SCSS               |         19 |          0 |          4 |         23 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\regis\Register\index.vue                     | Vue                |         90 |          2 |         19 |        111 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\regis\Valid\index.scss                       | SCSS               |         41 |          3 |          7 |         51 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\auth\regis\Valid\index.vue                        | Vue                |        107 |          0 |          9 |        116 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\backlog\index.scss                                | SCSS               |         48 |          2 |          9 |         59 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\backlog\index.vue                                 | Vue                |        460 |         30 |        108 |        598 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\board\index.scss                                  | SCSS               |         38 |          2 |          4 |         44 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\board\index.vue                                   | Vue                |        404 |         14 |         47 |        465 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\issueType\bug\index.vue                           | Vue                |        189 |         11 |         17 |        217 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\issueType\stori\index.vue                         | Vue                |        194 |         11 |         17 |        222 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\issueType\task\index.vue                          | Vue                |        194 |         11 |         17 |        222 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\FilterModal\index.vue              | Vue                |         42 |          2 |          9 |         53 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\ProjectModal\index.vue             | Vue                |         72 |         25 |         14 |        111 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\TeamModal\index.vue                | Vue                |         33 |          3 |         10 |         46 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\UpdateDateTaskModel\index.vue      | Vue                |         63 |          1 |         10 |         74 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\UpdateDateTaskModel\index_test.vue | Vue                |         49 |         17 |         12 |         78 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\YourWorkModal\index.vue            | Vue                |        112 |         11 |         22 |        145 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\addLabelModal\index.scss           | SCSS               |         11 |          0 |          0 |         11 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\addLabelModal\index.vue            | Vue                |         61 |          0 |         16 |         77 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\addPeopleModal\index.scss          | SCSS               |         11 |          0 |          0 |         11 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\addPeopleModal\index.vue           | Vue                |         91 |          0 |         16 |        107 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\completeSprintModal\index.vue      | Vue                |         65 |          5 |         18 |         88 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\deleteSprintModal\index.vue        | Vue                |         79 |          3 |         31 |        113 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\shareModal\index.vue               | Vue                |        107 |          2 |         19 |        128 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\startSprintModal\index.scss        | SCSS               |          8 |          2 |          2 |         12 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\startSprintModal\index.vue         | Vue                |        158 |          4 |         34 |        196 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\taskDetailModal\index.vue          | Vue                |         39 |          1 |         10 |         50 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\updateSprintModal\index.scss       | SCSS               |          8 |          2 |          2 |         12 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\mainpage\modal\updateSprintModal\index.vue        | Vue                |        154 |          4 |         34 |        192 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\profile\profileDetails\index.scss                 | SCSS               |          4 |          0 |          0 |          4 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\profile\profileDetails\index.vue                  | Vue                |        201 |          2 |         17 |        220 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\profile\profileHeader\index.scss                  | SCSS               |          9 |          0 |          0 |          9 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\profile\profileHeader\index.vue                   | Vue                |         38 |          0 |          5 |         43 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\profile\workOn\index.scss                         | SCSS               |          3 |          0 |          0 |          3 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\profile\workOn\index.vue                          | Vue                |         44 |          0 |          7 |         51 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\project\CreateProject\index.scss                  | SCSS               |         27 |          9 |          4 |         40 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\project\CreateProject\index.vue                   | Vue                |         78 |         17 |         16 |        111 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\project\projectsetings\ProjectAccess\index.scss   | SCSS               |          8 |          0 |          0 |          8 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\project\projectsetings\ProjectAccess\index.vue    | Vue                |        264 |          4 |         21 |        289 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\project\projectsetings\ProjectDetail\index.scss   | SCSS               |          7 |          0 |          0 |          7 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\project\projectsetings\ProjectDetail\index.vue    | Vue                |        158 |          2 |         10 |        170 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\ItemTask\index.scss                        | SCSS               |         19 |          1 |          1 |         21 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\ItemTask\index.vue                         | Vue                |        249 |          0 |         25 |        274 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\MainNavbar\index.vue                       | Vue                |        168 |          4 |         22 |        194 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\Navbar\index.vue                           | Vue                |         41 |          0 |          9 |         50 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\SidebarIssueType\index.vue                 | Vue                |        124 |          6 |         36 |        166 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\Sidebar\index.vue                          | Vue                |        168 |          6 |         34 |        208 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\backlogTask\index.scss                     | SCSS               |         13 |          2 |          1 |         16 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\backlogTask\index.vue                      | Vue                |        398 |         11 |         72 |        481 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\iconUser\index.vue                         | Vue                |          8 |          0 |          4 |         12 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\logoUser\index.vue                         | Vue                |         23 |          0 |          4 |         27 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\searchTask\index.scss                      | SCSS               |         19 |          1 |          1 |         21 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\shared\searchTask\index.vue                       | Vue                |         64 |          0 |         17 |         81 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\taskDetail\Comment.vue                            | Vue                |         68 |          0 |          7 |         75 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\taskDetail\LabelAdd.vue                           | Vue                |         64 |          0 |          5 |         69 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\taskDetail\deleteCommentModal.vue                 | Vue                |         77 |          3 |         30 |        110 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\taskDetail\index.scss                             | SCSS               |         17 |          2 |          1 |         20 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\taskDetail\index.vue                              | Vue                |        815 |         13 |         49 |        877 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\waitpage\index.scss                               | SCSS               |         34 |          0 |          6 |         40 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\components\waitpage\index.vue                                | Vue                |        202 |          6 |         19 |        227 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\constants\backlogTask.ts                                     | TypeScript         |          0 |         32 |          4 |         36 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\constants\homeInfo.ts                                        | TypeScript         |         70 |          0 |          2 |         72 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\constants\itemTask.ts                                        | TypeScript         |          0 |         21 |          2 |         23 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\main.ts                                                      | TypeScript         |         12 |          1 |          4 |         17 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\router\index.js                                              | JavaScript         |        173 |         33 |         19 |        225 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\authStores\authStore.ts                               | TypeScript         |         50 |          0 |          3 |         53 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\authStores\forgotStore.ts                             | TypeScript         |         44 |          3 |          6 |         53 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\authStores\regisStore.ts                              | TypeScript         |         56 |          1 |          9 |         66 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\index.ts                                              | TypeScript         |          3 |          0 |          3 |          6 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\projectSettingStores\accessStores\accessStore.ts      | TypeScript         |         23 |          1 |          2 |         26 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\projectSettingStores\detailStores\detailStore.ts      | TypeScript         |         23 |          1 |          2 |         26 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\projectStores\projectStore.ts                         | TypeScript         |         80 |          4 |         11 |         95 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\stores\projectStores\userStore\user.ts                       | TypeScript         |         51 |          1 |          8 |         60 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\utils\constants\enum.ts                                      | TypeScript         |         30 |          0 |          4 |         34 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\utils\normalizeName.ts                                       | TypeScript         |         13 |          0 |          4 |         17 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\AllProject\index.scss                                  | SCSS               |         13 |          2 |          3 |         18 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\AllProject\index.vue                                   | Vue                |        227 |          2 |         29 |        258 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Author\index.vue                                       | Vue                |          6 |          0 |          2 |          8 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Filter\index.scss                                      | SCSS               |          6 |          0 |          0 |          6 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Filter\index.vue                                       | Vue                |        483 |          9 |         60 |        552 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Home\index.scss                                        | SCSS               |         15 |          0 |          3 |         18 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Home\index.vue                                         | Vue                |        148 |          7 |         24 |        179 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\IssueType\index.vue                                    | Vue                |         12 |          2 |          3 |         17 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Mainpage\index.scss                                    | SCSS               |         19 |          0 |          2 |         21 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Mainpage\index.vue                                     | Vue                |         14 |          0 |          6 |         20 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Profile\index.vue                                      | Vue                |         71 |         16 |         13 |        100 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\Project\index.vue                                      | Vue                |         21 |          0 |          7 |         28 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\waitPage\index.scss                                    | SCSS               |         34 |          0 |          6 |         40 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\waitPage\index.vue                                     | Vue                |        192 |          6 |         19 |        217 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\waitSharePage\index.scss                               | SCSS               |         34 |          0 |          6 |         40 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\views\waitSharePage\index.vue                                | Vue                |        202 |          6 |         19 |        227 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\src\vite-env.d.ts                                                | TypeScript         |          5 |          1 |          2 |          8 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\tailwind.config.js                                               | JavaScript         |         23 |          1 |          3 |         27 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\tsconfig.app.json                                                | JSON               |         24 |          2 |          3 |         29 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\tsconfig.json                                                    | JSON with Comments |         11 |          0 |          1 |         12 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\tsconfig.node.json                                               | JSON               |         13 |          0 |          1 |         14 |
+| c:\Users\admin\drive\Documents\GitHub\todo-list-client\vite.config.ts                                                   | TypeScript         |         17 |          2 |          2 |         21 |
+| Total                                                                                                                   |                    |     20,493 |        532 |      1,619 |     22,644 |
++-------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

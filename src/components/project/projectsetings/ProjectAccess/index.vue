@@ -163,6 +163,7 @@ import { RoleProjectUser } from '../../../../utils/constants/enum';
 import AddPeopleModal from '../../../mainpage/modal/addPeopleModal/index.vue';
 import { message } from 'ant-design-vue';
 import { TableColumnType } from 'ant-design-vue';
+import { pro } from 'ccxt';
 
 interface DataType {
   name: string;
@@ -218,11 +219,7 @@ const loadData = async () => {
     await accessStore.loadUserProjects();
     const newProjects = accessStore.userProjects.map((project) => ({
       key: project?.id,
-      name: normalizeName(
-        project?.firstName,
-        project?.middleName,
-        project?.lastName
-      ),
+      name: project?.username || '',
       email: project?.email || '',
       role: project?.role || '',
     }));
@@ -251,7 +248,7 @@ const handleRoleChange = async (newRole: string, record: any) => {
       role: newRole,
     });
     console.log('Role changed successfully:', response);
-    message.success(`Changed role ${newRole} of user ${record.name} successfully!`);
+    // message.success(`Changed role ${newRole} of user ${record.name} successfully!`);
   } catch (error) {
     record.role = oldRole;
     console.error('Failed to change role:', error);
@@ -273,7 +270,7 @@ const handleOk = async () => {
     try {
       await deleteUser(projectToRemove.value.id);
       data.value = data.value.filter(item => item.key !== projectToRemove.value?.id);
-      message.success('User removed successfully');
+      // message.success('User removed successfully');
     } catch {
       message.error('Failed to remove user');
     }

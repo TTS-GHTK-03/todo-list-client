@@ -52,7 +52,7 @@
                 <span>{{ task.title }}</span>
               </div>
               <div v-else class="relative my-2 h-10 select-none w-full" ref="dropdownTitle">
-                <input type="text" @input="validateTitle" v-model="inputTitle"
+                <input type="text" @input="validateTitle" v-model="inputTitle" 
                   class="w-full border-2 h-full border-blue-400 rounded p-2 relative font-apple text-text-dark-thin text-2xl font-medium input-field" />
                 <div class="absolute right-0 top-[45px] z-20 ml-1">
                   <button @click="confirmTitle"
@@ -145,7 +145,7 @@
                               class="w-6 h-6 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f] text-sm text-opacity-80 font-semibold rounded-full cursor-pointer">
                               {{ userName?.charAt(0).toUpperCase() }}
                             </div>
-                            <input v-model="replyText" type="text"
+                            <input v-model="replyText" type="text" @keydown.enter="handleReplyComment(comment.id)"
                               class="rounded border border-gray-400 flex-1 ml-3 px-4 h-8" />
                           </div>
                           <div class="mx-1 my-3 font-apple text-sm h-8 font-medium ml-10">
@@ -184,7 +184,7 @@
                       </div>
                       <div v-else class="min-h-8 my-2 w-full">
                         <input type="text" class="w-full border border-gray-400 rounded h-10 px-4 font-ui"
-                          v-model="comment.text" />
+                          v-model="comment.text" @keydown.enter="saveEditComment(comment.id)" />
                         <div class="mx-1 my-3 font-apple text-sm h-8 font-medium">
                           <button @click="saveEditComment(comment.id)"
                             class="text-white bg-blue-600 hover:bg-blue-800 h-full rounded px-3">
@@ -233,7 +233,7 @@
                             </div>
                           </div>
                           <div v-else class="min-h-8 my-2 w-full">
-                            <input v-model="child.text" type="text"
+                            <input v-model="child.text" type="text" @keydown.enter="saveCHildEditComment(child.id, comment.id)"
                               class="w-full border border-gray-400 rounded h-10 px-4 font-ui" />
                             <div class="mx-1 my-3 font-apple text-sm h-8 font-medium">
                               <button @click="
@@ -641,7 +641,7 @@ async function deleteCommentById(commentId: string) {
         );
       });
     }
-    message.success("Delete comment successfully");
+    // message.success("Delete comment successfully");
   } catch (error) {
     console.log("Error message:", error);
   }
@@ -685,6 +685,7 @@ async function getAllType() {
     console.log("Error message:", error);
   }
 }
+
 async function confirmTitle() {
   try {
     if (inputTitle.value.length > 0) {

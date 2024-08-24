@@ -33,7 +33,7 @@
 
                 <div class="flex mt-4 items-center">
                     <div class="relative inline-block mr-2">
-                        <input type="text" v-model="searchQuery" placeholder="Search issues"
+                        <input type="text" v-model="searchQuery" placeholder="Search issues" @keydown.enter="setSearch"
                             class="font-apple placeholder:font-light placeholder:text-gray-700 custom-input w-[224px] h-[32px] border border-gray-600 rounded py-2 pl-2 pr-10 text-text-dark hover:border-blue-600" />
                         <i v-if="searchQuery" @click="clearSearch"
                             class="fa-solid fa-x absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"></i>
@@ -41,7 +41,7 @@
                             class="fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"></i>
                     </div>
                     <div class="font-apple text-sm text-text-dark-thin font-semibold flex">
-                        <div class="relative">
+                        <!-- <div class="relative">
 
                             <button v-if="selectedProject && selectedProject.id !== ''"
                                 @click.stop="toggleDropdownProject"
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="relative">
                             <button v-if="selectedType && selectedType.trim() !== ''" @click.stop="toggleDropdownType"
@@ -92,7 +92,7 @@
                             </button>
                             <div v-if="isDropdownType" ref="dropdownType"
                                 class="z-30 bg-white absolute w-[300px] left-0 top-[40px] rounded border shadow-lg border-blur">
-                                
+
                                 <div class="my-2 text-[11px] font-semibold font-apple">
                                     <div @click="selectType('Story')"
                                         class="h-[32px] flex items-center pl-4 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
@@ -189,7 +189,7 @@
                                 class="z-30 bg-white absolute w-[300px] left-0 top-[40px] rounded border shadow-lg border-blur">
                                 <div class="my-2 text-[11px] font-semibold font-apple">
                                     <div>
-                                        <div @click="selectUser({ id: '', fullname: '' })"
+                                        <div @click="selectUser({ id: userDetail.id, fullname: userDetail.userName })"
                                             class="h-[32px] flex items-center pl-4 my-1 cursor-pointer border-l-[3px] border-white hover:border-blue-500 hover:bg-gray-200 hover:bg-opacity-60">
                                             <div
                                                 class="rounded-full w-6 h-6 flex items-center justify-center text-base bg-[#39a3bf]  font-medium ">
@@ -264,8 +264,7 @@
                                     <div v-for="task in tasks" :key="task?.id" class="last:border-b ">
                                         <item-task :id="task?.id" :point="task?.point" :title="task?.title"
                                             @click="selectTask(task.id)" :curSelectedTaskId="selectedTaskId"
-                                            :username="task?.userResponse?.username" 
-                                            :keyText="task?.keyProjectTask"
+                                            :username="task?.userResponse?.username" :keyText="task?.keyProjectTask"
                                             :tooltip-title="task?.userResponse?.lastName" />
                                     </div>
                                 </div>
@@ -284,12 +283,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, watch } from "vue";
 import task from "../../components/taskDetail/index.vue";
 import { filterTask } from '../../api/task';
 import { fetchAllProjects, fetchAllUserByProjects } from '../../api/project';
 import itemTask from "../../components/shared/searchTask/index.vue";
-import {useGetUserDetailStore} from '../../stores/projectStores/userStore/user';
+import { useGetUserDetailStore } from '../../stores/projectStores/userStore/user';
 import { getAllTypeProject } from '../../api/taskType';
 import _ from 'lodash';
 
@@ -325,10 +324,20 @@ const dropdownType = ref<HTMLElement | null>(null);
 const dropdownStatus = ref<HTMLElement | null>(null);
 const dropdownAssignee = ref<HTMLElement | null>(null);
 const dropdownProject = ref<HTMLElement | null>(null);
+const searchValue = ref<string>("");
+const idUserQuery = ref<string>("");
 
 const clearSearch = () => {
     searchQuery.value = "";
 };
+
+watch(searchQuery, async (newValue) => {
+
+    if (newValue === '') {
+        searchValue.value = '';
+        await fetchAllIssues();
+    }
+});
 
 function closeAllDropdowns() {
     isDropdownType.value = false;
@@ -387,11 +396,11 @@ async function selectStatus(status: string) {
     if (selectedStatus.value == status) {
         selectedStatus.value = "";
         isDropdownStatus.value = false;
-        await resetData();
+        await fetchAllIssues();
         return;
     }
     selectedStatus.value = status;
-    await resetData();
+    await fetchAllIssues();
     isDropdownStatus.value = false;
 }
 function selectType(type: string) {
@@ -403,16 +412,18 @@ function selectType(type: string) {
     selectedType.value = type;
     isDropdownType.value = false;
 }
-function selectUser(user: { id: string; fullname: string }) {
+async function selectUser(user: { id: string; fullname: string }) {
     if (selectedUser.value.id == user.id) {
         selectedUser.value.id = '';
         selectedUser.value.fullname = '';
         isDropdownAssignee.value = false;
+        idUserQuery.value = '';
         return;
     }
+    idUserQuery.value = user.id;
     selectedUser.value = user;
     isDropdownAssignee.value = false;
-    
+    await fetchAllIssues();
 }
 
 function selectTask(taskId: string) {
@@ -435,6 +446,10 @@ const handleClickOutside = (event: MouseEvent) => {
     }
 };
 
+const setSearch = async () => {
+    searchValue.value = searchQuery.value;
+    await fetchAllIssues();
+};
 async function fetchAllUser() {
     const usersResponse = await fetchAllUserByProjects();
     users.value = usersResponse.data;
@@ -445,10 +460,17 @@ async function fetchProjectData() {
     projects.value = projectsResponse.data;
 }
 async function fetchAllIssues() {
-    const tasksResponse = await filterTask({ status: selectedStatus.value });
-    tasks.value = tasksResponse.data;
-    if (_.size(tasks.value) > 0) {
-        selectTask(tasks.value[0]?.id);
+    isLoading.value = true;
+    try {
+        const tasksResponse = await filterTask({ search: searchValue.value, status: selectedStatus.value,assignee: idUserQuery.value });
+        tasks.value = tasksResponse.data;
+        if (_.size(tasks.value) > 0) {
+            selectTask(tasks.value[0]?.id);
+        }
+    } catch (error) {
+        console.error("Failed to fetch project", error);
+    } finally {
+        isLoading.value = false;
     }
 }
 async function fetchAllTypeProject() {
@@ -524,7 +546,7 @@ onMounted(async () => {
             taskIdReady.value = true;
         }
         userDetail.value = {
-            id:userDetailStore.id, 
+            id: userDetailStore.id,
             userName: userDetailStore.username,
         }
 

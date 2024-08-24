@@ -279,3 +279,33 @@ export const updateProject = async (credentials: UpdateProjectRequest, projectId
     }
   }
 };
+
+
+export interface DeleteProjectResponse {
+  status: number;
+  timestamp: string;
+  data: any
+}
+
+export const deleteProject = async ( projectId: string): Promise<DeleteProjectResponse> => {
+  try {
+    const response = await apiClient.delete<DeleteProjectResponse>(
+      `/projects/${projectId}`,
+
+    );
+    return response.data;
+  } catch (error: any) {
+      // catch chưa xử lý
+    if (error.response) {
+      if (error.response.status === 404) {
+        throw new Error("Project does not exist");
+      } else if (error.response.status === 400) {
+        throw new Error("Invalid password");
+      } else {
+        throw new Error("An error occurred while trying to log in");
+      }
+    } else {
+      throw new Error("An error occurred while trying to log in");
+    }
+  }
+};
