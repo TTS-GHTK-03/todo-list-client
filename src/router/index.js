@@ -34,8 +34,8 @@ import StoryIssue from '../components/issueType/stori/index.vue';
 import IssueType from '../views/IssueType/index.vue';
 
 import { useAuthStore } from '../stores/authStores/authStore';
-
-
+import { useRegisAccountStore, useValidateOtpRegisStore} from '../stores/authStores/regisStore';
+import { useForgotPasswordStore, useValidateOtpStore } from '../stores/authStores/forgotStore';
 const routes = [
   {
     path: '/',  
