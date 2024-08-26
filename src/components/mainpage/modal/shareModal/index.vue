@@ -101,7 +101,6 @@ const handleOk = async () => {
   // Tạo chuỗi thời gian theo định dạng HH:mm:ss
   const timeFormat = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-
   try {
     await shareProject({
       email: email.value,
