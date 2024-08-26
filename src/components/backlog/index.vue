@@ -100,10 +100,10 @@
                                             :onCompleteSprint="() => completeSprint(sprint.id)" :sprintId="sprint.id" />
 
                                     </button>
-                                    <button @click.stop="toggleSprintDropdown(sprint.id)"
+                                    <button @click.stop="toggleSprintDropdown(sprint.id)" ref="dropdownSprint" 
                                         class="bg-gray-200 bg-opacity-70 hover:bg-gray-300 transition-opacity rounded h-8 w-8  mr-2 relative ">
                                         <i class="fa-solid fa-ellipsis text-xl z-50  pt-1"></i>
-                                        <div v-if="activeDropdown === sprint.id" ref="dropdownSprint" @click.stop
+                                        <div v-if="activeDropdown == sprint.id" 
                                             class="ml-[-90px] mt-2  bg-white border border-gray-200 rounded shadow-lg  w-[120px] min-h-[40px]">
 
                                             <button
