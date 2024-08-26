@@ -156,7 +156,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
-import { normalizeName } from '../../../../utils/normalizeName';
+// import { normalizeName } from '../../../../utils/normalizeName';
 import { useUserProjectStore } from '../../../../stores/projectSettingStores/accessStores/accessStore';
 import { updateRoleProjectUser, deleteUser } from '../../../../api/projectUser';
 import { RoleProjectUser } from '../../../../utils/constants/enum';

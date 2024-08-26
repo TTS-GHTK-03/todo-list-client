@@ -1,5 +1,5 @@
 <template>
-  <SideBarIssueType :isCollapsed="isSidebarCollapsed" @toggleSidebar="toggleSidebar" />
+  <!-- <SideBarIssueType :isCollapsed="isSidebarCollapsed" @toggleSidebar="toggleSidebar" /> -->
   <div v-if="isLoading">
     <div class="flex items-center justify-center h-full">
       <a-spin size="large" />
@@ -100,20 +100,20 @@
 
 <script setup lang="ts">
 import { ref, nextTick, onMounted } from "vue";
-import SideBarIssueType from "../../shared/SidebarIssueType/index.vue";
-import AddLabelModal from "../../mainpage/modal/addLabelModal/index.vue";
+// import SideBarIssueType from "../../shared/SidebarIssueType/index.vue";
+// import AddLabelModal from "../../mainpage/modal/addLabelModal/index.vue";
 import { getAllLabelInType } from "../../../api/label";
 import { getAllTypeProject } from "../../../api/taskType";
 
-const isEditing = ref(false);
-const isHovered = ref(false);
+// const isEditing = ref(false);
+// const isHovered = ref(false);
 const editingDescription = ref(false);
 const editingTitle = ref(false);
 const title = ref("BUG");
 const description = ref("Bugs track problems or errors.");
 const isModalVisible = ref(false);
 const isSidebarCollapsed = ref(false);
-const inputField = ref(null);
+// const inputField = ref(null);
 const descriptionInput = ref(null);
 const titleInput = ref(null);
 const currentType = ref<any>({ id: "", title: "", image: "", description: "" });
@@ -121,16 +121,16 @@ const isLoading = ref(false);
 const openModal = () => {
   isModalVisible.value = true;
 };
-const toggleEdit = () => {
-  isEditing.value = !isEditing.value;
-  isHovered.value = false;
+// const toggleEdit = () => {
+//   isEditing.value = !isEditing.value;
+//   isHovered.value = false;
 
-  if (isEditing.value) {
-    nextTick(() => {
-      inputField.value.focus();
-    });
-  }
-};
+//   if (isEditing.value) {
+//     nextTick(() => {
+//       // inputField.value.focus();
+//     });
+//   }
+// };
 
 const listItems = ref<any[]>([]);
 
@@ -141,12 +141,12 @@ const startEditing = (field: any) => {
   if (field === "description") {
     editingDescription.value = true;
     nextTick(() => {
-      descriptionInput.value?.focus();
+      // descriptionInput.value?.focus();
     });
   } else if (field === "title") {
     editingTitle.value = true;
     nextTick(() => {
-      titleInput.value?.focus();
+      // titleInput.value?.focus();
     });
   }
 };
@@ -171,9 +171,9 @@ const cancelEdit = (field: any) => {
   }
   stopEditing();
 };
-const toggleSidebar = () => {
-  isSidebarCollapsed.value = !isSidebarCollapsed.value;
-};
+// const toggleSidebar = () => {
+//   isSidebarCollapsed.value = !isSidebarCollapsed.value;
+// };
 
 async function loadAllLabel() {
   const response = await getAllLabelInType(currentType.value.id);
@@ -195,7 +195,7 @@ async function fetchData() {
   }
   
 }
-async function handleCreateLabel(newLabel: any) {
+async function handleCreateLabel() {
   // listItems.value.push(newLabel);
   fetchData();
 }

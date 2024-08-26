@@ -5,12 +5,12 @@
     <a-spin size="large" />
   </div>
   <div v-else>
-    <div class="mt-24 px-8 py-0">
+    <div class="mt-24 px-8 py-0 select-none">
       <div class="min-h-[150px] flex flex-col justify-around">
         <div class="font-ui font-normal text-text-dark mb-2">
           <router-link to="/allproject" class="cursor-pointer hover:underline">Projects </router-link>
           <span class="px-1">/</span>
-          <span class="cursor-pointer hover:underline"> My project name</span>
+          <span class="cursor-pointer hover:underline"> {{titleProject}}</span>
         </div>
 
         <div class="flex justify-between mb-12">
@@ -64,10 +64,10 @@
             </a-button>
 
             <button @click="openModal"
-              class="bg-gray-100 text-sm rounded-full hover:bg-slate-300  h-9 w-9 flex px-2 items-center justify-center ml-2">
-              <i class="fa-solid fa-user-plus text-gray-500"></i>
+              class="select-none bg-gray-100 text-sm rounded-full hover:bg-slate-300  h-9 w-9 flex px-2 items-center justify-center ml-2">
+              <i class="fa-solid fa-user-plus text-gray-500 "></i>
             </button>
-            <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" />
+            <AddPeopleModal :visible="isModalVisible" @update:visible="isModalVisible = $event" class="select-none"/>
 
             <div class="relative ml-2">
               <button v-if="selectedSprint && selectedSprint.id !== ''" @click.stop="toggleDropdownSprint"
@@ -242,10 +242,11 @@ import { fetchSprintProject } from "../../api/project";
 import ShareModal from "../mainpage/modal/shareModal/index.vue";
 import { message } from "ant-design-vue";
 import dayjs, { Dayjs } from "dayjs";
+import {useProjectRoleStore} from '../../stores/projectStores/projectStore';
 
 
-
-// Khai báo các biến
+const projectRoleStore = useProjectRoleStore()
+const titleProject = projectRoleStore.title
 const isModalVisible = ref(false);
 const isModalShareVisible = ref(false);
 const searchQuery = ref<string>("");
@@ -360,6 +361,8 @@ function updateStatus(oldStatus: any, newStatus: any , taskId: any) {
     }
   }
 }
+
+
 
 const handleOk = async () => {
   loadingModel.value = true;

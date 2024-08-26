@@ -310,10 +310,10 @@ const selectedUser = ref<{ id: string; fullname: string }>({
 });
 const selectedStatus = ref<string>("");
 const selectedType = ref<string>("");
-const selectedProject = ref<{ id: string; title: string }>({
-    id: '',
-    title: ''
-});
+// const selectedProject = ref<{ id: string; title: string }>({
+//     id: '',
+//     title: ''
+// });
 const typeProjects = ref<any[]>([]);
 const userDetailStore = useGetUserDetailStore();
 const userDetail = ref<any>(null);
@@ -346,12 +346,12 @@ function closeAllDropdowns() {
     isDowndropProject.value = false;
 }
 
-function toggleDropdownProject() {
-    if (!isDowndropProject.value) {
-        closeAllDropdowns();
-    }
-    isDowndropProject.value = !isDowndropProject.value;
-}
+// function toggleDropdownProject() {
+//     if (!isDowndropProject.value) {
+//         closeAllDropdowns();
+//     }
+//     isDowndropProject.value = !isDowndropProject.value;
+// }
 
 function toggleDropdownType() {
     if (!isDropdownType.value) {
@@ -383,15 +383,15 @@ function toggleDropdownAssignee() {
     }
     isDropdownAssignee.value = !isDropdownAssignee.value;
 }
-function selectProject(project: { id: string; title: string }) {
-    if (selectedProject.value.id == project.id) {
-        selectedProject.value = { id: '', title: '' };
-        isDowndropProject.value = false;
-        return;
-    }
-    selectedProject.value = project;
-    isDowndropProject.value = false;
-}
+// function selectProject(project: { id: string; title: string }) {
+//     if (selectedProject.value.id == project.id) {
+//         selectedProject.value = { id: '', title: '' };
+//         isDowndropProject.value = false;
+//         return;
+//     }
+//     selectedProject.value = project;
+//     isDowndropProject.value = false;
+// }
 async function selectStatus(status: string) {
     if (selectedStatus.value == status) {
         selectedStatus.value = "";

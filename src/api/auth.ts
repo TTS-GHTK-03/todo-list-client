@@ -33,6 +33,7 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
         throw new Error("Username or password is invalid");}
       
     }
+    throw new Error("An error occurred while trying to log in");
     //   if (error.response.status === 404) {
     //     throw new Error("User name does not exist");
     //   } else if (error.response.status === 400) {

@@ -5,12 +5,12 @@
             <a-spin size="large" />
         </div>
         <div v-else>
-            <div class="mt-24 px-8 py-0 ">
+            <div class="mt-24 px-8 py-0 select-none">
                 <div class="min-h-[130px] flex flex-col justify-around ">
                     <div class="font-ui font-normal text-text-dark mb-2">
                         <span class="cursor-pointer hover:underline">Projects </span>
                         <span class="px-1">/</span>
-                        <span class="cursor-pointer hover:underline"> My project name</span>
+                        <span class="cursor-pointer hover:underline"> {{titleProject}}</span>
                     </div>
 
                     <div class="flex justify-between mb-8">
@@ -132,7 +132,7 @@
 
                                 <div class="last:border-b last:border-gray-300"
                                     @dragenter="handleDragEnter($event, index, sprint.id)"
-                                    @dragover="handleDragOver(sprint.id)"
+                                  
                                     v-for="(task, index) in getTasksForSprint(sprint.id)" :key="task.id">
                                     <div v-if="dragIndex[sprint.id] === index" class="h-[2px] bg-blue-500"></div>
 
@@ -198,10 +198,10 @@
                                 <div class="last:border-b last:border-gray-300"
                                     v-for="(task, index) in getTaskBacklog()" :key="task.id"
                                     @dragenter="handleDragEnter($event, index, null)" @dragenter.prevent
-                                    @dragover="handleDragOver(null)"
+                                    
                                    >
 
-                                    <div v-if="dragIndex[null] === index" class="h-[2px] bg-blue-500 "></div>
+                                    <div v-if="dragIndex[-1] === index" class="h-[2px] bg-blue-500 "></div>
                                     <BacklogTask :id="task.id" :status="task.status || ''" :title="task.title || ''"
                                         :point="task.point || 0" :sprintId="'' || null" @taskDeleted="handleTaskDeleted"
                                         :userId="task.userResponse.id" :username="task.userResponse.username"
@@ -213,11 +213,11 @@
                                         
                                 </div>
                                 <div 
-                                    v-if="dragIndex[null] === getTaskBacklog().length" 
+                                    v-if="dragIndex[-1] === getTaskBacklog().length" 
                                     class="h-[20px] bg-blue-500" 
                                     @dragenter="handleDragEnter($event, getTaskBacklog().length, null)" 
                                     @dragenter.prevent 
-                                    @dragover="handleDragOver(null)">
+                                    >
                                     </div>
 
                                 <div v-if="countTasksForSprint(null) == 0">
@@ -281,7 +281,7 @@ import startSprintModal from '../mainpage/modal/startSprintModal/index.vue';
 import updateSprintModal from '../mainpage/modal/updateSprintModal/index.vue';
 import deleteSprintModal from '../mainpage/modal/deleteSprintModal/index.vue';
 import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
-
+import {useProjectRoleStore} from '../../stores/projectStores/projectStore';
 // import { cloneDeep } from 'lodash';
 
 // interface BacklogTask {
@@ -292,7 +292,8 @@ import AddPeopleModal from '../mainpage/modal/addPeopleModal/index.vue';
 //     userId: string;
 //     sprintId: string;
 // }
-
+const projectRoleStore = useProjectRoleStore()
+const titleProject = projectRoleStore.title
 const isSprintNotVisible = ref<Record<string, boolean>>({});
 const isCreateTask = ref(false);
 const activeDropdown = ref<string | null>(null);
@@ -359,15 +360,15 @@ const handleDragEnter = (event: DragEvent, taskIndex: number, sprintId: any) => 
     
 };
 
-const handleTailDragEnter = (event: DragEvent, sprintId: any) => {
-    event.preventDefault();
-    dragIndex.value = {};
-    dragIndex.value[sprintId] = -1;
-};
+// const handleTailDragEnter = (event: DragEvent, sprintId: any) => {
+//     event.preventDefault();
+//     dragIndex.value = {};
+//     dragIndex.value[sprintId] = -1;
+// };
 
-const handleDragOver = (sprintId: any) => {
-    // dragIndex.value[sprintId] = -1;
-};
+// const handleDragOver = (sprintId: any) => {
+//     // dragIndex.value[sprintId] = -1;
+// };
 async function onDrop(event: DragEvent, newSprint: any) {
 
     hoverIndex.value = -1;
@@ -472,12 +473,10 @@ const handleClickOutside = (event: MouseEvent) => {
     if (taskDiv.value && !taskDiv.value.contains(event.target as Node)) {
         isCreateTask.value = false;
     }
-
     if (dropdownSprint.value && !dropdownSprint.value.contains(event.target as Node)) {
-
         activeDropdown.value = null;
-
     }
+ 
 };
 
 // async function loadAllUserProject() {

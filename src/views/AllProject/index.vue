@@ -2,7 +2,7 @@
   <div class="mt-20 px-10 py-0 ml-4 relative">
     <div class="h-[40px] flex justify-between">
       <span class="font-ui text-2xl font-semibold opacity-80">Projects</span>
-      <div class="flex">
+      <div class="flex select-none ">
         <router-link to="/project-create"
           class="flex justify-center items-center h-[36px] bg-blue-600 text-white hover:bg-blue-700 px-3 mr-1 rounded">
           Create project
@@ -18,12 +18,12 @@
         <input type="text" v-model="searchQuery" placeholder="Search projects"
           class="custom-input w-[224px] min-h-[40px] border border-gray-500 rounded py-3 font-light pl-2 pr-10 placeholder-gray-400 hover:border-blue-600" />
         <i v-if="searchQuery" @click="clearSearch"
-          class="fa-solid fa-x absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"></i>
+          class="select-none  fa-solid fa-x absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 cursor-pointer"></i>
         <i v-else
-          class="fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"></i>
+          class=" select-none  fa-solid fa-magnifying-glass absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"></i>
       </div>
 
-      <div class="relative inline-block">
+      <div class="relative inline-block select-none">
         <input type="text" @focus="toggleDropdown(true)" @blur="toggleDropdown(false)" placeholder="Filter by product"
           class="custom-input w-[200px] min-h-[40px] border border-gray-500 rounded py-3 font-light pl-2 pr-10 placeholder-gray-400" />
         <i class="fa-solid fa-chevron-down absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500"></i>
@@ -49,7 +49,7 @@
     </div>
 
     <div>
-      <a-table :loading="loading" :row-selection="rowSelection" :columns="columns" :data-source="data" class="mt-6">
+      <a-table :loading="loading" :row-selection="rowSelection" :columns="columns" :data-source="data" class="mt-6 select-none">
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.dataIndex === 'name'">
             <div @click="handleProject(record.key)" class="text-button-color flex cursor-pointer hover:underline">
@@ -133,7 +133,6 @@ import { useRouter } from "vue-router";
 import { type TableProps, type TableColumnType } from "ant-design-vue/es";
 import type { Key } from "ant-design-vue/es/table/interface";
 import { useProjectStore, useProjectRoleStore } from "../../stores/projectStores/projectStore";
-import { normalizeName } from "../../utils/normalizeName";
 import DeleteProjectModal from "../../components/mainpage/modal/deleteProjectModal/index.vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 
@@ -211,8 +210,9 @@ const activeLead = ref<Record<string, boolean>>({});;
 const data = ref<any[]>([]);
 const loading = ref(false);
 const dropdownUserDetails = ref<HTMLElement | null>(null);
-
+const dropdownSprint = ref<HTMLElement | null>(null);
 const toggleDropDownDetails = (projectKey: string) => {
+  closeAllModal();
   isDropdownDetailVisible.value[projectKey] = !isDropdownDetailVisible.value[projectKey];
 };
 const loadData = async () => {
@@ -253,8 +253,20 @@ const handleProject = async (id: string) => {
     console.error("Error data:", error);
   }
 };
-
-async function handleProjectDelete(projectId:string) {
+const closeAllModal = () => {
+  isDropdownDetailVisible.value = {};
+  activeLead.value = {};
+};
+const handleClickOutside =(event: MouseEvent)  =>{
+  if (dropdownSprint.value && !dropdownSprint.value.contains(event.target as Node)) {
+    isDropdownDetailVisible.value = {};
+  }
+  if (dropdownUserDetails.value && !dropdownUserDetails.value.contains(event.target as Node)) {
+    activeLead.value = {};
+  }
+}
+async function handleProjectDelete() {
+  
   loadData();
 }
 
@@ -267,15 +279,11 @@ const toggleDropdown = (show: boolean) => {
 };
 
 const toggleHover = (lead: string) => {
+  closeAllModal();
   activeLead.value[lead] = !activeLead.value[lead];
 };
 
-const handleClickOutside = (event: MouseEvent) => {
-    
-    if (dropdownUserDetails.value && !dropdownUserDetails.value.contains(event.target as Node)) {
-      
-    }
-};
+
 
 onMounted(() => {
   loadData();

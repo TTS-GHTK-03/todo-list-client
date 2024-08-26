@@ -109,5 +109,6 @@ export const createPassWord = async (credentials: CreatePasswordRequest): Promis
       
         throw new Error("Password or confim password is invalid");}
       }
+      throw new Error("An error occurred while trying to create password");
   }
 };

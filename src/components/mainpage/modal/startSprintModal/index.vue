@@ -98,7 +98,7 @@ import { startSprint } from '../../../../api/sprint';
 
 
 const emit = defineEmits<{
-    (event: 'sprintStarted', payload: { sprintId: string }): void;
+    (event: 'sprintStarted', sprintId: string ): void;
 }>();
 
 const props = defineProps<{
@@ -157,7 +157,7 @@ async function changeSprintToStart() {
             startDate: startDate.value.format('YYYY-MM-DD'), 
             endDate: endDate.value.format('YYYY-MM-DD')
         },props.sprintId);
-        emit('sprintStarted', { sprintId: props.sprintId });
+        emit('sprintStarted',   props.sprintId );
         open.value = false;
     } catch (error) {
         console.error('Error starting sprint:', error);

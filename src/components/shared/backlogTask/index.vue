@@ -327,7 +327,7 @@ const handleOk = async () => {
     if (valueDate.value) {
       const formattedDate = valueDate.value.format(dateFormat);
 
-      const updateResponse = await updateStartDateDueDateTask(
+      await updateStartDateDueDateTask(
         updateTask.value?.sprintId,
         updateTask.value?.taskId,
         formattedDate

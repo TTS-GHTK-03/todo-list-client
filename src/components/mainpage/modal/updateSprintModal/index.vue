@@ -97,7 +97,7 @@ import { updateSprint } from '../../../../api/sprint';
 
 
 const emit = defineEmits<{
-    (event: 'updateSprintInfo', payload: { sprintId: string }): void;
+    (event: 'updateSprintInfo',  sprintId: string ): void;
 }>();
 
 const props = defineProps<{
@@ -153,7 +153,7 @@ async function updateSprintInfo() {
             startDate: startDate.value.format('YYYY-MM-DD'),
             endDate: endDate.value.format('YYYY-MM-DD')
         }, props.sprintId);
-        emit('updateSprintInfo', { sprintId: props.sprintId });
+        emit('updateSprintInfo',  props.sprintId );
         open.value = false;
     } catch (error) {
         console.error('Error starting sprint:', error);

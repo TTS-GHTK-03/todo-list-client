@@ -428,7 +428,6 @@ import timezone from "dayjs/plugin/timezone";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { fetchProfile } from "../../api/profile";
 import deleteCommentModal from "./deleteCommentModal.vue";
-import { message } from "ant-design-vue";
 import { getAllTypeProject } from "../../api/taskType";
 import {useGetUserDetailStore} from "../../stores/projectStores/userStore/user"
 
