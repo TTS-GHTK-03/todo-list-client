@@ -142,7 +142,7 @@
             </div>
             <div>
               <div class="my-2 text-[11px] font-semibold font-apple">
-                <div @click="assignUser('1','Unassigned')"
+                <div @click="assignUser('1', 'Unassigned')"
                   class="h-[45px] hover:bg-gray-100 transition flex items-center pl-2 border-l-4 border-white hover:border-l-4 hover:border-blue-500">
                   <button class="w-8 h-8 rounded-full bg-gray-500 ">
                     <i class="fa-solid fa-user text-white text-lg "></i>
@@ -152,7 +152,7 @@
                   </span>
                 </div>
 
-                <div v-for="user in allUsers" :key="user.id" @click="assignUser(user.id,user.username)"
+                <div v-for="user in allUsers" :key="user.id" @click="assignUser(user.id, user.username)"
                   class="h-[45px] hover:bg-gray-100 transition flex items-center pl-2 border-l-4 border-white hover:border-l-4 hover:border-blue-500">
                   <div
                     class="w-8 h-8 p-0 flex text-center items-center justify-center bg-[#39a3bf] bg-opacity-90 text-[#1e3d5f]  font-semibold  rounded-full text-lg cursor-pointer">
@@ -202,6 +202,32 @@
       </div>
     </div>
     <taskDetailModal :isVisible="isModalVisible" :onClose="hideModal" :taskId="props.id"></taskDetailModal>
+
+
+    <a-modal title="Start another task" v-model:open="isOpenModalDrop" @ok="handleOk" @cancel="handleCancel">
+      <div class="w-full">
+        <div>
+
+        </div>
+        <div class="mt-1">
+          <span class="text-slate-900 mb-4 text-left w-full">
+            Required fields are marked with an asterisk.
+            <span class="text-red-500">*</span></span>
+        </div>
+        <div class="mb-2 mt-4">
+          <span class="text-slate-900 mb-4 text-left w-full">Task name <span class="text-red-500">*</span></span>
+        </div>
+        <a-input disabled class="w-[300px]" v-model:value="titleModel" placeholder="Name" />
+        <div class="mb-2 mt-4">
+          <span class="text-slate-900 mb-4 text-left w-full">Due date task <span class="text-red-500">*</span></span>
+        </div>
+        <a-date-picker class="mb-4 w-[300px]" v-model:value="valueDate" :disabled-date="disabledDate" />
+      </div>
+      <template #footer>
+        <a-button key="back" @click="handleCancel">Cancel</a-button>
+        <a-button key="submit" type="primary" :loading="loadingModel" @click="handleOk">Submit</a-button>
+      </template>
+    </a-modal>
   </div>
 
 </template>
@@ -218,14 +244,17 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
-import { updateStatusTask, updatePointTask, updateTitleTask } from '../../../api/task';
-import { TaskStatus } from '../../../utils/constants/enum';
+import { updateStatusTask, updatePointTask, updateTitleTask ,updateStartDateDueDateTask} from '../../../api/task';
+import { SprintStatus, TaskStatus } from '../../../utils/constants/enum';
 import { replaceUnderscores } from '../../../utils/normalizeName';
 import { fetchAllUserByProjects } from '../../../api/project';
 import { message } from 'ant-design-vue';
 import { deleteTask } from '../../../api/task';
 import { assignTaskForUser } from '../../../api/user';
 import taskDetailModal from "../../mainpage/modal/taskDetailModal/index.vue";
+import dayjs, { Dayjs } from "dayjs";
+
+
 // Props definition
 const props = defineProps<{
   // key: string;
@@ -234,6 +263,7 @@ const props = defineProps<{
   point: number;
   status: string;
   sprintId: string | null;
+  sprintStatus: string;
   userId: string;
   username: string;
   keyProjectTask: string;
@@ -261,14 +291,68 @@ const isLoading = ref(false);
 const allUsers = ref<any[]>([]);
 const username = ref(props.username);
 const currentUserAssign = ref(props.userId);
+const isOpenModalDrop = ref(false);
 
 const emit = defineEmits<{
   (e: 'statusUpdated', id: string, sprintId: any, status: string): void;
   (e: 'taskDeleted', id: string): void;
-  (e: 'taskAssigned',id:string,newAssgin:any): void;
+  (e: 'taskAssigned', id: string, newAssgin: any): void;
 }>();
 
+const titleModel = ref<string>('');
+const updateTask = ref<{
+  title: string;
+  taskId: string;
+  sprintId: string|null;
+  oldStatus: string;
+  newStatus: string;
+} | null>(null);
 const isModalVisible = ref(false);
+const dateFormat = "YYYY-MM-DD";
+const loadingModel = ref<boolean>(false);
+const valueDate = ref<Dayjs>();
+  const disabledDate = (current: Dayjs) => {
+  const tomorrow = dayjs().startOf("day").add(2, "day");
+  return current && current < tomorrow;
+};
+
+const handleCancel = () => {
+  isOpenModalDrop.value = false;
+};
+
+const handleOk = async () => {
+  loadingModel.value = true;
+
+  try {
+    if (valueDate.value) {
+      const formattedDate = valueDate.value.format(dateFormat);
+
+      const updateResponse = await updateStartDateDueDateTask(
+        updateTask.value?.sprintId,
+        updateTask.value?.taskId,
+        formattedDate
+      );
+      await updateStatusTask(props.id, 'IN_PROGRESS');
+      selectedStatus.value = 'IN_PROGRESS';
+      showDropdown.value = false;
+      emit('statusUpdated', props.id, props.sprintId, 'IN_PROGRESS');
+
+      // Gọi updateStatus sau khi updateStartDateDueDateTask thành công
+      // updateStatus(
+      //   updateTask.value?.oldStatus,
+      //   updateTask.value?.newStatus,
+      //   updateTask.value?.taskId
+      // );
+    }
+  } catch (error) {
+    message.error("Update failed " + error);
+    console.error("Update failed:", error);
+  } finally {
+    // Đảm bảo rằng loadingModel luôn được đặt thành false
+    loadingModel.value = false;
+    isOpenModalDrop.value = false;
+  }
+};
 
 const showModal = () => {
   isModalVisible.value = true;
@@ -328,13 +412,13 @@ const handleDisplayNumber = (curValue: number) => {
   }
 };
 
-async function assignUser(userId: string,newUsername:string) {
+async function assignUser(userId: string, newUsername: string) {
   try {
-    const response = await assignTaskForUser(userId,props.id);
+    const response = await assignTaskForUser(userId, props.id);
     username.value = newUsername;
     currentUserAssign.value = userId;
-    emit('taskAssigned',props.id,response.data);
-    
+    emit('taskAssigned', props.id, response.data);
+
   } catch (error: any) {
     console.error(error);
     message.error('User already assigned to this task.');
@@ -343,7 +427,32 @@ async function assignUser(userId: string,newUsername:string) {
   }
 }
 
+const openModalDrop = () => {
+  isOpenModalDrop.value = true;
+};
+
 async function selectStatus(status: string) {
+  if (selectedStatus.value == 'TODO'){
+    if(status == 'IN_PROGRESS'){
+      updateTask.value = {
+        title: props.title,
+        taskId: props.id,
+        sprintId: props.sprintId,
+        oldStatus: selectedStatus.value,
+        newStatus: status,
+      };
+      titleModel.value = props.title;
+      openModalDrop();
+      return;
+    }
+
+  }
+
+  if (props.sprintStatus !== SprintStatus.START) {
+    message.error('You can only change status of task in a started sprint.');
+    return;
+
+  }
   isLoading.value = true; // Start loading
 
   try {

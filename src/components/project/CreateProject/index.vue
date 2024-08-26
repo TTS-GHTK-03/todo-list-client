@@ -81,12 +81,12 @@ export default defineComponent({
           // errorMessage.value = createProjectStore.error;
         } else {
           console.log("Successfully");
-          router.back();
+          
         }
       } catch (error) {
 
       } finally {
-
+        router.back();
       }
     };
 

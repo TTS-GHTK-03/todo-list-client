@@ -102,15 +102,12 @@ export const createPassWord = async (credentials: CreatePasswordRequest): Promis
     return response.data;
   } catch (error: any) {
     if (error.response) {
-      if (error.response.status === 400) {
-        throw new Error("Email or password not valid");
-      } else if (error.response.status === 404) {
-        throw new Error("Otp end time");
+      if (error.response.data.error.message.username) {
+        
+        throw new Error("Username must have beetwen 5 and 20 characters");
       } else {
-        throw new Error("An error occurred while trying to validate OTP");
+      
+        throw new Error("Password or confim password is invalid");}
       }
-    } else {
-      throw new Error("An error occurred while trying to validate OTP");
-    }
   }
 };

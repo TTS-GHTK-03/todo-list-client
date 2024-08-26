@@ -116,6 +116,7 @@ const handleLogin = async () => {
       password: password.value,
     });
     if (authStore.error) {
+      
       errorMessage.value = authStore.error;
     } else {
       console.log("Successfully logged in");
@@ -123,7 +124,7 @@ const handleLogin = async () => {
     }
   } catch (error: any) {
     console.error("Login failed:", error);
-    errorMessage.value = "Invalid Login.";
+    errorMessage.value = error;
   } finally {
     loading.value = false;
   }

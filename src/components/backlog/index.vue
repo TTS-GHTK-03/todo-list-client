@@ -140,6 +140,7 @@
                                         @task-deleted="handleTaskDeleted" :title="task.title || ''"
                                         :status="task.status || ''" :point="task.point || 0"
                                         :userId="task.userResponse.id || ''" :keyProjectTask="task.keyProjectTask || ''"
+                                        :sprintStatus = "sprint.status"
                                         @taskAssigned="handleTaskAssigned" :sprintId="sprint.id || ''" draggable="true"
                                         @statusUpdated="handleStatusUpdated" @dragstart="startDrag($event, task)" 
                                         @dragend="resetDragIndex"/>
@@ -205,6 +206,7 @@
                                         :point="task.point || 0" :sprintId="'' || null" @taskDeleted="handleTaskDeleted"
                                         :userId="task.userResponse.id" :username="task.userResponse.username"
                                         :keyProjectTask="task.keyProjectTask || ''" draggable="true"
+                                        :sprintStatus="''"
                                         @task-assigned="handleTaskAssigned" @statusUpdated="handleStatusUpdated"
                                         @dragstart="startDrag($event, task)"  @dragend="resetDragIndex"/>
                                     
@@ -257,7 +259,7 @@
 
                 </div>
             </div>
-
+            
 
         </div>
     </div>
@@ -309,9 +311,14 @@ const dropdownSprint = ref<HTMLElement | null>(null);
 const taskDiv = ref<HTMLElement | null>(null);
 // const userProjectStore = useUserProjectStore();
 const hoverIndex = ref(-1);
+
+
+
 const toggleTask = (state: boolean) => {
     isCreateTask.value = state;
 };
+
+
 
 function toggleSprint(sprintId: string) {
     isSprintNotVisible.value[sprintId] = !isSprintNotVisible.value[sprintId];
@@ -505,7 +512,8 @@ function countIssueForSprint(sprintId: string | null) {
     };
 }
 
-const handleSprintUpdated = () => {
+const handleSprintUpdated = (sprintId: string ) => {
+    toggleSprintDropdown(sprintId);
     fetchAllData();
 };
 
@@ -547,7 +555,9 @@ const handleSprintDeleted = async (deletedSprintId: string) => {
         console.error("Failed to complete sprint", error);
     } finally {
         isLoading.value = false;
+        toggleSprintDropdown(sprint.id);
     }
+
 };
 
 async function handleTaskAssigned(taskId: String, newAssgin: any) {

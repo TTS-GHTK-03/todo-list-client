@@ -25,15 +25,23 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
     return response.data;
   } catch (error: any) {
     if (error.response) {
-      if (error.response.status === 404) {
-        throw new Error("User name does not exist");
-      } else if (error.response.status === 400) {
-        throw new Error("Invalid password");
+      if (error.response.data.error.message.username) {
+        
+        throw new Error("Username must have beetwen 5 and 20 characters");
       } else {
-        throw new Error("An error occurred while trying to log in");
-      }
-    } else {
-      throw new Error("An error occurred while trying to log in");
+      
+        throw new Error("Username or password is invalid");}
+      
     }
+    //   if (error.response.status === 404) {
+    //     throw new Error("User name does not exist");
+    //   } else if (error.response.status === 400) {
+    //     throw new Error("Invalid password");
+    //   } else {
+    //     throw new Error("An error occurred while trying to log in");
+    //   }
+    // } else {
+    //   throw new Error("An error occurred while trying to log in");
+    // }
   }
 };

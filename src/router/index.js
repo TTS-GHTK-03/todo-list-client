@@ -88,14 +88,14 @@ const routes = [
         path: 'regisform',
         name: 'regisform',
         component: Regisform,
-        beforeEnter: (to, from, next) => {
-          const validateStoreRegis = useValidateOtpRegisStore();
-          if (!validateStoreRegis.registerKey) {
-            next({ name: 'validate' });
-          } else {
-            next();
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   const validateStoreRegis = useValidateOtpRegisStore();
+        //   if (!validateStoreRegis.registerKey) {
+        //     next({ name: 'validate' });
+        //   } else {
+        //     next();
+        //   }
+        // },
       },
       {
         path: 'forgot',
@@ -119,14 +119,14 @@ const routes = [
       {
         path: 'forgotform',
         name: 'forgotform',
-        beforeEnter: (to, from, next) => {
-          const validateStoreForgot = useValidateOtpStore();
-          if (!validateStoreForgot.resetPasswordKey) {
-            next({ name: 'validforgot' });
-          } else {
-            next();
-          }
-        },
+        // beforeEnter: (to, from, next) => {
+        //   const validateStoreForgot = useValidateOtpStore();
+        //   if (!validateStoreForgot.resetPasswordKey) {
+        //     next({ name: 'validforgot' });
+        //   } else {
+        //     next();
+        //   }
+        // },
         component: ForgotForm,
       },
       {
