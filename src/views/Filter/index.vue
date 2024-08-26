@@ -418,6 +418,7 @@ async function selectUser(user: { id: string; fullname: string }) {
         selectedUser.value.fullname = '';
         isDropdownAssignee.value = false;
         idUserQuery.value = '';
+        await fetchAllIssues();
         return;
     }
     idUserQuery.value = user.id;

@@ -163,7 +163,7 @@ import { RoleProjectUser } from '../../../../utils/constants/enum';
 import AddPeopleModal from '../../../mainpage/modal/addPeopleModal/index.vue';
 import { message } from 'ant-design-vue';
 import { TableColumnType } from 'ant-design-vue';
-import { pro } from 'ccxt';
+
 
 interface DataType {
   name: string;

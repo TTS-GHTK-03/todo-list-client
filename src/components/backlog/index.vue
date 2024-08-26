@@ -127,27 +127,32 @@
 
                         </div>
 
-                        <div v-show="!isSprintNotVisible[sprint.id]" class="m-2">
-                            <div @drop="onDrop($event, sprint.id)" 
-                            @dragenter="handleDragEnter($event,sprint.id)"
-                            @dragleave="handleDragLeave"
-                            @dragenter.prevent @dragover.prevent>
+                        <div v-show="!isSprintNotVisible[sprint.id]" class="m-2 ">
+                            <div @drop="onDrop($event, sprint.id)" @dragenter.prevent @dragover.prevent>
+
                                 <div class="last:border-b last:border-gray-300"
-                                    v-for="task in getTasksForSprint(sprint.id)" :key="task.id">
+                                    @dragenter="handleDragEnter($event, index, sprint.id)"
+                                    @dragover="handleDragOver(sprint.id)"
+                                    v-for="(task, index) in getTasksForSprint(sprint.id)" :key="task.id">
+                                    <div v-if="dragIndex[sprint.id] === index" class="h-[2px] bg-blue-500"></div>
+
                                     <BacklogTask :id="task.id" :username="task.userResponse.username"
                                         @task-deleted="handleTaskDeleted" :title="task.title || ''"
                                         :status="task.status || ''" :point="task.point || 0"
                                         :userId="task.userResponse.id || ''" :keyProjectTask="task.keyProjectTask || ''"
                                         @taskAssigned="handleTaskAssigned" :sprintId="sprint.id || ''" draggable="true"
-                                        @statusUpdated="handleStatusUpdated" @dragstart="startDrag($event, task)" />
+                                        @statusUpdated="handleStatusUpdated" @dragstart="startDrag($event, task)" 
+                                        @dragend="resetDragIndex"/>
                                 </div>
-                                <div v-if="countTasksForSprint(sprint.id) == 0">
+                                
+
+
+                                <div v-if="countTasksForSprint(sprint.id) == 0" @dragenter="handleDragEnter($event,0,sprint)">
                                     <div
                                         class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
 
                                         <span class="text-xs text-gray-500 ">Plant a sprint by dragging issues
                                             here</span>
-
 
                                     </div>
                                 </div>
@@ -187,22 +192,32 @@
 
                         <div v-show="isBacklogVisible" class="mt-2 mx-2">
 
-                            <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" 
-                                    @dragenter="handleDragEnter($event,null,-1)"
-                                    @dragleave="handleDragLeave"
-                                    @dragenter.prevent
-                                    @dragover.prevent>
-                                    
-                                <div class="last:border-b last:border-gray-300" v-for="(task, index) in getTaskBacklog()"
-                                    :key="task.id">
-                                    <div v-if="hoverIndex === index" class="h-[2px] bg-blue-500 my-2"></div>
+                            <div class="min-h-[30px] pb-1" @drop="onDrop($event, null)" @dragover.prevent>
+
+                                <div class="last:border-b last:border-gray-300"
+                                    v-for="(task, index) in getTaskBacklog()" :key="task.id"
+                                    @dragenter="handleDragEnter($event, index, null)" @dragenter.prevent
+                                    @dragover="handleDragOver(null)"
+                                   >
+
+                                    <div v-if="dragIndex[null] === index" class="h-[2px] bg-blue-500 "></div>
                                     <BacklogTask :id="task.id" :status="task.status || ''" :title="task.title || ''"
                                         :point="task.point || 0" :sprintId="'' || null" @taskDeleted="handleTaskDeleted"
                                         :userId="task.userResponse.id" :username="task.userResponse.username"
                                         :keyProjectTask="task.keyProjectTask || ''" draggable="true"
                                         @task-assigned="handleTaskAssigned" @statusUpdated="handleStatusUpdated"
-                                        @dragstart="startDrag($event, task)" />
+                                        @dragstart="startDrag($event, task)"  @dragend="resetDragIndex"/>
+                                    
+                                        
                                 </div>
+                                <div 
+                                    v-if="dragIndex[null] === getTaskBacklog().length" 
+                                    class="h-[20px] bg-blue-500" 
+                                    @dragenter="handleDragEnter($event, getTaskBacklog().length, null)" 
+                                    @dragenter.prevent 
+                                    @dragover="handleDragOver(null)">
+                                    </div>
+
                                 <div v-if="countTasksForSprint(null) == 0">
                                     <div
                                         class="w-full min-h-12 border-2 border-dashed border-gray-300 rounded flex justify-center items-center">
@@ -289,7 +304,7 @@ const isDraggingOver = ref(false);
 const sprints = ref<Sprint[]>([]);
 // const allUser = ref<any[]>([]);
 const data = ref<Map<string | null, any[]>>(new Map());
-
+const dragIndex = ref<Record<any, number>>({});
 const dropdownSprint = ref<HTMLElement | null>(null);
 const taskDiv = ref<HTMLElement | null>(null);
 // const userProjectStore = useUserProjectStore();
@@ -330,17 +345,24 @@ function startDrag(event: DragEvent, task: any) {
     event.dataTransfer!.setData("taskId", task.id);
     event.dataTransfer!.setData("sprint", task.sprintDetailResponse.sprintId);
 }
-const handleDragEnter = (event: DragEvent,sprintId :string|null,index:number) => {
+const handleDragEnter = (event: DragEvent, taskIndex: number, sprintId: any) => {
     event.preventDefault();
-    hoverIndex.value = index;
-   
+    dragIndex.value = {};
+    dragIndex.value[sprintId] = taskIndex;
+    
 };
 
-const handleDragLeave = (event: DragEvent) => {
+const handleTailDragEnter = (event: DragEvent, sprintId: any) => {
     event.preventDefault();
-    hoverIndex.value = -1;
+    dragIndex.value = {};
+    dragIndex.value[sprintId] = -1;
 };
-async function onDrop(event: DragEvent, newSprint: string | null) {
+
+const handleDragOver = (sprintId: any) => {
+    // dragIndex.value[sprintId] = -1;
+};
+async function onDrop(event: DragEvent, newSprint: any) {
+
     hoverIndex.value = -1;
     isDraggingOver.value = false;
     const taskId = event.dataTransfer!.getData("taskId");
@@ -356,15 +378,51 @@ async function onDrop(event: DragEvent, newSprint: string | null) {
 
     const taskIndex = oldTasks.findIndex((task) => task.id === taskId);
     if (taskIndex !== -1) {
-        await updateSprintTask(taskId, newSprint);
         const [task] = oldTasks.splice(taskIndex, 1);
-        task.sprintDetailResponse.sprintId = newSprint;
-        newTasks.push(task);
-        data.value.set(newSprint, newTasks);
-        data.value.set(oldSprint, oldTasks);
+
+        // If the task is dropped into the same sprint
+        if (oldSprint === newSprint ) {
+            // Determine the insert index within the same sprint
+            const insertIndex = dragIndex.value[newSprint] !== undefined && dragIndex.value[newSprint] !== null
+                ? dragIndex.value[newSprint]
+                : newTasks.length;
+
+            // If the insertIndex is after the original task index, decrement it to adjust for the removed task
+            const adjustedIndex = insertIndex > taskIndex ? (insertIndex - 1) : insertIndex;
+
+            // Insert the task at the adjusted index
+            newTasks.splice(adjustedIndex, 0, task);
+
+            // Update the new tasks array for the sprint
+            data.value.set(newSprint, newTasks);
+
+        } else {
+            // Handle moving task to a different sprint
+            task.sprintDetailResponse.sprintId = newSprint;
+
+            const insertIndex = dragIndex.value[newSprint] !== undefined && dragIndex.value[newSprint] !== null
+                ? dragIndex.value[newSprint]
+                : newTasks.length;
+
+            // Insert the task into the new sprint at the specified index
+            newTasks.splice(insertIndex, 0, task);
+
+            // Update the tasks arrays for both sprints
+            data.value.set(newSprint, newTasks);
+            data.value.set(oldSprint, oldTasks);
+
+            // Update the task's sprint on the backend
+            await updateSprintTask(taskId, newSprint);
+        }
     }
+    resetDragIndex()
 }
 
+function resetDragIndex() {
+    setTimeout(() => {
+        dragIndex.value = {};
+    }, 50);
+}
 async function createNewBacklogTask(title: string) {
     try {
 
@@ -484,6 +542,7 @@ const handleSprintDeleted = async (deletedSprintId: string) => {
         data.value.delete(deletedSprintId);
         sprints.value = sprints.value.filter(s => s.id !== deletedSprintId);
 
+
     } catch (error) {
         console.error("Failed to complete sprint", error);
     } finally {
@@ -594,6 +653,9 @@ async function fetchAllData() {
         const filteredSprints = (sprintResponse.data as Sprint[]).filter(sprint => sprint.status !== SprintStatus.COMPLETE);
         const sortedSprints = sortSprints(filteredSprints);
         sprints.value = sortedSprints;
+        sprints.value.forEach((sprint) => {
+            dragIndex.value[sprint.id] = -1;
+        });
     } catch (error) {
         console.error("Failed to fetch tasks", error);
     } finally {

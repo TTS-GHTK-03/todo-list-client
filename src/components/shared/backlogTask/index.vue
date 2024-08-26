@@ -16,7 +16,7 @@
 
 
       <div v-if="!showEditTitle" class="flex items-center text-sm font-ui text-text-dark-thin ml-4 mb-1 cursor-pointer">
-        <span class="hover:underline">{{ inputTitle }}</span>
+        <span class="hover:underline">{{ displayTitle }}</span>
         <button @click.stop="toggleEditTitle"
           class="hover:bg-gray-300 w-5 h-5 flex items-center justify-center rounded ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
           <i class="fa-solid fa-pen text-xs mt-1"></i>
@@ -424,8 +424,8 @@ const cancelEditTitle = () => {
 
 const validateTitle = (event: Event) => {
   const input = event.target as HTMLInputElement;
-  if (input.value.length > 10) {
-    input.value = input.value.slice(0, 10);
+  if (input.value.length > 30) {
+    input.value = input.value.slice(0, 30);
   }
 };
 
